@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="signin-container">
+        <h1>Sign In</h1>
+        <form id="signinForm" action="/signin" method="POST">
+            <div>
+                <label for="role">Select Role:</label>
+                <select id="role" name="role" required>
+                    <option value="client">Client</option>
+                    <option value="receptionist">Receptionist</option>
+                    <option value="dentist">Dentist</option>
+                </select>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+            <p><a href="#">Forgot Password?</a></p>
+            <p>You don't have an account? <a href="signup.html">Register</a></p>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
