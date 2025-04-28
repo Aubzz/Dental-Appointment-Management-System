@@ -1,136 +1,258 @@
 body {
-    font-family: sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0A744F, #043C28);
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-}
-
-.container, .signup-container, .signin-container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-header h1 {
-    color: #008080; /* Teal, a common dental clinic color */
-    margin-bottom: 5px;
-}
-
-header p {
-    color: #777;
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-.auth-links ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 20px;
-}
-
-.auth-links li {
-    margin-bottom: 10px;
-}
-
-.auth-links a {
-    color: #008080;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.auth-links a:hover {
-    text-decoration: underline;
-}
-
-h1 {
-    color: #008080;
-    margin-bottom: 20px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form div {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-    font-weight: bold;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-    width: calc(100% - 12px);
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    color: #fff;
+    padding: 20px;
     box-sizing: border-box;
-    font-size: 16px;
 }
 
-button {
-    background-color: #008080;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #006666;
-}
-
-p {
-    margin-top: 15px;
-    color: #555;
-}
-
-p a {
-    color: #008080;
-    text-decoration: none;
-}
-
-p a:hover {
-    text-decoration: underline;
+.signup-container, .signin-container {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
 }
 
 .signup-container h1, .signin-container h1 {
-    text-align: center;
-    margin-bottom: 25px;
+    color: #043C28;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 700;
 }
 
-.signup-container {
-    max-width: 450px; /* Slightly wider for more fields */
+.signup-container form, .signin-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+.signup-container div, .signin-container div {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.signup-container label, .signin-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.signup-container input[type="text"],
+.signup-container input[type="email"],
+.signup-container input[type="password"],
+.signin-container input[type="text"],
+.signin-container input[type="email"],
+.signin-container input[type="password"] {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box;
     width: 100%;
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 0.8em;
+    outline: 2px solid #0A744F;
+    transition: outline-color 0.3s ease;
 }
 
-/* You can add more specific styles here to match your Figma design */
+.signup-container input[type="text"]:focus,
+.signup-container input[type="email"]:focus,
+.signup-container input[type="password"]:focus,
+.signin-container input[type="text"]:focus,
+.signin-container input[type="email"]:focus,
+.signin-container input[type="password"]:focus {
+    outline-color: #043C28;
+}
+
+/* Style for the select role in both sign-up and sign-in */
+.signup-container select, .signin-container select {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: 1em;
+    color: #333;
+    box-sizing: border-box;
+    appearance: none;
+    width: 100%;
+    outline: 2px solid #0A744F;
+    transition: outline-color 0.3s ease;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23333" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 20px top 50%;
+    cursor: pointer;
+}
+
+.signup-container select:focus, .signin-container select:focus {
+    outline-color: #043C28;
+}
+
+/* Style for the options within the select dropdown */
+.signup-container select option, .signin-container select option {
+    background-color: #f9f9f9; /* Light gray background for options */
+    color: #333; /* Dark text color for options */
+    padding: 10px 15px;
+    font-size: 1em;
+}
+
+/* Style for the selected option */
+.signup-container select option:checked, .signin-container select option:checked {
+    background-color: #e0e0e0; /* Slightly darker background for the selected option */
+    font-weight: bold;
+}
+
+/* Style for the options on hover */
+.signup-container select option:hover, .signin-container select option:hover {
+    background-color: #d4edda; /* Light green on hover */
+    color: #155724; /* Darker green text on hover */
+    cursor: pointer;
+}
+
+.signup-container button, .signin-container button {
+    background-color: #043C28;
+    color: #fff;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.signup-container button:hover, .signin-container button:hover {
+    background-color: #0A744F;
+}
+
+.signup-container p, .signin-container p {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.signup-container p a, .signin-container p a {
+    color: #043C28;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.signup-container p a:hover, .signin-container p a:hover {
+    text-decoration: underline;
+}
+
+/* Styles for the landing page */
+.container {
+    text-align: center;
+}
+
+.header h1 {
+    font-family: 'Nunito', sans-serif;
+    color: #fff;
+    margin-bottom: 40px;
+    margin-top: 1px;
+    font-size: 3.5em;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.teeth-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    transform: translateY(-20px);
+}
+
+.tooth {
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.tooth:hover {
+    transform: scale(1.05);
+}
+
+.tooth img {
+    display: block;
+    max-width: 70%;
+    max-height: 70%;
+}
+
+.teeth-icons .tooth:first-child {
+    margin-top: 30px;
+    width: 120px;
+    height: 120px;
+}
+
+.teeth-icons .tooth:nth-child(2) {
+    width: 180px;
+    height: 180px;
+}
+
+.teeth-icons .tooth:last-child {
+    margin-top: 30px;
+    width: 120px;
+    height: 120px;
+}
+
+.header p {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    font-size: 1.5em;
+    margin-top: 20px;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.auth-buttons {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.auth-buttons a {
+    display: inline-block;
+    padding: 14px 28px;
+    background-color: #fff;
+    color: #0A744F;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.auth-buttons a:hover {
+    background-color: #043C28;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.tagline {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    font-size: 1.3em;
+    margin-top: 30px;
+    font-weight: 300;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
