@@ -1,0 +1,189 @@
+/* css/doctors.css */
+
+/* Styles specific to the Doctors page layout and elements */
+
+.doctors-section {
+    /* Padding: Top, Left/Right, Bottom */
+    padding: 100px 20px 200px 20px; /* Increased bottom padding to accommodate background */
+    background-color: var(--body-bg-content); /* Use base background variable, e.g., #fff or #f8fdfa */
+    position: relative; /* Needed for z-index context and positioning background */
+    z-index: 1; /* Base layer */
+
+    /* --- Background Decoration --- */
+    /* Ensure the image path is correct relative to this CSS file */
+    background-image: url('../images/decoration-bg.png');
+    background-repeat: no-repeat;
+    /* Position at bottom center. Adjust vertical with calc() if needed */
+    /* e.g., background-position: center calc(100% - 20px); */
+    background-position: center bottom;
+    /* Image spans full width, height adjusts automatically */
+    background-size: 100% auto;
+    /* overflow: hidden; */ /* Keep commented out unless clipping is specifically needed */
+}
+
+.doctors-section h2 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 600; /* Use SemiBold Poppins */
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    position: relative; /* Ensure H2 is above the section's background */
+    z-index: 2; /* Higher than .doctors-section */
+}
+
+nav ul li a {
+    display: block;
+    padding: 15px 150px;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 500; /* Use Medium Poppins */
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.doctors-grid {
+    display: grid;
+    /* Creates responsive columns */
+    /* Each column minimum 300px wide, takes up equal space (1fr) when possible */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px; /* Space between the doctor cards */
+    max-width: 1200px; /* Limit the overall width of the grid */
+    margin: 0 auto; /* Center the grid horizontally */
+    position: relative; /* Ensure grid content is above the section's background */
+    z-index: 2; /* Higher than .doctors-section */
+}
+
+.doctor-card {
+    background-color: #e9f9ee; /* Very light green background */
+    border-radius: 10px;
+    padding: 30px 25px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    display: flex; /* Use flexbox for vertical alignment within card */
+    flex-direction: column; /* Stack card elements vertically */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover transition */
+    /* Ensure cards are also above the main section background */
+    position: relative; /* Needed if you add absolute elements inside */
+    z-index: 2; /* Higher than .doctors-section */
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); /* Slightly stronger shadow on hover */
+}
+
+.doctor-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Crop image nicely without distortion */
+    margin: 0 auto 20px auto; /* Center horizontally, add space below */
+    border: 4px solid var(--primary-color); /* Border matching theme */
+}
+
+.doctor-card h3 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    font-weight: 600; /* SemiBold Poppins */
+    margin-bottom: 15px;
+}
+
+.doctor-card p {
+    font-size: 0.9rem;
+    color: #555; /* Slightly lighter text color */
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* Specific paragraphs within the card */
+.doctor-card .description {
+    min-height: 60px; /* Give description area some consistent height */
+    /* Adjust as needed based on typical content length */
+}
+
+.doctor-card .experience {
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.doctor-specialty {
+    font-weight: 600; /* SemiBold Poppins */
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin-top: 5px; /* Space above specialty */
+    margin-bottom: 20px; /* Space below specialty, before schedule */
+}
+
+.doctor-schedule {
+    font-size: 0.9rem;
+    color: #333; /* Darker than regular paragraph text */
+    margin-bottom: 25px; /* Space below schedule, before button */
+}
+.doctor-schedule strong {
+    font-weight: 600; /* SemiBold Poppins */
+}
+
+/* Booking Button specific styles (also defined in modal.css, ensure consistency if needed) */
+.btn-book {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px; /* Rounded button */
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600; /* SemiBold Poppins */
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif; /* Ensure font consistency */
+    transition: background-color 0.3s ease;
+    /* Use flexbox alignment to push button to bottom */
+    margin-top: auto;
+    /* Prevent button stretching full width in flex column */
+    width: fit-content;
+    align-self: center; /* Center button horizontally */
+}
+
+.btn-book:hover {
+    background-color: #075a3d; /* Darker shade of primary on hover */
+}
+
+
+/* --- Responsive adjustments specific to Doctors page --- */
+@media (max-width: 768px) {
+    .doctors-section h2 {
+        font-size: 1.6rem; /* Smaller heading on mobile */
+        margin-bottom: 30px;
+    }
+
+    .doctors-grid {
+        gap: 20px; /* Reduce gap between cards */
+    }
+
+    .doctor-card {
+        padding: 20px; /* Reduce card padding */
+    }
+
+    .doctor-photo {
+        width: 110px; /* Smaller photo */
+        height: 110px;
+    }
+
+    .doctor-card h3 {
+        font-size: 1.15rem; /* Smaller name */
+    }
+
+     .doctor-card p {
+        font-size: 0.85rem; /* Smaller paragraph text */
+    }
+    .doctor-card .description {
+        min-height: auto; /* Remove min-height on mobile */
+    }
+
+    .doctors-section {
+         padding-bottom: 60px; /* Adjust bottom padding for background on mobile */
+         /* Adjust background size/position on mobile if needed */
+         /* background-size: cover; */
+         /* background-position: center center; */
+    }
+}

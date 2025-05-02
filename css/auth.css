@@ -1,0 +1,113 @@
+/* css/auth.css */
+
+/* Styles only apply when body has 'auth-page' class */
+body.auth-page .signin-container,
+body.auth-page .signup-container {
+    display: block; /* Show container */
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    color: var(--text-dark); /* Use dark text inside light container */
+}
+
+/* If containers might appear on non-auth pages (unlikely), hide them */
+.signin-container, .signup-container {
+     display: none;
+}
+
+/* Styles for forms inside containers */
+.signin-container h1, .signup-container h1 {
+    color: var(--primary-color); /* Use variable */
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+.signin-container form, .signup-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.signin-container div, .signup-container div {
+    margin-bottom: 20px;
+    text-align: left;
+}
+.signin-container label, .signup-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-dark); /* Use variable */
+    font-weight: 600;
+    font-size: 1em;
+}
+/* Input and Select styles */
+.signin-container input[type="text"], .signup-container input[type="text"],
+.signin-container input[type="email"], .signup-container input[type="email"],
+.signin-container input[type="password"], .signup-container input[type="password"],
+.signin-container select, .signup-container select {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: 1em;
+    color: var(--text-dark); /* Use variable */
+    box-sizing: border-box;
+    width: 100%;
+    outline: 2px solid var(--primary-color); /* Use variable */
+    transition: outline-color 0.3s ease;
+}
+/* Select specific styles */
+.signin-container select, .signup-container select {
+    appearance: none;
+    cursor: pointer;
+    /* SVG background needs careful escaping or placed in CSS */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23333" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 20px top 50%;
+}
+/* Focus styles */
+.signin-container input:focus, .signup-container input:focus,
+.signin-container select:focus, .signup-container select:focus {
+     outline-color: #043C28; /* Darker green focus */
+}
+/* Select option styles */
+.signin-container select option, .signup-container select option { background-color: #f9f9f9; color: #333; padding: 10px 15px; font-size: 1em; }
+.signin-container select option:checked, .signup-container select option:checked { background-color: #e0e0e0; font-weight: bold; }
+.signin-container select option:hover, .signup-container select option:hover { background-color: #d4edda; color: #155724; cursor: pointer; }
+/* Button styles */
+.signin-container button, .signup-container button {
+    background-color: #043C28;
+    color: var(--text-light); /* Use variable */
+    padding: 15px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    width: 100%;
+}
+.signin-container button:hover, .signup-container button:hover {
+    background-color: var(--primary-color); /* Use variable */
+}
+/* Paragraph links */
+.signin-container p, .signup-container p {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #555;
+}
+.signin-container p a, .signup-container p a {
+    color: #043C28; /* Darker green */
+    font-weight: 600;
+    text-decoration: none;
+}
+.signin-container p a:hover, .signup-container p a:hover {
+    text-decoration: underline;
+}
+
+/* Message div for forgot password */
+.message { margin-top: 15px; font-weight: bold; padding: 10px; border-radius: 5px; display: none; /* Hide initially */ }
+.message.success { display: block; color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb;}
+.message.error { display: block; color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb;}

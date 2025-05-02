@@ -8,31 +8,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Link to your CSS (make sure filename matches, e.g., home.css or style.css) -->
-    <link rel="stylesheet" href="home.css">
+    <!-- Link to your main CSS file -->
+    <link rel="stylesheet" href="./css/home.css"> <!-- Or style.css if you renamed it -->
     <link rel="icon" href="images/favicon.png"> <!-- Optional: Add a path to your favicon -->
 </head>
 <body>
 
     <header>
         <div class="logo-area">
-            <!-- You can use an <img> tag if you have the logo file -->
-            <!-- <img src="images/logo.png" alt="Tooth Logo" class="logo-icon"> -->
-            <div class="logo-icon">🦷</div> <!-- Simple emoji placeholder -->
-            <h1>Escosia Dental Clinic</h1>
-        </div>
-        <div class="auth-buttons">
-            <button class="btn btn-login">Log In</button>
-            <button class="btn btn-register">Register</button>
+            <div class="logo-icon">🦷</div>
+             <!-- Link the logo back to the homepage -->
+            <h1><a href="home.html" style="text-decoration: none; color: var(--primary-color);">Escosia Dental Clinic</a></h1>
         </div>
     </header>
 
     <nav>
         <ul>
-             <!-- ACTIVE class now on HOME -->
-            <li class="active"><a href="#" id="nav-home">Home</a></li>
-             <!-- NO active class on Doctors -->
-            <li><a href="#" id="nav-doctors">Doctors</a></li>
+             <!-- ACTIVE class on HOME for this page -->
+             <!-- Link points to index.html -->
+            <li class="active"><a href="home.html" id="nav-home">Home</a></li>
+             <!-- Link points to doctors.html -->
+            <li><a href="doctors.html" id="nav-doctors">Doctors</a></li>
+            <!-- Keep other links as # until those pages exist -->
             <li><a href="#" id="nav-notifications">Notifications</a></li>
             <li><a href="#" id="nav-appointments">Appointments</a></li>
             <li><a href="#" id="nav-profile">Profile</a></li>
@@ -40,6 +37,7 @@
     </nav>
 
     <main>
+        <!-- Homepage specific content -->
         <section class="hero">
             <div class="hero-content">
                 <div class="hero-text-left">
@@ -53,11 +51,10 @@
                 </div>
             </div>
         </section>
-
-        <!-- Other sections of the website would go here -->
-
+        <!-- Other sections for the HOMEPAGE would go here -->
     </main>
 
-    <script src="script.js"></script>
+     <!-- Link to your Javascript file -->
+    <script src="./js/home.js"></script> <!-- Or script.js if you use that name -->
 </body>
 </html>

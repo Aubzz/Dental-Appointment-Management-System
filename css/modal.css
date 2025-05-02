@@ -1,0 +1,99 @@
+/* css/modal.css */
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; /* Adjust as needed */
+    max-width: 600px; /* Adjust as needed */
+    border-radius: 10px;
+    position: relative;
+    color: var(--text-dark); /* Ensure text is readable */
+  }
+  
+  .close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Modal form styles */
+  .modal-content h2 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+  }
+  
+  .modal-content label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--text-dark); /* Use variable */
+      font-weight: 600;
+  }
+  
+  .modal-content input[type="text"],
+  .modal-content input[type="email"],
+  .modal-content input[type="password"],
+  .modal-content input[type="date"],
+  .modal-content input[type="time"], /* If using time input */
+  .modal-content select {
+      width: 100%; /* Full width inside modal */
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+      box-sizing: border-box; /* Include padding in width */
+  }
+  
+  .modal-content button {
+      background-color: #043C28; /* Match auth button */
+      color: var(--text-light);
+      padding: 12px 20px;
+      border: none;
+      border-radius: 25px; /* Match auth button */
+      font-size: 1em; /* Match auth button */
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+      display: block; /* Make it block to center */
+      margin-left: auto;
+      margin-right: auto;
+  }
+  
+  .modal-content button:hover {
+      background-color: var(--primary-color); /* Match auth button */
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+      .modal-content {
+          width: 95%;
+          margin: 5% auto;
+          padding: 20px;
+      }
+  }
