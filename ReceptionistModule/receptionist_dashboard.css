@@ -1,0 +1,1106 @@
+/* --- Base Styles & Variables --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); /* Example Font */
+
+:root {
+    --primary-green: #16a085; /* Darker Green */
+    --secondary-green: #1abc9c; /* Lighter Accent Green */
+    --light-green-bg: #e8f8f5; /* Very Light Green for Header BG */
+    --dark-text: #2c3e50;
+    --light-text: #ffffff;
+    --grey-text: #7f8c8d;
+    --border-color: #ecf0f1;
+    --card-bg: #ffffff;
+    --hover-bg: #f8f9fa;
+    --sidebar-bg: #006a4e; /* Specific dark green from image */
+    --header-bg: #e0f2f1; /* Specific light green from image */
+    --table-header-bg: #00796b; /* Table header green */
+    --button-active-bg: #f39c12; /* Gold for AM/PM */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6; /* Light background for the page */
+    color: var(--dark-text);
+    font-size: 14px;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Main Layout --- */
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: var(--light-text);
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.top-header {
+    background-color: var(--header-bg);
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    height: 70px;
+    flex-shrink: 0;
+}
+
+.main-body-wrapper {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.content-area {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+    background-color: #f4f7f6;
+}
+
+.right-sidebar {
+    width: 320px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-left: 1px solid var(--border-color);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+/* --- Left Sidebar --- */
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding: 0 25px 20px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.logo-image {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.logo-container h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--light-text);
+    line-height: 1.2;
+}
+
+.main-nav ul {
+    list-style: none;
+}
+
+.main-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: var(--light-text);
+    text-decoration: none;
+    font-size: 15px;
+    transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+.nav-icon {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+.main-nav li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 30px;
+}
+
+.main-nav li a.active {
+    background-color: var(--light-text);
+    color: var(--sidebar-bg);
+    font-weight: 600;
+    border-left: 4px solid var(--secondary-green);
+    padding-left: 21px;
+}
+
+.main-nav li a.active .nav-icon {
+     color: var(--sidebar-bg);
+}
+
+/* --- Top Header --- */
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 8px 15px 8px 35px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    width: 250px;
+    background-color: #fff;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--grey-text);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon {
+    font-size: 20px;
+    color: var(--grey-text);
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.user-role {
+    font-size: 12px;
+    color: var(--grey-text);
+}
+
+/* --- Content Area --- */
+.content-area h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--dark-text);
+}
+.content-area h3 { /* Style for section subheadings */
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--dark-text);
+}
+
+
+.appointments-section, .requests-section, .appointments-list-section, .patient-list-section {
+    margin-bottom: 30px;
+}
+
+
+/* --- Filtering --- */
+.filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-container label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark-text);
+    flex-shrink: 0;
+}
+
+.filter-select.form-control {
+    width: auto;
+    min-width: 150px;
+    max-width: 200px;
+}
+
+
+/* --- Data Tables --- */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.data-table thead th {
+    background-color: var(--table-header-bg);
+    color: var(--light-text);
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: none;
+}
+/* Alternate row styling (optional) */
+/* .data-table tbody tr:nth-child(even) {
+    background-color: #fdfefe;
+} */
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: var(--hover-bg);
+}
+
+.no-data-row td {
+    text-align: center;
+    color: var(--grey-text);
+    padding: 20px;
+    font-style: italic;
+    background-color: #fff;
+}
+
+.action-links a {
+    color: var(--primary-green);
+    text-decoration: none;
+    margin-right: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+/* Specific colors for actions */
+.action-links a.action-decline,
+.action-links a.action-cancel { /* Style for Decline and Cancel */
+    color: #e74c3c; /* Red */
+}
+.action-links a.action-accept { /* Style for Accept */
+     color: #2ecc71; /* Green */
+}
+.action-links a.action-edit,
+.action-links a.action-edit-patient { /* Style for Edit */
+    color: #f39c12; /* Orange/Gold */
+}
+.action-links a.action-view,
+.action-links a.action-view-patient { /* Style for View */
+    color: #3498db; /* Blue */
+}
+.action-links a.action-assign { /* Style for Assign Dentist */
+     color: #9b59b6; /* Purple */
+}
+
+
+.action-links a:last-child {
+    margin-right: 0; /* Remove margin from the last link */
+}
+
+
+.action-links a:hover {
+    text-decoration: underline;
+}
+
+.table-note {
+    font-size: 12px;
+    color: var(--grey-text);
+    margin-top: 10px;
+    text-align: right;
+}
+
+/* --- Forms --- */
+.book-appointment-section .card-content {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--dark-text);
+    background-color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.075); /* Subtle inner shadow */
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(22, 160, 133, 0.25);
+}
+
+.form-control[disabled] {
+    background-color: #e9ecef; /* Light grey for disabled inputs */
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+
+.form-group small {
+    display: block;
+    font-size: 11px;
+    color: var(--grey-text);
+    margin-top: 5px;
+}
+
+.form-group-date-time {
+    display: flex;
+    gap: 15px;
+}
+
+.form-group-half {
+    flex: 1;
+}
+
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-input-group .time-input {
+     width: 80px;
+     flex-shrink: 0;
+     text-align: center;
+}
+
+.time-input-group .ampm-btn {
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.time-input-group .ampm-btn.active {
+    background-color: var(--button-active-bg);
+    color: var(--light-text);
+    border-color: var(--button-active-bg);
+    font-weight: bold;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: var(--light-text);
+}
+
+.btn-primary:hover {
+    background-color: #1abc9c;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: var(--light-text);
+}
+.btn-secondary:hover {
+     background-color: #5a6268;
+}
+
+
+.content-separator {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 30px 0;
+}
+
+/* --- Right Sidebar --- */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--table-header-bg);
+    color: var(--light-text);
+    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header-icon {
+    font-size: 18px;
+}
+
+/* Profile Card */
+.profile-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.profile-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+    border: 3px solid var(--border-color);
+}
+
+.profile-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.profile-role {
+    font-size: 13px;
+    color: var(--grey-text);
+    margin-bottom: 5px;
+}
+
+.profile-location {
+    font-size: 13px;
+    color: var(--grey-text);
+    margin-bottom: 15px;
+}
+.profile-location i {
+    margin-right: 5px;
+}
+
+.profile-content hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+.profile-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+    text-align: left;
+}
+
+.profile-details-grid > div {
+    line-height: 1.4;
+}
+
+.detail-label {
+    display: block;
+    font-size: 11px;
+    color: var(--grey-text);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.detail-value {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Calendar Card */
+.calendar-widget {
+    padding: 15px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.calendar-header h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 10px;
+}
+
+.cal-nav-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--grey-text);
+    padding: 5px;
+    line-height: 1;
+}
+.cal-nav-btn:hover {
+    color: var(--dark-text);
+}
+
+.calendar-weekdays, .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+}
+
+.calendar-weekdays div {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--grey-text);
+    padding-bottom: 8px;
+}
+
+.calendar-days div {
+    padding: 0;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px auto;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.calendar-days div:not(.other-month):hover {
+    background-color: var(--hover-bg);
+}
+
+.calendar-days .other-month {
+    color: #ccc;
+    cursor: default;
+}
+.calendar-days .other-month:hover {
+     background-color: transparent;
+}
+
+.calendar-days .current-day {
+    font-weight: bold;
+    border: 1px solid var(--primary-green);
+}
+
+.calendar-days .selected-day {
+    background-color: var(--primary-green);
+    color: var(--light-text);
+    font-weight: bold;
+    border: none;
+}
+.calendar-days .selected-day:hover {
+    background-color: var(--primary-green);
+}
+
+.time-selector {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.time-label {
+    font-size: 13px;
+    color: var(--grey-text);
+    margin-right: 5px;
+}
+
+.time-input { /* Base style */
+    width: 50px;
+    padding: 5px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+}
+.time-selector .time-input { /* Specific style for calendar time selector */
+    width: 50px;
+    padding: 5px 8px;
+}
+
+
+.ampm-btn { /* Base style */
+    padding: 5px 10px;
+    border: 1px solid var(--border-color);
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.ampm-btn.active { /* Base style */
+    background-color: var(--button-active-bg);
+    color: var(--light-text);
+    border-color: var(--button-active-bg);
+    font-weight: bold;
+}
+
+
+.schedule-heading {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 0 15px;
+    color: var(--dark-text);
+}
+
+.schedule-list {
+    padding: 0 15px 15px 15px;
+}
+
+.schedule-item {
+    display: flex;
+    padding: 8px 0;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+}
+.schedule-item:last-child {
+    border-bottom: none;
+}
+
+.schedule-time {
+    font-weight: 500;
+    color: var(--dark-text);
+    flex-shrink: 0;
+    margin-right: 15px;
+    width: 60px;
+    text-align: right;
+}
+
+.schedule-desc {
+    color: var(--grey-text);
+    flex-grow: 1;
+    text-align: left;
+}
+.schedule-desc i {
+    font-size: 8px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.visible {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    background-color: var(--primary-green);
+    color: var(--light-text);
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--light-text);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--light-text);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #ccc;
+    text-decoration: none;
+    outline: none;
+}
+
+.modal-body {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Styles for form elements within the modal body (reuse form styles) */
+.modal-body .form-group { margin-bottom: 15px; }
+.modal-body .form-group label {
+    display: block; font-size: 13px; font-weight: 500; color: var(--dark-text); margin-bottom: 5px;
+}
+.modal-body .form-control {
+     width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px;
+     font-size: 14px; color: var(--dark-text); background-color: #fff;
+}
+.modal-body .form-control[disabled] {
+    background-color: #e9ecef;
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.modal-body .form-group-date-time { display: flex; gap: 15px; }
+.modal-body .form-group-half { flex: 1; }
+
+.modal-body .time-input-group { display: flex; align-items: center; gap: 5px; }
+.modal-body .time-input-group .time-input {
+    width: 80px; flex-shrink: 0; text-align: center;
+}
+.modal-body .time-input-group .ampm-btn {
+    flex-shrink: 0; padding: 5px 10px; border: 1px solid var(--border-color);
+    background-color: #fff; border-radius: 4px; cursor: pointer;
+    font-size: 12px; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.modal-body .time-input-group .ampm-btn.active {
+    background-color: var(--button-active-bg); color: var(--light-text); border-color: var(--button-active-bg);
+    font-weight: bold;
+}
+.modal-body .form-group small {
+     display: block; font-size: 11px; color: var(--grey-text); margin-top: 5px;
+}
+
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+
+/* --- Responsiveness (Basic Example) --- */
+@media (max-width: 1200px) {
+    .right-sidebar {
+        width: 280px;
+    }
+    .search-bar input {
+        width: 200px;
+    }
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 200px;
+    }
+    .logo-container h1 {
+        font-size: 16px;
+    }
+    .main-nav li a {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+     .main-nav li a.active {
+        padding-left: 16px;
+    }
+     .nav-icon {
+         margin-right: 10px;
+     }
+     .content-area {
+         padding: 20px;
+     }
+     .right-sidebar {
+         width: 250px;
+     }
+     .profile-details-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+     .detail-label {
+        margin-bottom: 0;
+     }
+}
+
+@media (max-width: 768px) {
+     .dashboard-container {
+        flex-direction: column;
+     }
+     .sidebar {
+         width: 100%;
+         height: auto;
+         flex-direction: row;
+         padding: 0;
+         align-items: center;
+         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+     }
+     .logo-container {
+         padding: 10px 15px;
+         border-bottom: none;
+         margin-bottom: 0;
+         width: auto;
+     }
+     .logo-container h1 { display: none; }
+
+     .main-nav {
+         display: flex;
+         flex-grow: 1;
+         justify-content: flex-end;
+     }
+     .main-nav ul {
+         display: flex;
+         flex-wrap: wrap; /* Allow nav items to wrap */
+         justify-content: flex-end; /* Keep aligned right even when wrapped */
+     }
+     .main-nav li a {
+         padding: 15px;
+         border-left: none !important;
+     }
+     .main-nav li a.active {
+         background-color: rgba(255, 255, 255, 0.1);
+         color: var(--light-text);
+     }
+      .main-nav li a.active .nav-icon {
+         color: var(--light-text);
+     }
+     .nav-icon {
+         margin-right: 5px;
+         font-size: 18px;
+     }
+      .main-nav li a span { /* Hide text label in nav */
+          display: none;
+      }
+
+     .main-body-wrapper {
+         flex-direction: column;
+     }
+     .right-sidebar {
+         width: 100%;
+         border-left: none;
+         border-top: 1px solid var(--border-color);
+         max-height: 50vh; /* Limit height on small screens */
+     }
+     .top-header {
+        padding: 10px 15px;
+        height: 60px;
+     }
+     .search-bar input {
+        width: 150px;
+     }
+     .user-info .user-details {
+         display: none;
+     }
+     .modal-content {
+         max-width: 95%; /* Allow modal to be wider on very small screens */
+     }
+     .form-group-date-time {
+        flex-direction: column; /* Stack date and time inputs */
+        gap: 10px;
+     }
+}
+
+/* --- Reports & Analytics Specific Styles --- */
+
+.chart-section .card-content {
+    padding: 20px; /* Add padding inside the chart card body */
+}
+
+.chart-placeholder {
+    /* Basic styling for the area where the chart or image goes */
+    background-color: #fff; /* Match card background */
+    /* height: 250px; /* Example height if using a canvas or fixed size */
+    /* border: 1px solid var(--border-color); /* Optional border */
+    /* display: flex; /* Center content */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* color: var(--grey-text); */
+    /* font-style: italic; */
+}
+
+
+.metrics-section {
+    margin-top: 30px; /* Space above the metrics grid */
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between metric cards */
+}
+
+.metric-card {
+     /* Inherits styles from .card */
+     text-align: center; /* Center content inside the card */
+     padding: 20px; /* Padding inside metric cards */
+     background-color: var(--light-green-bg); /* Light green background from dashboard image */
+     border: 1px solid var(--secondary-green); /* Subtle border matching a theme green */
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Keep subtle shadow */
+}
+
+.metric-value {
+    font-size: 3em; /* Large font size for the number */
+    font-weight: 700; /* Bold */
+    color: var(--dark-text); /* Dark text for the number */
+    line-height: 1.2; /* Adjust line height */
+    margin-bottom: 5px; /* Space between number and label */
+}
+
+.metric-label {
+    font-size: 1em; /* Font size for the label */
+    color: var(--primary-green); /* Primary green for the label */
+    font-weight: 500; /* Medium weight */
+}
+
+/* Adjust grid for smaller screens if needed */
+@media (max-width: 768px) {
+    .metrics-grid {
+        grid-template-columns: 1fr; /* Stack cards on very small screens */
+    }
+}
+
+/* --- Style for the main content area's header block (e.g., Dashboard Overview) --- */
+.content-area-header-block {
+    /* Add styling for the container */
+    padding: 15px 20px; /* Add internal padding */
+    margin-bottom: 30px; /* Add space below this block */
+    background-color: var(--header-bg); /* Use the light header background color from your variables */
+    /* Optional: Add border, shadow, or rounded corners */
+    border-radius: 8px; /* Match card border radius */
+    box-shadow: 0 2px 4px #16a085; /* Subtle shadow */
+    /* border-bottom: 1px solid var(--border-color); Optional bottom border */
+}
+
+/* Ensure the h2 inside this block doesn't have conflicting margins */
+.content-area-header-block h2 {
+    margin: 0; /* Remove default h2 margin */
+    font-size: 20px; /* Keep the desired font size */
+    font-weight: 600; /* Keep the desired font weight */
+    color: var(--dark-text); /* Ensure heading color is correct */
+}
+
+/* Your existing .content-area padding (e.g., padding: 30px;) should remain */
+/* This new block sits *inside* the .content-area and its padding. */
+
+.content-area-header-block {
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    background-color: var(--header-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px #16a085; /* Subtle shadow */
+}
+
+.content-area-header-block h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.content-area-header-block {
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    background-color: var(--header-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px #16a085; /* Subtle shadow */
+}
+
+.content-area-header-block h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+/* --- Specific colors for actions (Add send-message if not already there) --- */
+.action-links a.action-send-message {
+    color: #3498db; /* Blue - can choose a different color if you like */
+}
+
+/* Ensure the .content-area-header-block style is present from previous steps */
+.content-area-header-block {
+   padding: 15px 20px;
+   margin-bottom: 30px;
+   background-color: var(--header-bg);
+   border-radius: 8px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.content-area-header-block h2 {
+   margin: 0;
+   font-size: 20px;
+   font-weight: 600;
+   color: var(--dark-text);
+}

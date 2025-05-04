@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptionist Patient Records - Escosia Dental Clinic</title>
+    <!-- Link to the main shared CSS file -->
+    <link rel="stylesheet" href="receptionist_dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome for Icons -->
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Left Sidebar - Update active class and href -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                 <img src="../images/tooth.png" alt="Escosia Dental Clinic Logo" class="logo-image">
+                 <h1>Escosia Dental Clinic</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <!-- Ensure href is correct, no active class here -->
+                    <li><a href="receptionist_dashboard.html"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
+                    <!-- Ensure href is correct, no active class here -->
+                    <li><a href="receptionist_appointment.html"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
+                    <!-- This link is active on this page -->
+                    <li><a href="receptionist_patient_records.html" class="active"><i class="fas fa-chart-bar nav-icon"></i> Patient Records</a></li>
+                    <li><a href="receptionist_reports.html"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li>
+                    <li><a href="receptionist_doctor.html"><i class="fas fa-question-circle nav-icon"></i> Doctors</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Top Header - Remains the same -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <!-- Add ID for search input -->
+                    <input type="text" id="patient-search-input" placeholder="Search patients by name or ID...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="user-info">
+                    <i class="fas fa-bell notification-icon"></i> <!-- Notification Icon -->
+                    <img src="../images/jen_hernandez.png" alt="User Avatar" class="user-avatar">
+                    <div class="user-details">
+                        <span class="user-name">Jenny Ortega</span>
+                        <span class="user-role">Receptionist</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Wrapper for Content Area and Right Sidebar -->
+            <div class="main-body-wrapper">
+
+                <!-- Page Content - PATIENT RECORDS SPECIFIC CONTENT -->
+                <main class="content-area">
+                    <div class="content-area-header-block">
+                        <h2>Patient Records</h2>
+                     </div>
+                     <!-- Add margin below this block (handled in CSS margin-bottom) -->
+
+                    <!-- Section: Patient List with Filters -->
+                    <section class="patient-list-section">
+                        <h3>List of Patients</h3>
+
+                        <!-- Filter Container -->
+                        <div class="filter-container">
+                             <label for="patient-dentist-filter">Filter by Assigned Dentist:</label>
+                             <!-- Add ID for dentist filter select -->
+                             <select id="patient-dentist-filter" class="form-control filter-select">
+                                <option value="all">Show All Dentists</option>
+                                <!-- Options populated dynamically by JS or from PHP -->
+                                <!-- Example options (Replace with dynamic data from backend) -->
+                                <option value="Dr. Smith">Dr. Smith</option>
+                                <option value="Dr. Lee">Dr. Lee</option>
+                                <!-- Add more dentist options here -->
+                             </select>
+                             <!-- Optional: Add a button to add new patient - requires more JS logic -->
+                             <!-- <button class="btn btn-primary ml-auto" id="add-patient-button">Add New Patient</button> -->
+                        </div>
+
+
+                        <table class="data-table" id="patient-records-table">
+                            <thead>
+                                <tr>
+                                    <th>Patient ID</th> <!-- Added Patient ID column -->
+                                    <th>Patient Name</th>
+                                    <th>Contact Info</th>
+                                     <th>Assigned Dentist</th> <!-- Show which dentist the patient is linked to -->
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example Data Rows (Replace with data from PHP backend) -->
+                                <!-- IMPORTANT: Add data-patient-id attribute -->
+                                <tr data-patient-id="pat-001">
+                                     <td>#001</td>
+                                    <td>Kianna Gragg</td>
+                                    <td>(123) 456-7890 / kianna.g@example.com</td>
+                                    <td>Dr. Smith</td>
+                                    <td class="action-links">
+                                        <a href="#" class="action-view-patient">View</a>
+                                        <a href="#" class="action-edit-patient">Edit</a>
+                                        <!-- Optional: Add Delete action? -->
+                                        <!-- <a href="#" class="action-delete-patient action-decline">Delete</a> -->
+                                    </td>
+                                </tr>
+                                <tr data-patient-id="pat-002">
+                                    <td>#002</td>
+                                    <td>Jeanesa Dugang</td>
+                                    <td>(987) 654-3210 / jeanesa.d@example.com</td>
+                                    <td>Dr. Lee</td>
+                                    <td class="action-links">
+                                        <a href="#" class="action-view-patient">View</a>
+                                        <a href="#" class="action-edit-patient">Edit</a>
+                                    </td>
+                                </tr>
+                                 <tr data-patient-id="pat-003">
+                                    <td>#003</td>
+                                    <td>Francis Dayuno</td>
+                                     <td>(555) 123-4567 / francis.d@example.com</td>
+                                    <td>Dr. Smith</td>
+                                     <td class="action-links">
+                                        <a href="#" class="action-view-patient">View</a>
+                                        <a href="#" class="action-edit-patient">Edit</a>
+                                    </td>
+                                </tr>
+                                 <tr data-patient-id="pat-004">
+                                    <td>#004</td>
+                                    <td>Jason Maracha</td>
+                                     <td>(111) 222-3333 / jason.m@example.com</td>
+                                    <td>Dr. Lee</td>
+                                     <td class="action-links">
+                                        <a href="#" class="action-view-patient">View</a>
+                                        <a href="#" class="action-edit-patient">Edit</a>
+                                    </td>
+                                </tr>
+                                <tr data-patient-id="pat-005">
+                                    <td>#005</td>
+                                    <td>Kianna Mua</td>
+                                    <td>(000) 000-0000 / kianna.m@example.com</td>
+                                    <td>Dr. Smith</td>
+                                    <td class="action-links">
+                                        <a href="#" class="action-view-patient">View</a>
+                                        <a href="#" class="action-edit-patient">Edit</a>
+                                    </td>
+                                </tr>
+                                 <tr data-patient-id="pat-006">
+                                    <td>#006</td>
+                                    <td>Sample Patient</td>
+                                    <td>(111) 111-1111 / sample.p@example.com</td>
+                                    <td>-- Not Assigned Yet --</td> <!-- Patient not yet assigned to a specific dentist -->
+                                     <td class="action-links">
+                                        <a href="#" class="action-view-patient">View</a>
+                                        <a href="#" class="action-edit-patient">Edit</a>
+                                    </td>
+                                </tr>
+                                <!-- No Data Row (Initially Hidden) -->
+                                <tr class="no-data-row" style="display: none;">
+                                    <td colspan="5">No patient records found matching the criteria.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                         <p class="table-note">This lists patient records accessible to you (typically patients assigned to your dentist(s)).</p>
+                    </section>
+
+                </main> <!-- End Content Area -->
+
+                 <!-- Right Sidebar - Calendar and Profile are relevant -->
+                 <aside class="right-sidebar">
+                     <!-- Profile Card -->
+                     <div class="profile-card card">
+                        <h3 class="card-header">My Profile</h3>
+                        <div class="profile-content">
+                            <img src="../images/jen_hernandez.png" alt="User Avatar" class="profile-avatar-large">
+                            <p class="profile-name">Ms. Jenny</p>
+                            <p class="profile-role">Receptionist</p>
+                            <p class="profile-location"><i class="fas fa-map-marker-alt"></i> BGC, Taguig</p>
+                            <hr>
+                            <div class="profile-details-grid">
+                                <div>
+                                    <span class="detail-label">Date of Birth</span>
+                                    <span class="detail-value">01.09.1995</span>
+                                </div>
+                                <div>
+                                    <span class="detail-label">Blood</span>
+                                    <span class="detail-value">AB-</span>
+                                </div>
+                                <div>
+                                    <span class="detail-label">Working Hours</span>
+                                    <span class="detail-value">9:00 AM - 3:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Card -->
+                    <div class="calendar-card card">
+                         <h3 class="card-header">Calendar <i class="fas fa-calendar-alt card-header-icon"></i></h3>
+                        <div class="calendar-widget">
+                            <div class="calendar-header">
+                                <button id="prev-month" class="cal-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                                <h4 id="month-year">June 2024</h4>
+                                <button id="next-month" class="cal-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                            </div>
+                            <div class="calendar-days" id="calendar-days">
+                                <!-- Calendar days will be generated by common_calendar.js -->
+                            </div>
+                             <div class="time-selector">
+                                <span class="time-label">Selected Time</span>
+                                <input type="text" value="3:00" class="time-input" disabled>
+                                <button class="ampm-btn active" disabled>PM</button>
+                                <button class="ampm-btn" disabled>AM</button>
+                            </div>
+                        </div>
+                         <h4 class="schedule-heading">Schedule for Selected Day</h4>
+                        <div class="schedule-list">
+                             <div class="schedule-item">
+                                 <span class="schedule-time"></span>
+                                 <span class="schedule-desc">Select a date to see schedule.</span>
+                             </div>
+                             <!-- Populated by common_calendar.js -->
+                        </div>
+                    </div>
+                </aside> <!-- End Right Sidebar -->
+
+            </div> <!-- End Main Body Wrapper -->
+
+        </div> <!-- End Main Content Area -->
+    </div> <!-- End Dashboard Container -->
+
+    <!-- --- Modal Structure for Patient Details/Edit --- -->
+    <!-- This modal structure is specific to the Patient Records page -->
+    <div id="patientModalOverlay" class="modal-overlay">
+        <div id="patientModalContent" class="modal-content">
+            <div class="modal-header">
+                <h3 id="patientModalTitle">Patient Details</h3>
+                <button id="patientModalCloseButton" class="modal-close">×</button>
+            </div>
+            <div id="patientModalBody" class="modal-body">
+                <!-- Content will be loaded here by JavaScript -->
+                <p>Loading patient details...</p> <!-- Placeholder -->
+            </div>
+             <!-- Optional Footer for action buttons in edit mode -->
+            <div id="patientModalFooter" class="modal-footer" style="display: none;">
+                 <button class="btn btn-primary" id="patientSaveChangesButton">Save Changes</button>
+                 <button class="btn btn-secondary" id="patientCancelEditButton">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <!-- --- End Modal Structure --- -->
+
+    <!-- Note: The requestModalOverlay and appointmentModalOverlay are only needed on their respective pages -->
+
+
+    <!-- Include common calendar script first -->
+    <!-- Make sure paths match your file structure -->
+    <script src="calendar.js"></script>
+    <!-- Include patient records specific script second -->
+    <!-- Make sure paths match your file structure -->
+    <script src="receptionist_patient_records.js"></script>
+
+</body>
+</html>
