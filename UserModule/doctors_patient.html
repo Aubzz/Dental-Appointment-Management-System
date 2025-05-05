@@ -19,12 +19,16 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#home">HOME</a></li>
-                    <li><a href="doctors.html" class="active">DOCTORS</a></li> 
-                    <li><a href="#notifications">NOTIFICATIONS</a></li> 
-                    <li><a href="#appointments">APPOINTMENTS</a></li> 
-                  
-                    <li><a href="patient_profile.html">PROFILE</a></li> 
+                    <!-- Assuming you have a home page like index.html or home.html -->
+                    <li><a href="home.html">HOME</a></li>
+                    <!-- Keep doctors.html link and active class as this IS the doctors page -->
+                    <li><a href="doctors_patient.html" class="active">DOCTORS</a></li>
+                     <!-- Assuming you have a notifications page -->
+                    <li><a href="patient_notifications.html">NOTIFICATIONS</a></li>
+                    <!-- *** THIS IS THE CHANGED LINE *** -->
+                    <li><a href="patient_appointments.html">APPOINTMENTS</a></li>
+                    <!-- Link to the profile page -->
+                    <li><a href="patient_profile.html">PROFILE</a></li>
                 </ul>
             </nav>
         </header>
@@ -81,7 +85,8 @@
 
     <!-- Appointment Modal (Keep as is from your original code) -->
     <div id="appointmentModal" class="modal">
-        <div class="modal-content">
+        <!-- ... (modal content remains the same) ... -->
+         <div class="modal-content">
             <div class="modal-header">
                 <h2>Book Appointment</h2>
                 <button class="modal-close-btn">Cancel</button>
@@ -206,6 +211,7 @@
     </div>
 
     <!-- Link to your script file (Assuming modal logic is in here) -->
+    <!-- script.js likely needed for modal functionality -->
     <script src="script.js"></script>
     <script>
         // Optional JavaScript enhancements (Keep as is or integrate into script.js)
@@ -232,7 +238,7 @@
 
             openModalButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
-                    e.preventDefault();
+                    e.preventDefault(); // Prevent default link behavior
                     const doctorName = this.getAttribute('data-doctor');
                     // Pre-select dentist in both forms
                     if (selectedDoctorInput) selectedDoctorInput.value = doctorName;
@@ -258,6 +264,32 @@
                         const targetContent = modal.querySelector(`#${tab.getAttribute('data-tab')}`);
                         if(targetContent) targetContent.classList.add('active');
                     });
+                });
+            }
+
+             // --- Form Submission Logic (Example Placeholder) ---
+            const newPatientForm = document.getElementById('newPatientForm');
+            const existingPatientForm = document.getElementById('existingPatientForm');
+
+            if (newPatientForm) {
+                newPatientForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Prevent actual form submission for now
+                    console.log('New Patient Form Submitted');
+                    // Add AJAX/Fetch request here to send data to the server
+                    alert('Appointment requested! (Backend logic needed)');
+                    if(modal) modal.style.display = 'none'; // Close modal on success
+                    // Optionally redirect or update UI
+                });
+            }
+
+            if (existingPatientForm) {
+                existingPatientForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Prevent actual form submission for now
+                    console.log('Existing Patient Form Submitted');
+                    // Add AJAX/Fetch request here to find patient and book
+                    alert('Searching for patient and booking... (Backend logic needed)');
+                     if(modal) modal.style.display = 'none'; // Close modal on success
+                     // Optionally redirect or update UI
                 });
             }
         });

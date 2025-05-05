@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escosia Dental Clinic - Notifications</title>
+    <!-- Link to your existing CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Optional: Add Font Awesome if you want icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!-- Re-use the exact same header structure -->
+            <div class="logo">
+                <img src="teeth.png" alt="Tooth Logo" class="logo-icon"> <!-- Make sure teeth.png exists -->
+                <h1>Escosia Dental Clinic</h1>
+            </div>
+            <nav>
+                <ul>
+                    <!-- Update active class -->
+                    <li><a href="home.html">HOME</a></li> <!-- Assuming home.html -->
+                    <li><a href="doctors_patient.html">DOCTORS</a></li>
+                    <li><a href="patient_notifications.html" class="active">NOTIFICATIONS</a></li> <!-- Set this as active -->
+                    <li><a href="patient_appointments.html">APPOINTMENTS</a></li>
+                    <li><a href="patient_profile.html">PROFILE</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="notifications-section">
+                <h2>NOTIFICATIONS</h2>
+
+                <div class="notifications-list">
+                    <!-- Example Unread Notification 1: Appointment Reminder -->
+                    <div class="notification-item unread">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-check"></i> <!-- Example Font Awesome icon -->
+                        </div>
+                        <div class="notification-content">
+                            <p class="notification-message">
+                                <strong>Appointment Reminder:</strong> Your appointment with Dr. Monte is scheduled for tomorrow, August 15th at 10:00 AM.
+                            </p>
+                            <span class="notification-time">1 hour ago</span>
+                        </div>
+                        <div class="notification-actions">
+                            <a href="appointments.html" class="btn-action view">View Appointment</a>
+                             <button class="btn-action mark-read" aria-label="Mark as Read">Mark Read</button>
+                        </div>
+                    </div>
+
+                    <!-- Example Unread Notification 2: General Announcement -->
+                     <div class="notification-item unread">
+                        <div class="notification-icon">
+                             <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p class="notification-message">
+                                <strong>Clinic Announcement:</strong> Please be advised that the clinic will be closed on August 21st for a national holiday.
+                            </p>
+                            <span class="notification-time">8 hours ago</span>
+                        </div>
+                         <div class="notification-actions">
+                             <button class="btn-action mark-read" aria-label="Mark as Read">Mark Read</button>
+                             <button class="btn-action delete" aria-label="Delete Notification"><i class="fas fa-times"></i></button>
+                         </div>
+                    </div>
+
+
+                    <!-- Example Read Notification 1: Completed Appointment -->
+                    <div class="notification-item read">
+                        <div class="notification-icon">
+                           <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p class="notification-message">
+                                Your appointment with Dr. Khan on May 20th was successfully completed.
+                            </p>
+                            <span class="notification-time">May 21, 2024</span>
+                        </div>
+                         <div class="notification-actions">
+                            <button class="btn-action delete" aria-label="Delete Notification"><i class="fas fa-times"></i></button>
+                         </div>
+                    </div>
+
+                    <!-- Example Read Notification 2: Profile Update -->
+                     <div class="notification-item read">
+                        <div class="notification-icon">
+                             <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="notification-content">
+                            <p class="notification-message">
+                                Your contact number was successfully updated in your profile.
+                            </p>
+                             <span class="notification-time">April 10, 2024</span>
+                        </div>
+                        <div class="notification-actions">
+                           <a href="patient_profile.html" class="btn-action view">View Profile</a>
+                           <button class="btn-action delete" aria-label="Delete Notification"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Message shown when there are no notifications -->
+                    <!--
+                    <div class="no-notifications">
+                        You have no new notifications.
+                    </div>
+                    -->
+
+                </div> <!-- /.notifications-list -->
+
+            </section>
+        </main>
+    </div>
+
+    <!-- Link to your script file -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notificationsList = document.querySelector('.notifications-list');
+
+            notificationsList.addEventListener('click', (e) => {
+                // Handle Mark as Read button click
+                if (e.target.classList.contains('mark-read') || e.target.closest('.mark-read')) {
+                    const button = e.target.classList.contains('mark-read') ? e.target : e.target.closest('.mark-read');
+                    const notificationItem = button.closest('.notification-item');
+                    if (notificationItem) {
+                        notificationItem.classList.remove('unread');
+                        notificationItem.classList.add('read');
+                        button.remove(); // Remove the "Mark Read" button after clicking
+                        console.log('Marked as read:', notificationItem);
+                        // Add backend logic call here
+                        checkEmptyState(); // Re-check if placeholder needed (e.g., if filtering)
+                    }
+                }
+
+                // Handle Delete button click
+                if (e.target.classList.contains('delete') || e.target.closest('.delete')) {
+                     const button = e.target.classList.contains('delete') ? e.target : e.target.closest('.delete');
+                    const notificationItem = button.closest('.notification-item');
+                    if (notificationItem && confirm('Are you sure you want to delete this notification?')) {
+                        console.log('Deleting notification:', notificationItem);
+                        notificationItem.style.opacity = '0'; // Optional: fade out effect
+                        notificationItem.style.transition = 'opacity 0.3s ease';
+                        setTimeout(() => {
+                            notificationItem.remove();
+                            checkEmptyState(); // Check if the empty message should be shown
+                        }, 300);
+                        // Add backend logic call here
+                    }
+                }
+            });
+
+            // Function to check if the "no notifications" message should be shown
+            function checkEmptyState() {
+                const remainingItems = notificationsList.querySelectorAll('.notification-item');
+                let noNotificationsDiv = notificationsList.querySelector('.no-notifications');
+
+                if (remainingItems.length === 0 && !noNotificationsDiv) {
+                    noNotificationsDiv = document.createElement('div');
+                    noNotificationsDiv.classList.add('no-notifications');
+                    noNotificationsDiv.textContent = 'You have no notifications.';
+                    notificationsList.appendChild(noNotificationsDiv);
+                } else if (remainingItems.length > 0 && noNotificationsDiv) {
+                    noNotificationsDiv.remove();
+                }
+            }
+
+            // Initial check when the page loads
+            checkEmptyState();
+        });
+    </script>
+
+</body>
+</html>

@@ -19,25 +19,33 @@
             </div>
             <!-- Updated Navigation for Profile View -->
             <nav>
-                 <ul>
-                    <li><a href="#home">HOME</a></li>
+                 <ul> <!-- Main navigation list -->
+                    <!-- Assuming you have a home page like index.html or home.html -->
+                    <li><a href="home.html">HOME</a></li>
+                    <!-- Link to patient-specific doctors page -->
                     <li><a href="doctors_patient.html">DOCTORS</a></li>
-                    <li><a href="#appointments">APPOINTMENTS</a></li>
+                     <!-- Link to patient notifications page -->
+                    <li><a href="patient_notifications.html">NOTIFICATIONS</a></li>
+                    <!-- Link to patient appointments page -->
+                    <li><a href="patient_appointments.html">APPOINTMENTS</a></li>
+                    <!-- Link to the profile page - SET THIS AS ACTIVE -->
+                    <li><a href="patient_profile.html" class="active">PROFILE</a></li>
                  </ul>
                  <!-- Icons and User Dropdown Area -->
                  <div class="header-actions">
-                     <a href="#notifications" class="notification-bell" title="Notifications">
+                     <a href="patient_notifications.html" class="notification-bell" title="Notifications"> <!-- Correct link -->
                          <i class="fas fa-bell"></i>
                          <!-- <span class="notification-badge">1</span> -->
                      </a>
-                     <a href="patient_profile.html" class="user-profile-link" title="View Profile">
+                     <a href="patient_profile.html" class="user-profile-link" title="View Profile"> <!-- Correct link -->
                          <div class="user-profile-dropdown">
                              <img src="patient.jpg" alt="Patient Avatar" class="user-avatar">
                              <div class="user-info">
                                  <span class="user-name">Jen Hernandez</span>
                                  <span class="user-role">Patient</span>
                              </div>
-                             <i class="fas fa-chevron-down dropdown-arrow"></i>
+                             <!-- Optional: Keep or remove dropdown arrow based on functionality -->
+                             <!-- <i class="fas fa-chevron-down dropdown-arrow"></i> -->
                          </div>
                      </a>
                  </div>
@@ -116,11 +124,16 @@
                 <!-- Right Column -->
                 <div class="profile-right">
 
-                   
-                    <a href="doctors_patient.html" class="btn book-appointment-btn">
-                        <i class="fas fa-plus"></i> Book an Appointment
-                    </a>
-                
+                    <!-- *** START: ACTION BUTTONS AREA *** -->
+                    <div class="profile-action-buttons">
+                        <a href="patient_dashboard.html" class="btn dashboard-btn"> <!-- Added Dashboard Button -->
+                            <i class="fas fa-tachometer-alt"></i> My Dashboard
+                        </a>
+                        <a href="doctors_patient.html" class="btn book-appointment-btn"> <!-- Original Book Appointment Button -->
+                            <i class="fas fa-plus"></i> Book an Appointment
+                        </a>
+                    </div>
+                    <!-- *** END: ACTION BUTTONS AREA *** -->
 
                     <section class="appointment-history">
                         <h3>Appointment History</h3>
@@ -161,6 +174,10 @@
                                 </tr>
                             </tbody>
                         </table>
+                         <!-- Optional: Add a link to view full history -->
+                        <div style="text-align: center; margin-top: 15px;">
+                             <a href="patient_appointments.html" style="font-size: 0.9em; color: var(--primary-green);">View All Appointments</a>
+                        </div>
                     </section>
 
                 </div>
@@ -171,8 +188,18 @@
 
     </div> <!-- /.container -->
 
-    <!-- Link to your script file (if needed for interactions) -->
+    <!-- Link to your script file (if needed for interactions like the edit button) -->
     <!-- <script src="script.js"></script> -->
+     <script>
+        // Example: Add basic functionality for the edit button if needed
+        const editButton = document.querySelector('.edit-info-btn');
+        if (editButton) {
+            editButton.addEventListener('click', () => {
+                alert('Edit functionality not implemented yet. This would typically open a modal or change fields to editable.');
+                // Add logic here to enable editing or open an edit modal
+            });
+        }
+    </script>
 
 </body>
 </html>

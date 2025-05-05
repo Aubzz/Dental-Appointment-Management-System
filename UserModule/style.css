@@ -1188,3 +1188,446 @@ body.auth-page {
         font-size: 1.4em;
     }
 }
+/* Add these styles to your existing style.css */
+
+/* ========================================= */
+/* Appointments Page Styles                 */
+/* ========================================= */
+
+.appointments-section h2 {
+    text-align: center; /* Or left: text-align: left; padding-left: 5px; */
+    color: var(--primary-green);
+    margin-bottom: 35px;
+    font-size: 1.8em; /* Match other page titles */
+    font-weight: 600;
+}
+
+/* Container for each list (Scheduled/History) */
+.appointment-list {
+    background-color: var(--card-bg-color); /* Use card background */
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px var(--shadow-color);
+    border: 1px solid var(--body-bg-fallback);
+    margin-bottom: 30px; /* Space between Scheduled and History */
+}
+
+.appointment-list h3 {
+    color: var(--dark-green);
+    font-size: 1.25em;
+    font-weight: 600;
+    margin: 0 0 20px 0; /* Remove default top margin, add bottom */
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-border-color);
+}
+
+/* Style for the appointment tables */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.appointment-table th,
+.appointment-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-border-color);
+    vertical-align: middle; /* Align cell content vertically */
+}
+
+.appointment-table thead th {
+    background-color: var(--very-light-green-bg);
+    color: var(--dark-green);
+    font-weight: 600;
+    white-space: nowrap; /* Prevent headers from wrapping */
+}
+
+.appointment-table tbody tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
+.appointment-table tbody tr:hover {
+    background-color: var(--very-light-green-bg); /* Hover effect */
+}
+
+/* Ensure status styles (already defined) apply */
+.appointment-table .status {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-align: center;
+    display: inline-block;
+    min-width: 90px;
+}
+.appointment-table .status-scheduled {
+    background-color: var(--status-scheduled-bg);
+    color: var(--status-scheduled-text);
+}
+.appointment-table .status-completed {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-text);
+}
+
+/* Style for Action Buttons */
+.appointment-table .btn-action {
+    background-color: transparent;
+    border: 1px solid var(--primary-green);
+    color: var(--primary-green);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-right: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+.appointment-table .btn-action:last-child {
+    margin-right: 0;
+}
+
+.appointment-table .btn-action:hover {
+    background-color: var(--primary-green);
+    color: var(--white);
+}
+
+.appointment-table .btn-action.cancel {
+    border-color: var(--danger-red);
+    color: var(--danger-red);
+}
+.appointment-table .btn-action.cancel:hover {
+    background-color: var(--danger-red);
+    color: var(--white);
+}
+
+
+/* Style for the 'No appointments' message */
+.appointment-table .no-appointments {
+    text-align: center;
+    font-style: italic;
+    color: var(--text-muted);
+    padding: 20px;
+}
+
+/* Make table scrollable on smaller screens */
+.table-responsive {
+    overflow-x: auto;
+    /* Add a subtle shadow or indicator if desired */
+    /* -webkit-overflow-scrolling: touch; */
+}
+
+
+/* --- Responsive Adjustments for Appointments Page --- */
+/* Add these within your existing @media blocks or create new ones */
+
+@media (max-width: 768px) {
+    .appointments-section h2 {
+        font-size: 1.6em;
+        margin-bottom: 25px;
+    }
+    .appointment-list {
+        padding: 20px;
+    }
+    .appointment-list h3 {
+        font-size: 1.15em;
+    }
+    .appointment-table {
+        font-size: 0.85em; /* Slightly smaller font on mobile */
+    }
+    .appointment-table th,
+    .appointment-table td {
+        padding: 10px 8px;
+    }
+    .appointment-table .btn-action {
+        padding: 3px 8px;
+        font-size: 0.75em;
+    }
+    /* Target specific columns if they take too much space */
+     .appointment-table th:nth-child(1), /* Date */
+     .appointment-table td:nth-child(1) {
+         min-width: 80px; /* Example: Ensure date column has min width */
+     }
+      .appointment-table th:nth-child(4), /* Status */
+     .appointment-table td:nth-child(4) {
+          text-align: center; /* Center status column */
+     }
+       .appointment-table th:nth-child(5), /* Actions */
+     .appointment-table td:nth-child(5) {
+          text-align: center; /* Center actions column */
+     }
+
+}
+
+@media (max-width: 600px) {
+     .appointments-section h2 {
+        font-size: 1.4em;
+        margin-bottom: 20px;
+    }
+    .appointment-list {
+        padding: 15px;
+    }
+    .appointment-list h3 {
+        font-size: 1.1em;
+    }
+    /* Stack action buttons vertically on very small screens if needed */
+    .appointment-table td:last-child { /* Target actions cell */
+        min-width: 90px; /* Ensure enough space */
+    }
+    /* Optional: Stack buttons */
+    /*
+    .appointment-table .btn-action {
+        display: block;
+        width: 100%;
+        max-width: 100px;
+        margin: 0 auto 5px auto;
+        text-align: center;
+    }
+     .appointment-table .btn-action:last-child {
+        margin-bottom: 0;
+    }
+    */
+}
+/* ========================================= */
+/* Notifications Page Styles                */
+/* ========================================= */
+
+.notifications-section h2 {
+    text-align: center; /* Or left: text-align: left; padding-left: 5px; */
+    color: var(--primary-green);
+    margin-bottom: 35px;
+    font-size: 1.8em; /* Match other page titles */
+    font-weight: 600;
+}
+
+.notifications-list {
+    max-width: 800px; /* Limit width for readability */
+    margin: 0 auto; /* Center the list */
+}
+
+.notification-item {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    background-color: var(--white); /* White background for items */
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid var(--light-border-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.notification-item.unread {
+    background-color: var(--very-light-green-bg); /* Highlight unread */
+    border-left: 4px solid var(--primary-green); /* Accent border */
+}
+.notification-item.unread .notification-message strong {
+     color: var(--dark-green); /* Make title slightly stand out */
+}
+
+.notification-item.read {
+    /* Optional: Slightly fade read notifications */
+    /* opacity: 0.85; */
+}
+.notification-item.read:hover {
+    /* opacity: 1; */ /* Bring to full opacity on hover */
+}
+
+
+.notification-icon {
+    flex-shrink: 0;
+    margin-right: 15px;
+    font-size: 1.4em; /* Size of the icon */
+    color: var(--primary-green);
+    padding-top: 2px; /* Adjust vertical alignment if needed */
+    width: 25px; /* Ensure consistent spacing */
+    text-align: center;
+}
+.notification-item.read .notification-icon {
+     color: var(--text-muted); /* Tone down icon for read items */
+}
+
+
+.notification-content {
+    flex-grow: 1; /* Take available space */
+}
+
+.notification-message {
+    margin: 0 0 5px 0;
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+.notification-message strong { /* For titles within message */
+    font-weight: 600;
+}
+
+.notification-item.unread .notification-message {
+     font-weight: 500; /* Make text slightly bolder for unread */
+}
+
+.notification-time {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    display: block; /* Put time on its own line */
+}
+
+.notification-actions {
+    margin-left: 15px; /* Space between content and actions */
+    flex-shrink: 0;
+    display: flex;
+    align-items: center; /* Vertically align buttons */
+    gap: 8px; /* Space between buttons */
+    padding-top: 2px;
+}
+
+/* Re-use action button style from appointments, maybe slightly smaller */
+.notification-actions .btn-action {
+    background-color: transparent;
+    border: 1px solid var(--primary-green);
+    color: var(--primary-green);
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75em; /* Smaller buttons */
+    font-weight: 500;
+    text-decoration: none; /* For links styled as buttons */
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.notification-actions .btn-action:hover {
+    background-color: var(--primary-green);
+    color: var(--white);
+}
+
+/* Specific style for delete/close button (often just an icon) */
+.notification-actions .btn-action.delete {
+    border: none; /* Remove border for icon-only button */
+    color: var(--text-muted);
+    font-size: 1em; /* Adjust icon size */
+    padding: 2px 4px; /* Minimal padding */
+}
+.notification-actions .btn-action.delete:hover {
+    color: var(--danger-red);
+    background-color: transparent;
+}
+
+/* Style for the 'No notifications' message */
+.no-notifications {
+    text-align: center;
+    font-style: italic;
+    color: var(--text-muted);
+    padding: 30px 20px;
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+    margin-top: 20px;
+}
+
+/* --- Responsive Adjustments for Notifications Page --- */
+
+@media (max-width: 768px) {
+    .notifications-section h2 {
+        font-size: 1.6em;
+    }
+    .notifications-list {
+        max-width: 95%; /* Allow more width */
+    }
+    .notification-item {
+        padding: 12px 15px;
+    }
+     .notification-icon {
+         font-size: 1.3em;
+         margin-right: 12px;
+     }
+     .notification-message {
+         font-size: 0.9em;
+     }
+     .notification-time {
+         font-size: 0.75em;
+     }
+}
+
+@media (max-width: 600px) {
+    .notifications-section h2 {
+        font-size: 1.4em;
+        margin-bottom: 25px;
+    }
+    .notification-item {
+       /* Stack elements vertically if needed, or just reduce padding */
+       padding: 10px;
+       align-items: flex-start; /* Keep alignment */
+       position: relative; /* For potentially absolute positioning actions */
+    }
+     .notification-icon {
+         font-size: 1.2em;
+         margin-right: 10px;
+         padding-top: 0;
+     }
+     .notification-content {
+         margin-right: 5px; /* Ensure space before actions wrap */
+     }
+     .notification-actions {
+        /* Option 1: Keep inline but allow wrapping */
+        flex-wrap: wrap;
+        justify-content: flex-end; /* Align wrapped buttons right */
+        margin-left: 5px; /* Reduce space */
+        gap: 5px;
+        /* Option 2: Absolute position top right (more complex) */
+        /* position: absolute; */
+        /* top: 10px; */
+        /* right: 10px; */
+     }
+     .notification-actions .btn-action {
+         font-size: 0.7em; /* Even smaller buttons */
+         padding: 2px 6px;
+     }
+}
+/* Add this to your style.css */
+
+/* Container for buttons in the profile right column */
+.profile-action-buttons {
+    display: flex; /* Arrange buttons side-by-side */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 15px; /* Space between buttons */
+    margin-bottom: 30px; /* Space below the buttons before the history */
+}
+
+/* Style for the buttons within this container */
+.profile-action-buttons .btn {
+    flex-grow: 1; /* Allow buttons to grow and fill space */
+    text-align: center;
+    /* Resetting potential width from other styles if needed */
+    width: auto;
+    max-width: none; /* Override any max-width */
+    /* Ensure icons align nicely */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 15px; /* Adjust padding as needed */
+}
+
+.profile-action-buttons .btn i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+/* Optional: Specific style if dashboard button needs differentiation */
+.dashboard-btn {
+    background-color: var(--dark-green); /* Example: Different color */
+}
+.dashboard-btn:hover {
+    background-color: var(--primary-green); /* Example: Different hover */
+}
+
+
+/* Responsive adjustments for the buttons */
+@media (max-width: 600px) {
+    .profile-action-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    .profile-action-buttons .btn {
+         width: 100%; /* Make buttons full width when stacked */
+    }
+}
