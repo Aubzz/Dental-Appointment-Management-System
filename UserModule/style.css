@@ -1,0 +1,1190 @@
+/* style.css - Combined Styles */
+
+/* Define Color Variables - Includes variables from both sets */
+:root {
+    /* Teal/Green scheme */
+    --primary-green: #0A744F;
+    --dark-green: #00796b;
+    --body-bg-fallback: #D3F2E0; /* Fallback & Card Background */
+    --card-bg-color: #D3F2E0; /* Explicitly for cards */
+    --very-light-green-bg: #f1f8f7; /* Lighter backgrounds */
+    --header-green: #0A744F; /* Modal header */
+    --button-green: #0A744F; /* Main buttons */
+    --button-hover-green: #085a3e; /* Darker hover for main buttons */
+    --border-color: #0A744F; /* Input borders */
+    --text-color: #333;
+    --text-muted: #555;
+    --text-secondary: #40997A; /* Section titles */
+    --white: #ffffff;
+    --placeholder-gray: #bdbdbd;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --shadow-hover-color: rgba(0, 0, 0, 0.15);
+    --danger-red: #e57373; /* Required asterisk, potentially notifications */
+    --light-border-color: #e0e0e0; /* Table borders, dividers */
+
+    /* Status colors - Added for Profile Page */
+    --status-scheduled-bg: #fff3e0; /* Light orange */
+    --status-scheduled-text: #ff9800; /* Orange text */
+    --status-completed-bg: #e8f5e9; /* Light green */
+    --status-completed-text: #4caf50; /* Green text */
+}
+
+/* Basic Reset & Body Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--body-bg-fallback);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    /* Optional: Add background-image URL */
+    /* background-image: url('path/to/your/background.jpg'); */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: var(--white);
+    padding: 0 20px 40px 20px;
+    position: relative;
+    z-index: 1;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+/* ========================================= */
+/* Header Styles (Shared)                    */
+/* ========================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: var(--white);
+    border-bottom: 2px solid var(--body-bg-fallback);
+    margin: 0 -20px 20px -20px; /* Extend background */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon {
+    display: inline-block;
+    height: 35px;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+header h1 {
+    font-size: 1.7em;
+    color: var(--dark-green);
+    font-weight: 600;
+}
+
+/* Navigation Container */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between nav links and user actions */
+}
+
+/* Navigation Links List */
+nav ul {
+    list-style: none;
+    display: flex;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+nav ul li {
+    margin-left: 10px;
+}
+nav ul li:first-child {
+    margin-left: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--dark-green);
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-size: 0.9em;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+nav ul li a:hover {
+    background-color: var(--body-bg-fallback);
+    color: var(--dark-green);
+}
+
+nav ul li a.active {
+    background-color: var(--primary-green);
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Header Actions (Notifications, User Dropdown) - Added for Profile */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-bell {
+    color: var(--dark-green);
+    font-size: 1.2em;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.notification-bell:hover {
+    color: var(--primary-green);
+}
+
+/* Optional Notification Badge Style */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: var(--danger-red);
+    color: var(--white);
+    font-size: 0.65em;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 5px;
+    line-height: 1;
+}
+
+.user-profile-dropdown {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: 8px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.user-profile-dropdown:hover {
+     background-color: var(--very-light-green-bg);
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--light-border-color);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+
+.user-role {
+    font-size: 0.8em;
+    color: var(--text-muted);
+}
+
+.dropdown-arrow {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    margin-left: 5px;
+}
+
+/* ========================================= */
+/* Main Content Area Styles                  */
+/* ========================================= */
+main {
+    padding-top: 30px; /* Default top padding */
+}
+
+/* --- Styles specific to Doctors Page --- */
+.doctors-section h2 {
+    text-align: center;
+    color: var(--primary-green);
+    margin-bottom: 35px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.doctor-card {
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 3px 8px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--body-bg-fallback);
+}
+
+.doctor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px var(--shadow-hover-color);
+}
+
+.doctor-image-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    border: 4px solid var(--white);
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.doctor-image-placeholder img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.doctor-card h3 {
+    color: var(--dark-green);
+    margin-bottom: 15px;
+    font-size: 1.25em;
+    font-weight: 600;
+}
+
+.doctor-details {
+    text-align: left;
+    margin-bottom: 25px;
+    color: var(--text-muted);
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.doctor-details p {
+    margin-bottom: 6px;
+}
+
+/* --- Styles specific to Profile Page --- */
+main.profile-page {
+    padding-top: 20px; /* Override default padding */
+}
+
+.page-title { /* Style for "Patient Profile" heading */
+    text-align: left;
+    color: var(--primary-green);
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    font-weight: 600;
+    padding-left: 5px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.profile-left,
+.profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Base Card Style for Profile Sections */
+.patient-summary-card,
+.personal-info-card,
+.appointment-history { /* Apply card style to these */
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px var(--shadow-color);
+    border: 1px solid var(--body-bg-fallback);
+}
+
+/* Patient Summary Card */
+.patient-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.patient-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.summary-details {
+    flex-grow: 1;
+}
+
+.detail-item {
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-label {
+    display: block;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.detail-value {
+    font-size: 1em;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* Personal Information Card */
+.personal-info-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-border-color);
+}
+
+.personal-info-card h3 {
+    color: var(--dark-green);
+    font-size: 1.25em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.edit-info-btn {
+    background: none;
+    border: none;
+    color: var(--primary-green);
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+.edit-info-btn:hover {
+    color: var(--dark-green);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.info-grid > div {
+    line-height: 1.4;
+}
+
+.info-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.85em;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.info-value {
+    font-size: 0.95em;
+    color: var(--text-color);
+    font-weight: 400;
+    word-break: break-word;
+}
+
+/* Profile Right Column Specifics */
+.book-appointment-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    padding: 12px 20px;
+}
+.book-appointment-btn i {
+    margin-right: 8px;
+}
+.book-appointment-btn:hover {
+    background-color: var(--button-hover-green);
+    transform: translateY(-2px) scale(1.02); /* Combine effects */
+}
+
+/* Appointment History Card */
+.appointment-history h3 {
+    color: var(--dark-green);
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-border-color);
+}
+
+.appointment-history table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.appointment-history th,
+.appointment-history td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-border-color);
+}
+
+.appointment-history thead th {
+    background-color: var(--very-light-green-bg);
+    color: var(--dark-green);
+    font-weight: 600;
+    white-space: nowrap;
+}
+.appointment-history tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.appointment-history tbody tr:hover {
+    background-color: var(--very-light-green-bg);
+}
+
+/* Status Cell Styling */
+.status {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-align: center;
+    display: inline-block;
+    min-width: 90px;
+}
+
+.status-scheduled {
+    background-color: var(--status-scheduled-bg);
+    color: var(--status-scheduled-text);
+}
+
+.status-completed {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-text);
+}
+
+/* ========================================= */
+/* Button Styles (Base - Shared)             */
+/* ========================================= */
+.btn {
+    display: inline-block;
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    align-self: center; /* Default alignment for flex context */
+    text-align: center;
+    font-size: 0.95em;
+}
+.btn:hover {
+    background-color: var(--dark-green); /* Default hover */
+    transform: scale(1.03);
+}
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* ========================================= */
+/* Modal Styles (From Original)              */
+/* ========================================= */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    animation: fadeInOverlay 0.3s ease forwards;
+}
+
+@keyframes fadeInOverlay {
+    from { background-color: rgba(0,0,0,0); }
+    to { background-color: rgba(0, 0, 0, 0.55); }
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--white);
+    margin: 5vh auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: slideInModal 0.35s ease-out forwards;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+@keyframes slideInModal {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: var(--header-green);
+    border-bottom: none;
+    flex-shrink: 0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--white);
+    font-size: 1.25em;
+    font-weight: 600;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--white);
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    opacity: 1;
+    color: var(--white);
+}
+
+/* Modal Tabs */
+.modal-tabs {
+    display: flex;
+    background-color: var(--white);
+    flex-shrink: 0;
+    border-bottom: 1px solid #eee;
+    padding: 0 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 10px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color 0.2s ease, border-color 0.2s ease;
+    text-align: center;
+    font-size: 0.9em;
+    margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+    color: var(--dark-green);
+}
+
+.tab-btn.active {
+    color: var(--primary-green);
+    border-bottom-color: var(--primary-green);
+}
+
+/* Modal Body (Contains Tab Content) */
+.modal-body {
+     padding: 20px 25px 0 25px;
+     flex: 1;
+     overflow-y: auto;
+     min-height: 0;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    animation: fadeInContent 0.3s ease forwards;
+    padding-bottom: 25px;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* Required fields note */
+.required-note {
+    font-size: 0.8em;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    font-style: normal;
+    text-align: left;
+}
+.required-note::before {
+    content: "* ";
+    color: var(--danger-red);
+    font-weight: bold;
+}
+
+/* Form Groups */
+.modal-content .form-group {
+    margin-bottom: 16px;
+}
+
+/* Labels */
+.modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+/* Inputs and Selects in Modal */
+.modal-content input[type="text"],
+.modal-content input[type="tel"],
+.modal-content input[type="date"],
+.modal-content input[type="time"],
+.modal-content select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95em;
+    background-color: var(--white);
+    color: var(--text-color);
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.modal-content input::placeholder {
+    color: var(--placeholder-gray);
+    opacity: 1;
+}
+.modal-content input:focus,
+.modal-content select:focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 0 2px rgba(10, 116, 79, 0.2);
+}
+.modal-content select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300796B%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.4-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px auto;
+    padding-right: 35px;
+}
+.modal-content input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.modal-content input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 0.9;
+}
+
+/* Side-by-side Time Inputs */
+.time-inputs {
+    display: flex;
+    gap: 15px;
+}
+.time-inputs .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+.time-inputs + .form-group {
+     margin-top: 16px;
+}
+
+/* Headings inside form */
+.modal-content h4 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+    font-size: 1.05em;
+    font-weight: 600;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.modal-content h4:first-of-type {
+    margin-top: 0;
+}
+.modal-content .details-heading {
+    margin-top: 35px;
+}
+
+/* Form Actions (Button Container) */
+.modal-content .form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #eee;
+    padding-top: 25px;
+    padding-bottom: 5px;
+}
+
+/* Modal Button Styling */
+.modal-content .btn {
+    align-self: unset; /* Override base btn alignment */
+    min-width: 150px;
+    width: auto;
+}
+
+/* Modal Submit/Book Button */
+.modal-content .btn.btn-submit {
+    background-color: var(--button-green);
+    color: var(--white);
+    padding: 12px 40px;
+    font-size: 1em;
+    font-weight: 600;
+    width: 100%;
+    max-width: 250px;
+}
+.modal-content .btn.btn-submit:hover {
+    background-color: var(--button-hover-green);
+    transform: scale(1.02);
+}
+
+/* --- Animations --- */
+@keyframes fadeInContent {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ========================================= */
+/* Responsive Adjustments (Combined)         */
+/* ========================================= */
+@media (max-width: 992px) {
+    /* --- Header/Nav --- */
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+    }
+    header h1 {
+         font-size: 1.6em;
+    }
+     nav {
+       width: 100%;
+       flex-wrap: wrap;
+       justify-content: space-between;
+       margin-top: 15px;
+    }
+    nav ul {
+       padding-left: 0;
+       margin-bottom: 10px; /* Space if actions wrap below */
+       justify-content: flex-start; /* Keep nav left aligned */
+       flex-wrap: wrap;
+    }
+     nav ul li {
+        margin-left: 0;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+    .header-actions {
+        margin-left: auto; /* Push actions right if space allows */
+        /* They might wrap below nav ul on narrower end of this breakpoint */
+    }
+
+    /* --- Doctors Page --- */
+    .doctors-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    /* --- Profile Page --- */
+    .profile-grid {
+        gap: 20px; /* Reduce gap */
+    }
+
+    /* --- Modal --- */
+    /* No specific modal changes here, handled in lower breakpoints */
+}
+
+@media (max-width: 768px) {
+    /* --- Container --- */
+    .container {
+        padding: 0 15px 30px 15px;
+    }
+
+    /* --- Header/Nav --- */
+    header {
+        margin: 0 -15px 20px -15px;
+    }
+     nav ul {
+        justify-content: center; /* Center nav links */
+        width: 100%; /* Ensure it takes full width before centering */
+     }
+
+    /* --- Doctors Page --- */
+    /* No specific changes here, covered by grid auto-fit */
+
+    /* --- Profile Page --- */
+    .profile-grid {
+        grid-template-columns: 1fr; /* Stack columns */
+        gap: 25px;
+    }
+    .patient-summary-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .summary-details {
+        width: 100%;
+    }
+    .detail-label {
+         text-align: center;
+    }
+    .info-grid {
+        grid-template-columns: 1fr; /* Stack info items */
+        gap: 15px;
+    }
+    .appointment-history th,
+    .appointment-history td {
+        padding: 10px 8px;
+    }
+    .appointment-history th:first-child,
+    .appointment-history td:first-child {
+       padding-left: 0;
+    }
+     .appointment-history th:last-child,
+    .appointment-history td:last-child {
+       padding-right: 0;
+    }
+    .appointment-history td.status { /* Optional: center status */
+        text-align: center;
+    }
+
+    /* --- Modal --- */
+     .modal-content {
+        width: 92%;
+     }
+     .modal-header h2 {
+        font-size: 1.15em;
+     }
+     .modal-content .form-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding-top: 20px;
+        margin-top: 25px;
+     }
+     .modal-content .btn.btn-submit {
+         width: 100%;
+         max-width: 300px;
+     }
+     .modal-content .btn.cancel { /* Hide potential second button */
+         display: none;
+     }
+     .time-inputs { /* Stack time inputs */
+         flex-direction: column;
+         gap: 16px;
+     }
+     .time-inputs + .form-group {
+         margin-top: 16px;
+     }
+}
+
+@media (max-width: 600px) {
+    /* --- Container & Body --- */
+    .container {
+        margin: 0 auto;
+        padding: 0 10px 20px 10px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    /* Optional: Add body padding if needed */
+    /* body { padding: 10px 0; } */
+    /* .container { margin: 0 auto; } */
+
+    /* --- Header/Nav --- */
+    header {
+        padding: 12px 15px;
+        margin: 0 -10px 15px -10px;
+        border-radius: 0;
+    }
+     header h1 {
+        font-size: 1.3em;
+    }
+    nav ul {
+        margin-bottom: 10px;
+    }
+     nav ul li {
+        margin: 0 4px 5px 4px; /* Adjust spacing */
+    }
+     nav ul li a {
+        padding: 6px 8px;
+        font-size: 0.85em;
+     }
+    .header-actions { /* Center actions below nav */
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+        gap: 25px;
+        margin-top: 10px;
+    }
+
+    /* --- Main Content --- */
+    main {
+        padding-top: 20px;
+    }
+    main.profile-page {
+        padding-top: 15px;
+    }
+
+    /* --- Page Titles --- */
+    .doctors-section h2 { /* Doctors title */
+        font-size: 1.5em;
+        margin-bottom: 25px;
+    }
+    .page-title { /* Profile title */
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    /* --- Doctors Page --- */
+    .doctors-grid {
+       grid-template-columns: 1fr; /* Single column */
+       gap: 20px;
+    }
+    .doctor-card {
+        width: 100%;
+        max-width: none;
+        padding: 20px;
+    }
+
+    /* --- Profile Page --- */
+    .patient-summary-card,
+    .personal-info-card,
+    .appointment-history { /* Reduce card padding */
+        padding: 20px;
+    }
+    .patient-photo {
+        width: 80px;
+        height: 80px;
+    }
+    .appointment-history table {
+        font-size: 0.85em;
+    }
+    .appointment-history th,
+    .appointment-history td {
+        padding: 8px 5px;
+    }
+    .status {
+        min-width: 80px;
+        font-size: 0.75em;
+    }
+
+    /* --- Modal --- */
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+        margin: 2.5vh auto;
+    }
+    .modal-body {
+        padding: 15px 20px 0 20px;
+    }
+    .tab-btn {
+        font-size: 0.85em;
+        padding: 12px 5px;
+    }
+    .modal-content label {
+        font-size: 0.8em;
+    }
+    .modal-content input, .modal-content select {
+        font-size: 0.9em;
+        padding: 9px 10px;
+    }
+    .modal-content .btn.btn-submit {
+        padding: 11px 30px;
+        font-size: 0.95em;
+    }
+}
+
+/* Add styles for dropdown menu functionality if needed */
+/* .user-profile-dropdown .dropdown-menu { display: none; ... } */
+/* .user-profile-dropdown:hover .dropdown-menu { display: block; ... } */
+/* Add these styles to your style.css */
+
+/* ========================================= */
+/* Authentication Page Styles                */
+/* ========================================= */
+
+body.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    /* Background from body styles will apply */
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px; /* Adjust width as needed */
+}
+
+.auth-card {
+    background-color: var(--white);
+    padding: 30px 40px; /* More padding */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--light-border-color);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-header .logo-icon {
+    height: 40px; /* Slightly larger logo */
+    margin-bottom: 10px;
+}
+
+.auth-header h2 {
+    color: var(--primary-green);
+    font-size: 1.6em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.auth-card .form-group {
+    margin-bottom: 18px; /* Consistent spacing */
+}
+
+/* Use existing modal label/input styles */
+.auth-card label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.auth-card input[type="text"],
+.auth-card input[type="email"],
+.auth-card input[type="password"],
+.auth-card input[type="tel"],
+.auth-card input[type="date"],
+.auth-card textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95em;
+    background-color: var(--white);
+    color: var(--text-color);
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.auth-card input::placeholder,
+.auth-card textarea::placeholder {
+    color: var(--placeholder-gray);
+    opacity: 1;
+}
+.auth-card input:focus,
+.auth-card textarea:focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 0 2px rgba(10, 116, 79, 0.2);
+}
+
+.auth-card textarea {
+    min-height: 80px; /* Set a min height for textarea */
+    resize: vertical; /* Allow vertical resize */
+}
+
+
+.auth-card .btn-submit {
+    width: 100%; /* Full width button */
+    padding: 12px 20px;
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 10px; /* Space above button */
+    /* Uses base .btn styles for color/hover */
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9em;
+}
+
+.auth-links a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.auth-links .forgot-password {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: var(--text-muted);
+}
+/* Responsive Adjustments for Auth */
+@media (max-width: 600px) {
+    .auth-card {
+        padding: 25px 20px;
+    }
+    .auth-header h2 {
+        font-size: 1.4em;
+    }
+}
