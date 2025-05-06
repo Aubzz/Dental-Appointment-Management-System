@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escosia Dental Clinic - My Appointments</title>
+    <!-- Link to your existing CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Optional: Font Awesome if you want icons for actions -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!-- Re-use the exact same header structure -->
+            <div class="logo">
+                <img src="teeth.png" alt="Tooth Logo" class="logo-icon"> <!-- Make sure teeth.png exists -->
+                <h1>Escosia Dental Clinic</h1>
+            </div>
+            <nav>
+                <ul>
+                    <!-- Update active class -->
+                    <li><a href="home.html">HOME</a></li> <!-- Assuming home.html or similar -->
+                    <li><a href="doctors_patient.html">DOCTORS</a></li>
+                    <li><a href="patient_notifications.html">NOTIFICATIONS</a></li> <!-- Assuming notifications.html -->
+                    <li><a href="patient_appointments.html" class="active">APPOINTMENTS</a></li> <!-- Set this as active -->
+                    <li><a href="patient_profile.html">PROFILE</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="appointments-section"> <!-- New section class for styling if needed -->
+                <h2>MY APPOINTMENTS</h2>
+
+                <!-- Scheduled Appointments Section -->
+                <div class="appointment-list scheduled-appointments">
+                    <h3>Scheduled Appointments</h3>
+                    <div class="table-responsive"> <!-- Wrapper for horizontal scroll on small screens -->
+                        <table class="appointment-table"> <!-- Use a class for styling -->
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Doctor</th>
+                                    <th>Status</th>
+                                    <th>Actions</th> <!-- Optional: Add actions -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example Scheduled Appointment 1 -->
+                                <tr>
+                                    <td>2024-08-15</td>
+                                    <td>10:00 AM</td>
+                                    <td>Dr. Monte</td>
+                                    <td><span class="status status-scheduled">Scheduled</span></td>
+                                    <td>
+                                        <button class="btn-action reschedule" aria-label="Reschedule Appointment">Reschedule</button>
+                                        <button class="btn-action cancel" aria-label="Cancel Appointment">Cancel</button>
+                                    </td>
+                                </tr>
+                                <!-- Example Scheduled Appointment 2 -->
+                                <tr>
+                                    <td>2024-09-01</td>
+                                    <td>02:30 PM</td>
+                                    <td>Dr. Ashford</td>
+                                    <td><span class="status status-scheduled">Scheduled</span></td>
+                                     <td>
+                                        <button class="btn-action reschedule" aria-label="Reschedule Appointment">Reschedule</button>
+                                        <button class="btn-action cancel" aria-label="Cancel Appointment">Cancel</button>
+                                    </td>
+                                </tr>
+                                <!-- Add this row if there are NO scheduled appointments -->
+                                <!--
+                                <tr>
+                                    <td colspan="5" class="no-appointments">No upcoming appointments scheduled.</td>
+                                </tr>
+                                -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Appointment History Section -->
+                <div class="appointment-list completed-appointments">
+                    <h3>Appointment History</h3>
+                    <div class="table-responsive">
+                        <table class="appointment-table"> <!-- Re-use the same table class -->
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Doctor</th>
+                                    <th>Status</th>
+                                    <!-- No actions column needed for history -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example Completed Appointment 1 -->
+                                <tr>
+                                    <td>2024-05-20</td>
+                                    <td>09:00 AM</td>
+                                    <td>Dr. Khan</td>
+                                    <td><span class="status status-completed">Completed</span></td>
+                                </tr>
+                                <!-- Example Completed Appointment 2 -->
+                                <tr>
+                                    <td>2024-03-11</td>
+                                    <td>01:00 PM</td>
+                                    <td>Dr. Ashford</td>
+                                    <td><span class="status status-completed">Completed</span></td>
+                                </tr>
+                                <!-- Example Completed Appointment 3 -->
+                                <tr>
+                                    <td>2023-12-05</td>
+                                    <td>11:00 AM</td>
+                                    <td>Dr. Monte</td>
+                                    <td><span class="status status-completed">Completed</span></td>
+                                </tr>
+                                <!-- Add this row if there is NO history -->
+                                <!--
+                                <tr>
+                                    <td colspan="4" class="no-appointments">No past appointment history found.</td>
+                                </tr>
+                                -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Optional: Include the Modal IF you want to trigger booking/rescheduling from this page -->
+    <!-- <div id="appointmentModal" class="modal"> ... your modal code ... </div> -->
+
+    <!-- Link to your script file (if needed for button actions, etc.) -->
+    <!-- <script src="script.js"></script> -->
+    <script>
+        // Add any specific JavaScript for this page here
+        // For example, handling clicks on Reschedule/Cancel buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            const rescheduleButtons = document.querySelectorAll('.btn-action.reschedule');
+            const cancelButtons = document.querySelectorAll('.btn-action.cancel');
+
+            rescheduleButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // Placeholder: Add logic to open a reschedule modal or navigate
+                    alert('Reschedule functionality not implemented yet.');
+                    console.log('Reschedule clicked for appointment:', e.target.closest('tr'));
+                });
+            });
+
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // Placeholder: Add logic for confirmation and cancellation
+                    if (confirm('Are you sure you want to cancel this appointment?')) {
+                         alert('Cancellation functionality not implemented yet.');
+                         console.log('Cancel confirmed for appointment:', e.target.closest('tr'));
+                         // In a real app, you'd make an API call here and potentially remove the row
+                    }
+                });
+            });
+
+             // Logic to show/hide "No appointments" messages based on actual data
+             // This is a basic example assuming the placeholders are commented out initially
+             const scheduledTableBody = document.querySelector('.scheduled-appointments tbody');
+             const completedTableBody = document.querySelector('.completed-appointments tbody');
+
+             if (scheduledTableBody && scheduledTableBody.querySelectorAll('tr').length === 0) {
+                 scheduledTableBody.innerHTML = '<tr><td colspan="5" class="no-appointments">No upcoming appointments scheduled.</td></tr>';
+             }
+              if (completedTableBody && completedTableBody.querySelectorAll('tr').length === 0) {
+                 completedTableBody.innerHTML = '<tr><td colspan="4" class="no-appointments">No past appointment history found.</td></tr>';
+             }
+        });
+    </script>
+
+</body>
+</html>
