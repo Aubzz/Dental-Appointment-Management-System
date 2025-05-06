@@ -1631,3 +1631,161 @@ body.auth-page {
          width: 100%; /* Make buttons full width when stacked */
     }
 }
+/* style.css */
+
+/* Styles for Profile Edit Mode */
+.personal-info-card .info-input,
+.personal-info-card textarea.info-input { /* Added textarea */
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: -2px; /* Adjust to align better with label */
+    margin-bottom: 5px; /* Space below input */
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9em; /* Match info-value size */
+    font-family: inherit;
+    background-color: var(--white);
+    color: var(--text-color);
+}
+
+.personal-info-card .info-input:focus,
+.personal-info-card textarea.info-input:focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 0 2px rgba(10, 116, 79, 0.2);
+}
+.personal-info-card textarea.info-input {
+    resize: vertical; /* Allow textarea resize */
+    min-height: 50px; /* Minimum height for textarea */
+}
+
+
+.personal-info-card .edit-actions {
+    display: flex; /* Will be toggled by JS */
+    gap: 10px;
+    margin-left: auto; /* Push to the right */
+}
+
+.personal-info-card .edit-actions .btn {
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+.personal-info-card .btn-save-info {
+    /* Uses base .btn styles */
+}
+.personal-info-card .btn-cancel-edit {
+    background-color: var(--text-muted); /* Grey out cancel */
+    border-color: var(--text-muted);
+}
+.personal-info-card .btn-cancel-edit:hover {
+    background-color: #888; /* Darker grey */
+    border-color: #888;
+}
+
+/* Ensure header action buttons align items */
+.personal-info-card .card-header {
+    align-items: center;
+}
+
+/* Add or modify these styles in your style.css */
+
+.doctors-section {
+    /* Optional: if you want the "OUR DOCTORS" heading and the scroll container
+       to be centered within the .doctors-section if the section is wider */
+    /* max-width: 920px; /* Approx 3 cards + padding */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+.doctors-scroll-container {
+    display: flex; /* Helps if you want to center the grid later, but not strictly needed for scroll */
+    overflow-x: auto;   /* Enable horizontal scrolling */
+    overflow-y: hidden;  /* Hide vertical scrollbar */
+    padding-bottom: 20px; /* Space for scrollbar and aesthetics */
+    /* Set a max-width for the scrollable area to show approx. 3 cards */
+    /* This calculation depends on your .doctor-card width and gap */
+    /* Assuming card width: 280px, gap: 25px */
+    /* (3 * 280px) + (2 * 25px) = 840px + 50px = 890px */
+    /* Add a little extra for padding within the grid or container itself */
+    max-width: 900px; /* Adjust this value based on your card size and gap */
+    margin-left: auto;  /* Center the scroll container if its parent is wider */
+    margin-right: auto; /* Center the scroll container */
+}
+
+.doctors-grid {
+    display: flex;     /* Lay out cards in a row */
+    flex-wrap: nowrap; /* Prevent cards from wrapping */
+    gap: 25px;         /* Space between cards */
+    padding-left: 5px; /* Small padding at the start of the grid */
+    padding-right: 5px;/* Small padding at the end of the grid */
+    /* The grid itself can be wider than its container, triggering scroll */
+}
+
+.doctor-card {
+    flex-shrink: 0; /* Prevent cards from shrinking */
+    width: 280px;   /* Fixed width for each card - IMPORTANT for calculation */
+    /* ... your other existing .doctor-card styles (background, padding, shadow, etc.) ... */
+    background-color: var(--card-bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 3px 8px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--body-bg-fallback);
+}
+
+.doctor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px var(--shadow-hover-color);
+}
+
+/* Optional: Scrollbar styling (as before) */
+.doctors-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+.doctors-scroll-container::-webkit-scrollbar-track {
+    background: var(--very-light-green-bg);
+    border-radius: 10px;
+}
+.doctors-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 10px;
+}
+.doctors-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-green);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 920px) { /* Adjust breakpoint if needed based on max-width of scroll container */
+    .doctors-scroll-container {
+        /* If screen is narrower than 3 cards, let it take full available width */
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .doctor-card {
+        width: 240px; /* Adjust card width for smaller screens */
+    }
+    .doctors-grid {
+        gap: 20px;
+    }
+    /* Recalculate .doctors-scroll-container max-width if you still want to show a specific number of cards */
+    /* For 2 cards on tablet: (2 * 240px) + (1 * 20px) = 480px + 20px = 500px */
+    /* .doctors-scroll-container { max-width: 500px; } */
+    /* Or let it be 100% and show as many as fit */
+}
+
+@media (max-width: 600px) {
+    .doctor-card {
+        width: 210px; /* Adjust card width for mobile */
+    }
+    .doctors-grid {
+        gap: 15px;
+    }
+    /* For 1.5 or 2 cards on mobile, adjust max-width */
+    /* Or let it be 100% */
+}
