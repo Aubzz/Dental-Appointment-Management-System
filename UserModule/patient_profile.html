@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="page-patient-profile"> <!-- This class is important for the JS -->
+<body class="page-patient-profile">
 
     <div class="container">
         <header>
@@ -17,6 +17,7 @@
             </div>
             <nav>
                  <ul>
+                    <li><a href="home.html">HOME</a></li>
                     <li><a href="doctors_patient.html">DOCTORS</a></li>
                     <li><a href="patient_notifications.html">NOTIFICATIONS</a></li>
                     <li><a href="patient_appointments.html">APPOINTMENTS</a></li>
@@ -41,110 +42,58 @@
 
         <main class="profile-page">
             <h2 class="page-title">Patient Profile</h2>
-
             <div class="profile-grid">
-                <!-- Left Column -->
                 <div class="profile-left">
                     <section class="patient-summary-card">
                         <img src="patient.jpg" alt="Photo of Jen Hernandez" class="patient-photo">
                         <div class="summary-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Patient Name</span>
-                                <!-- This will be updated by JS if first/last name are edited -->
-                                <span class="detail-value" data-field="fullNameDisplay">Jen Hernandez</span>
-                            </div>
-                             <div class="detail-item">
-                                <span class="detail-label">Gender</span>
-                                <!-- If gender is editable, add data-field here too and handle in JS -->
-                                <span class="detail-value" data-field="genderDisplay">Female</span>
-                            </div>
-                             <div class="detail-item">
-                                <span class="detail-label">Age</span>
-                                <!-- Age would typically be calculated from DOB if DOB is editable -->
-                                <span class="detail-value" data-field="ageDisplay">24</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Next Appointment</span>
-                                <span class="detail-value">11.27.2024</span> <!-- This is static example data -->
-                            </div>
+                            <div class="detail-item"><span class="detail-label">Patient Name</span><span class="detail-value" data-field="fullNameDisplay">Jen Hernandez</span></div>
+                            <div class="detail-item"><span class="detail-label">Gender</span><span class="detail-value" data-field="genderDisplay">Female</span></div>
+                            <div class="detail-item"><span class="detail-label">Age</span><span class="detail-value" data-field="ageDisplay">24</span></div>
+                            <div class="detail-item"><span class="detail-label">Next Appointment</span><span class="detail-value">11.27.2024</span></div>
                         </div>
                     </section>
-
-                    <!-- **** MODIFIED THIS SECTION **** -->
                     <section class="personal-info-card" id="personalInfoCard">
                         <div class="card-header">
                             <h3>Personal Information</h3>
-                            <button class="edit-info-btn" aria-label="Edit Personal Information" title="Edit Personal Information">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <!-- Save/Cancel buttons will appear here when editing -->
+                            <button class="edit-info-btn" aria-label="Edit Personal Information" title="Edit Personal Information"><i class="fas fa-pencil-alt"></i></button>
                             <div class="edit-actions" style="display: none;">
                                 <button class="btn btn-save-info"><i class="fas fa-save"></i> Save</button>
                                 <button class="btn btn-cancel-edit"><i class="fas fa-times"></i> Cancel</button>
                             </div>
                         </div>
                         <div class="info-grid">
-                            <div>
-                                <span class="info-label">First Name</span>
-                                <span class="info-value" data-field="firstName">Jen</span>
-                            </div>
-                            <div>
-                                <span class="info-label">Last Name</span>
-                                <span class="info-value" data-field="lastName">Hernandez</span>
-                            </div>
-                            <div>
-                                <span class="info-label">Email address</span>
-                                <span class="info-value" data-field="email">jenhernandez@gmail.com</span>
-                            </div>
-                             <div>
-                                <span class="info-label">Phone number</span>
-                                <span class="info-value" data-field="phone">09263125749</span>
-                            </div>
-                            <div class="full-width">
-                                <span class="info-label">Home address</span>
-                                <span class="info-value" data-field="address">San Marcelino St, Ayala Blvd, Ermita, Manila, 1000</span>
-                            </div>
-                            <div>
-                                <span class="info-label">Date of Birth</span>
-                                <span class="info-value" data-field="dob">2000-07-21</span>
-                            </div>
+                            <div><span class="info-label">First Name</span><span class="info-value" data-field="firstName">Jen</span></div>
+                            <div><span class="info-label">Last Name</span><span class="info-value" data-field="lastName">Hernandez</span></div>
+                            <div><span class="info-label">Email address</span><span class="info-value" data-field="email">jenhernandez@gmail.com</span></div>
+                            <div><span class="info-label">Phone number</span><span class="info-value" data-field="phone">09263125749</span></div>
+                            <div class="full-width"><span class="info-label">Home address</span><span class="info-value" data-field="address">San Marcelino St, Ayala Blvd, Ermita, Manila, 1000</span></div>
+                            <div><span class="info-label">Date of Birth</span><span class="info-value" data-field="dob">2000-07-21</span></div>
                         </div>
                     </section>
-                    <!-- **** END OF MODIFIED SECTION **** -->
                 </div>
-
-                <!-- Right Column -->
                 <div class="profile-right">
                     <div class="profile-action-buttons">
-                        <a href="patient_dashboard.html" class="btn dashboard-btn">
-                            <i class="fas fa-tachometer-alt"></i> My Dashboard
-                        </a>
-                        <a href="#" class="btn book-appointment-btn open-modal-btn">
-                            <i class="fas fa-plus"></i> Book an Appointment
-                        </a>
+                        <a href="patient_dashboard.html" class="btn dashboard-btn"><i class="fas fa-tachometer-alt"></i> My Dashboard</a>
+                        <a href="#" class="btn book-appointment-btn open-modal-btn"><i class="fas fa-plus"></i> Book an Appointment</a>
                     </div>
-
                     <section class="appointment-history">
                         <h3>Appointment History</h3>
                         <table>
-                            <thead>
-                                <tr><th>Attending Dentist</th><th>Date and Time</th><th>Status</th></tr>
-                            </thead>
+                            <thead><tr><th>Attending Dentist</th><th>Date and Time</th><th>Status</th></tr></thead>
                             <tbody>
                                 <tr><td>Dr. Rebecca Stone</td><td>11.27.2024 / 12:00 PM</td><td class="status status-scheduled">SCHEDULED</td></tr>
                                 <tr><td>Dr. Valerie Wayne</td><td>10.12.2024 / 10:00 AM</td><td class="status status-completed">COMPLETED</td></tr>
                             </tbody>
                         </table>
-                        <div style="text-align: center; margin-top: 15px;">
-                             <a href="patient_appointments.html" style="font-size: 0.9em; color: var(--primary-green);">View All Appointments</a>
-                        </div>
+                        <div style="text-align: center; margin-top: 15px;"><a href="patient_appointments.html" style="font-size: 0.9em; color: var(--primary-green);">View All Appointments</a></div>
                     </section>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Appointment Modal HTML (ensure this is correct) -->
+    <!-- Appointment Modal HTML -->
     <div id="appointmentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -162,56 +111,34 @@
                     <form id="newPatientForm">
                         <input type="hidden" id="selectedDoctor" name="selectedDoctor">
                         <h4>Patient Information</h4>
+                        <div class="form-group"><label for="lastNameNP">*Last Name</label><input type="text" id="lastNameNP" name="lastName" placeholder="Enter Last Name" required></div>
+                        <div class="form-group"><label for="firstNameNP">*First Name</label><input type="text" id="firstNameNP" name="firstName" placeholder="Enter First Name" required></div>
                         <div class="form-group">
-                            <label for="lastName">*Last Name</label>
-                            <input type="text" id="lastName" name="lastName" placeholder="Enter Last Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="firstName">*First Name</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="Enter First Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="gender">*Gender</label>
-                            <select id="gender" name="gender" required>
-                                <option value="" disabled selected>Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                                <option value="prefer_not_say">Prefer not to say</option>
+                            <label for="genderNP">*Gender</label>
+                            <select id="genderNP" name="gender" required>
+                                <option value="" disabled selected>Select Gender</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option><option value="prefer_not_say">Prefer not to say</option>
                             </select>
                         </div>
-                         <div class="form-group">
-                            <label for="contactNumber">Contact Number</label>
-                            <input type="tel" id="contactNumber" name="contactNumber" placeholder="Enter Contact Number">
-                        </div>
+                        <div class="form-group"><label for="contactNumberNP">Contact Number</label><input type="tel" id="contactNumberNP" name="contactNumber" placeholder="Enter Contact Number"></div>
 
                         <h4 class="details-heading">Appointment Details</h4>
-                        <div class="form-group">
-                             <label for="appointmentDate">*Date</label>
-                             <input type="date" id="appointmentDate" name="appointmentDate" required>
-                        </div>
+                        <div class="form-group"><label for="appointmentDateNP">*Date</label><input type="date" id="appointmentDateNP" name="appointmentDate" required></div>
                         <div class="time-inputs">
-                            <div class="form-group">
-                                <label for="startTime">*Set Start Time</label>
-                                <input type="time" id="startTime" name="startTime" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="endTime">*Set End Time</label>
-                                <input type="time" id="endTime" name="endTime" required>
-                            </div>
+                            <div class="form-group"><label for="startTimeNP">*Set Start Time</label><input type="time" id="startTimeNP" name="startTime" required></div>
+                            <div class="form-group"><label for="endTimeNP">*Set End Time</label><input type="time" id="endTimeNP" name="endTime" required></div>
                         </div>
                         <div class="form-group">
-                            <label for="dentistInCharge">*Dentist In-charge</label>
-                            <select id="dentistInCharge" name="dentistInCharge" required>
-                                <option value="" disabled selected>Select Dentist</option>
-                                <option value="Dr. Ashford">Dr. Ashford</option>
-                                <option value="Dr. Monte">Dr. Monte</option>
-                                <option value="Dr. Khan">Dr. Khan</option>
+                            <label for="dentistInChargeNP">*Dentist In-charge</label>
+                            <select id="dentistInChargeNP" name="dentistInCharge" required>
+                                <option value="" disabled selected>Select Dentist</option><option value="Dr. Ashford">Dr. Ashford</option><option value="Dr. Monte">Dr. Monte</option><option value="Dr. Khan">Dr. Khan</option>
                             </select>
                         </div>
-                        <div class="form-actions">
-                             <button type="submit" class="btn btn-submit">Save</button>
+                        <div class="form-group">
+                            <label for="reasonForVisitNP">Reason for Visit / Purpose</label>
+                            <!-- **** INCREASED ROWS HERE **** -->
+                            <textarea id="reasonForVisitNP" name="reasonForVisit" rows="5" placeholder="Briefly describe the reason for your appointment (e.g., check-up, toothache, cleaning, consultation)"></textarea>
                         </div>
+                        <div class="form-actions"><button type="submit" class="btn btn-submit">Save</button></div>
                     </form>
                 </div>
 
@@ -220,46 +147,29 @@
                      <p class="required-note">Please provide details to find your record. Fields with * are required.</p>
                      <form id="existingPatientForm">
                         <input type="hidden" id="selectedDoctorExisting" name="selectedDoctorExisting">
-                         <h4>Patient Lookup</h4>
-                         <div class="form-group">
-                            <label for="existingLastName">*Last Name</label>
-                            <input type="text" id="existingLastName" name="existingLastName" placeholder="Enter Last Name" required>
+                        <h4>Patient Lookup</h4>
+                        <div class="form-group"><label for="existingLastName">*Last Name</label><input type="text" id="existingLastName" name="existingLastName" placeholder="Enter Last Name" required></div>
+                        <div class="form-group"><label for="existingDob">*Date of Birth</label><input type="date" id="existingDob" name="existingDob" required></div>
+                        <div class="form-group"><label for="existingContactEP">Contact Number (Optional)</label><input type="tel" id="existingContactEP" name="existingContact" placeholder="Enter Contact Number"></div>
+
+                        <h4 class="details-heading">Appointment Details</h4>
+                        <div class="form-group"><label for="appointmentDateExistingEP">*Date</label><input type="date" id="appointmentDateExistingEP" name="appointmentDateExisting" required></div>
+                        <div class="time-inputs">
+                            <div class="form-group"><label for="startTimeExistingEP">*Set Start Time</label><input type="time" id="startTimeExistingEP" name="startTimeExisting" required></div>
+                            <div class="form-group"><label for="endTimeExistingEP">*Set End Time</label><input type="time" id="endTimeExistingEP" name="endTimeExisting" required></div>
                         </div>
-                         <div class="form-group">
-                            <label for="existingDob">*Date of Birth</label>
-                            <input type="date" id="existingDob" name="existingDob" required>
+                        <div class="form-group">
+                            <label for="dentistInChargeExistingEP">*Dentist In-charge</label>
+                            <select id="dentistInChargeExistingEP" name="dentistInChargeExisting" required>
+                                <option value="" disabled selected>Select Dentist</option><option value="Dr. Ashford">Dr. Ashford</option><option value="Dr. Monte">Dr. Monte</option><option value="Dr. Khan">Dr. Khan</option>
+                            </select>
                         </div>
-                         <div class="form-group">
-                            <label for="existingContact">Contact Number (Optional)</label>
-                            <input type="tel" id="existingContact" name="existingContact" placeholder="Enter Contact Number">
+                        <div class="form-group">
+                            <label for="reasonForVisitEP">Reason for Visit / Purpose</label>
+                            <!-- **** INCREASED ROWS HERE **** -->
+                            <textarea id="reasonForVisitEP" name="reasonForVisit" rows="5" placeholder="Briefly describe the reason for your appointment (e.g., follow-up, new issue, cleaning)"></textarea>
                         </div>
-                         <h4 class="details-heading">Appointment Details</h4>
-                         <div class="form-group">
-                             <label for="appointmentDateExisting">*Date</label>
-                             <input type="date" id="appointmentDateExisting" name="appointmentDateExisting" required>
-                         </div>
-                         <div class="time-inputs">
-                             <div class="form-group">
-                                 <label for="startTimeExisting">*Set Start Time</label>
-                                 <input type="time" id="startTimeExisting" name="startTimeExisting" required>
-                             </div>
-                             <div class="form-group">
-                                 <label for="endTimeExisting">*Set End Time</label>
-                                 <input type="time" id="endTimeExisting" name="endTimeExisting" required>
-                             </div>
-                         </div>
-                         <div class="form-group">
-                             <label for="dentistInChargeExisting">*Dentist In-charge</label>
-                             <select id="dentistInChargeExisting" name="dentistInChargeExisting" required>
-                                 <option value="" disabled selected>Select Dentist</option>
-                                 <option value="Dr. Ashford">Dr. Ashford</option>
-                                 <option value="Dr. Monte">Dr. Monte</option>
-                                 <option value="Dr. Khan">Dr. Khan</option>
-                             </select>
-                         </div>
-                        <div class="form-actions">
-                             <button type="submit" class="btn btn-submit">Find & Book</button>
-                        </div>
+                        <div class="form-actions"><button type="submit" class="btn btn-submit">Find & Book</button></div>
                      </form>
                 </div>
             </div>

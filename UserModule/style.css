@@ -1789,3 +1789,36 @@ body.auth-page {
     /* For 1.5 or 2 cards on mobile, adjust max-width */
     /* Or let it be 100% */
 }
+
+/* In style.css */
+
+/* In style.css */
+
+.modal-content textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95em;
+    background-color: var(--white);
+    color: var(--text-color);
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+    min-height: 100px; /* Set your desired fixed or minimum height */
+    /* height: 100px; /* Or a fixed height */
+
+    /* --- ADD OR CHANGE THIS LINE --- */
+    resize: none;     /* This will prevent the user from resizing it */
+}
+
+.modal-content textarea::placeholder {
+    color: var(--placeholder-gray);
+    opacity: 1;
+}
+
+.modal-content textarea:focus {
+    outline: none;
+    border-color: var(--dark-green);
+    box-shadow: 0 0 0 2px rgba(10, 116, 79, 0.2);
+}
