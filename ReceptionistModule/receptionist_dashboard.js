@@ -19,8 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let hasVisibleRows = false;
         dataRows.forEach(row => {
-             // Check if the row is visible (not explicitly hidden by JS display: none)
-            if (row.style.display !== 'none') {
+            if (row.style.display !== 'none') { // Check if the row is not hidden
                 hasVisibleRows = true;
             }
         });
@@ -32,72 +31,238 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- AM/PM Button Toggle (Specific to elements on this page) ---
-    // This needs to be included if time input groups appear outside modals on this page,
-    // or if modal logic doesn't re-attach listeners itself.
-    // In our case, the request modal logic re-attaches, so we don't need a global one here.
 
-    // --- Modal Logic for Request Actions (Accept/Decline) ---
+    // --- Calendar Logic (Lives in common_calendar.js) ---
+    // This logic is handled by common_calendar.js. Make sure it's included.
+
+
+    // --- AM/PM Button Toggle (Specific to forms on this page) ---
+    // This handler is needed for the booking form that will appear in the appointment modal
+    const allAmpmButtons = document.querySelectorAll('#appointmentModalBody .ampm-btn'); // Target buttons within the appointment modal body
+     if (allAmpmButtons.length > 0) {
+         allAmpmButtons.forEach(button => {
+             button.addEventListener('click', () => {
+                 const parentGroup = button.closest('.time-input-group');
+                 if (parentGroup) {
+                      parentGroup.querySelectorAll('.ampm-btn').forEach(btn => btn.classList.remove('active'));
+                      button.classList.add('active');
+                 }
+             });
+         });
+     }
+
+
+    // --- Modal Logic for Request Details (Reuse requestModalOverlay) ---
     const requestModalOverlay = document.getElementById('requestModalOverlay');
     const requestModalContent = document.getElementById('requestModalContent');
     const requestModalTitle = document.getElementById('requestModalTitle');
     const requestModalBody = document.getElementById('requestModalBody');
-    const requestModalFooter = document.getElementById('requestModalFooter');
-    const requestModalCloseButton = document.getElementById('requestModalCloseButton');
+    const requestModalFooter = document.getElementById('requestModalFooter'); // Footer will be hidden/empty for details view
+    const requestModalCloseButton = document.getElementById('requestModalCloseButton'); // Make sure this ID matches HTML
 
-    // Function to open the request action modal
-    function openRequestModal(type, requestId, requestData) {
+
+     // Function to open the request details modal
+    function openRequestDetailsModal(requestId, requestData) { // requestData for simulation
          if (!requestModalOverlay || !requestModalTitle || !requestModalBody || !requestModalFooter) {
             console.error("Request modal elements not found!");
             return;
          }
         requestModalOverlay.classList.add('visible');
         requestModalBody.innerHTML = ''; // Clear previous content
-        requestModalFooter.innerHTML = ''; // Clear footer buttons
-        requestModalFooter.style.display = 'flex'; // Assume footer needed for actions
+        requestModalFooter.style.display = 'none'; // Hide footer
 
-        // --- Set Modal Content Based on Type ---
-        if (type === 'accept') {
-            requestModalTitle.textContent = 'Accept Appointment Request';
-            displayAcceptRequestForm(requestId, requestData); // Show booking form
-            addModalFooterButton(requestModalFooter, 'Confirm Booking', 'btn-primary', 'confirmBookingButton');
-        } else if (type === 'decline') {
-            requestModalTitle.textContent = 'Decline Appointment Request';
-            displayDeclineRequestForm(requestId, requestData); // Show decline message form
-             addModalFooterButton(requestModalFooter, 'Send Decline Message', 'btn-primary', 'sendDeclineButton');
-             addModalFooterButton(requestModalFooter, 'Cancel', 'btn-secondary', 'cancelDeclineButton');
-        } else {
-            requestModalTitle.textContent = 'Request Details';
-            requestModalBody.innerHTML = '<p>Invalid request action.</p>';
-             requestModalFooter.style.display = 'none';
-        }
+        // --- Set Modal Content ---
+        requestModalTitle.textContent = 'Appointment Request Details';
+        displayRequestDetailsContent(requestId, requestData); // Display details content
 
-         // Add event listeners specific to the content if needed (e.g., AM/PM buttons in accept form)
-         addRequestModalContentListeners();
+        // No form-specific listeners needed for this view
     }
 
-    // Function to close the request action modal
+    // Function to close the request modal
     function closeRequestModal() {
          if (!requestModalOverlay) return;
         requestModalOverlay.classList.remove('visible');
     }
 
-     // Helper to add a button to the modal footer
-     function addModalFooterButton(footerElement, text, classes, id) {
+     // Function to display the details of a request in the modal body
+     // Includes the "Accept and Book" button directly in the body
+     function displayRequestDetailsContent(requestId, requestData) {
+         if (!requestModalBody) return;
+          console.log(`Displaying details for request ID: ${requestId}`, requestData);
+
+          // --- TODO: In a real app, FETCH full request data from backend using requestId ---
+          // Include patient's message/notes in the fetched data
+          /*
+          requestModalBody.innerHTML = '<p>Loading details...</p>'; // Show loading
+          fetch(`/api/get_request_details.php?id=${requestId}`) // Replace with your endpoint
+          .then(response => {
+               if (!response.ok) throw new Error('Failed to fetch details');
+               return response.json(); // Assuming backend returns full details including patient message
+           })
+          .then(fullData => {
+               // Render the fetched data into the modal body
+                requestModalBody.innerHTML = `
+                   <p><strong>Request ID:</strong> ${requestId}</p>
+                   <p><strong>Patient Name:</strong> ${fullData.patientName || 'N/A'}</p>
+                   <p><strong>Preferred Date & Time:</strong> ${fullData.preferredDateTime || 'N/A'}</p>
+                   <p><strong>Purpose:</strong> ${fullData.purpose || 'N/A'}</p>
+                   <p><strong>Patient's Message/Notes:</strong><br>${fullData.patientMessage || 'None provided.'}</p>
+                   <!-- Add any other relevant request details -->
+                   <hr class="content-separator">
+                   <div class="form-group" style="margin-bottom: 0;"> <!-- Use form-group styling -->
+                        <button class="btn btn-primary" id="modalAcceptAndBookButton" data-request-id="${requestId}">Accept and Book</button>
+                   </div>
+                `;
+                // Add listener to the button within the modal body
+                 addRequestDetailsButtonListeners();
+            })
+           .catch(error => {
+               console.error("Error fetching request details:", error);
+                requestModalBody.innerHTML = '<p>Error loading request details.</p>';
+            });
+          */
+
+          // --- Current Simulation (using passed rowData and adding a placeholder message) ---
+          if (!requestData) { // Fallback if no row data was passed
+               requestModalBody.innerHTML = `<p>Simulated Details Modal for Request ID: ${requestId}</p><p>Full details would be fetched from backend.</p>`;
+               requestData = { patientName: 'N/A', preferredDateTime: 'N/A', purpose: 'N/A' }; // Use default placeholder
+          }
+
+          // Simulate adding a placeholder message (in a real app, fetch this from backend)
+          const simulatedPatientMessage = "Patient prefers morning appointments if possible.";
+
+
+          requestModalBody.innerHTML = `
+             <p><strong>Request ID:</strong> ${requestId}</p>
+             <p><strong>Patient Name:</strong> ${requestData.patientName || 'N/A'}</p>
+             <p><strong>Preferred Date & Time:</strong> ${requestData.preferredDateTime || 'N/A'}</p>
+             <p><strong>Purpose:</strong> ${requestData.purpose || 'N/A'}</p>
+             <p><strong>Patient's Message/Notes:</strong><br>${requestData.patientMessage || simulatedPatientMessage}</p> <!-- Use placeholder message -->
+             <!-- Add any other relevant request details -->
+             <hr class="content-separator">
+             <div class="form-group" style="margin-bottom: 0;">
+                  <!-- Add the action button directly here -->
+                  <button class="btn btn-primary" id="modalAcceptAndBookButton" data-request-id="${requestId}">Accept and Book</button>
+                  <!-- The decline button is removed from here -->
+             </div>
+          `;
+           // Add listener to the button within the modal body
+           addRequestDetailsButtonListeners();
+          // --- End Simulation ---
+     }
+
+     // Helper to add listeners to buttons WITHIN the request details modal body
+     function addRequestDetailsButtonListeners() {
+         if (!requestModalBody) return;
+         // Listener for the "Accept and Book" button inside the request details modal
+         requestModalBody.querySelector('#modalAcceptAndBookButton').addEventListener('click', handleModalAcceptAndBookClick);
+     }
+
+     // Handler for the "Accept and Book" button *INSIDE* the request details modal
+     function handleModalAcceptAndBookClick(event) {
+          const requestId = event.target.dataset.requestId;
+          console.log(`Modal 'Accept and Book' button clicked for request ID: ${requestId}`);
+
+          // --- TODO: Close the request details modal and OPEN the appointment booking modal ---
+
+          // First, close the current request details modal
+          closeRequestModal();
+
+          // Then, find the original request row to get data for pre-filling the booking form
+           const requestRow = document.querySelector(`#appointment-requests-table tbody tr[data-request-id="${requestId}"]`);
+           const requestData = requestRow ? {
+               patientName: requestRow.cells[0] ? requestRow.cells[0].textContent.trim() : 'N/A',
+               preferredDateTime: requestRow.cells[1] ? requestRow.cells[1].textContent.trim() : 'N/A',
+               purpose: requestRow.cells[2] ? requestRow.cells[2].textContent.trim() : 'N/A',
+               // Need full patient details (like Patient ID for the select) and dentist list
+               // ideally fetched from backend when opening the booking modal
+           } : null;
+
+           if (requestData) {
+               // Open the separate Appointment Booking Modal ('appointmentModalOverlay')
+               // Pass request data so the booking form can be pre-filled
+                console.log("Opening Appointment Booking Modal...");
+                // Using 'book' type for the appointment modal
+                openAppointmentModal('book', requestId, requestData); // Pass request ID and data
+           } else {
+               console.error("Could not retrieve request data from row for booking.");
+               alert("Error: Cannot proceed with booking.");
+           }
+
+     }
+
+
+    // --- Modal Logic for Appointment Booking (Copy/Adapt from receptionist_appointments_logic.js) ---
+    // This logic uses the appointmentModalOverlay structure which should be in dashboard.html
+    const appointmentModalOverlay = document.getElementById('appointmentModalOverlay');
+    const appointmentModalContent = document.getElementById('appointmentModalContent');
+    const appointmentModalTitle = document.getElementById('appointmentModalTitle');
+    const appointmentModalBody = document.getElementById('appointmentModalBody');
+    const appointmentModalFooter = document.getElementById('appointmentModalFooter'); // Footer for this modal
+    const appointmentModalCloseButton = document.getElementById('appointmentModalCloseButton'); // Close button for this modal
+
+
+     // Helper to add a button to the appointment modal footer
+     function addAppointmentModalFooterButton(text, classes, id) {
+         if (!appointmentModalFooter) return;
          const button = document.createElement('button');
          button.textContent = text;
          button.className = 'btn ' + classes;
          button.id = id;
-         footerElement.appendChild(button);
+         appointmentModalFooter.appendChild(button);
          return button;
      }
 
+     // Function to open the appointment modal (used for booking from request)
+     // Add a 'book' type to the existing openAppointmentModal logic structure
+    function openAppointmentModal(type, id, data = null) { // id is request ID for 'book' type
+         if (!appointmentModalOverlay || !appointmentModalTitle || !appointmentModalBody || !appointmentModalFooter) {
+            console.error("Appointment modal elements not found!");
+            return;
+         }
+        appointmentModalOverlay.classList.add('visible');
+        appointmentModalBody.innerHTML = ''; // Clear previous content
+        appointmentModalFooter.innerHTML = ''; // Clear footer buttons
+        appointmentModalFooter.style.display = 'flex'; // Default to flex for forms
 
-    // Function to display the booking form for Accepting a request
-    function displayAcceptRequestForm(requestId, requestData) {
-         if (!requestModalBody) return;
-         console.log(`Displaying accept form for request ID: ${requestId}`, requestData);
+        // --- Set Modal Content and Footer Buttons Based on Type ---
+        if (type === 'book') { // New type for booking from request
+             appointmentModalTitle.textContent = 'Book Appointment';
+             // Pass request ID and data to the booking form display
+             displayBookAppointmentForm(id, data);
+             addAppointmentModalFooterButton('Confirm Booking', 'btn-primary', 'confirmBookingButton'); // Add confirm button
+             addAppointmentModalFooterButton('Cancel', 'btn-secondary', 'cancelBookingButton'); // Add cancel button
+        }
+        // Note: If you also added View/Edit actions for Today's Appointments on the dashboard,
+        // you would add 'view' and 'edit' cases here, along with their display functions
+        // and corresponding footer buttons/listeners.
+        /*
+        else if (type === 'view') { ... displayAppointmentDetails(id, data); ... }
+        else if (type === 'edit') { ... displayEditAppointmentForm(id, data); ... }
+        */
+        else {
+             appointmentModalTitle.textContent = 'Modal Error'; appointmentModalFooter.style.display = 'none';
+              appointmentModalBody.innerHTML = '<p>Invalid modal type.</p>';
+        }
 
+        // Re-attach listeners for form elements inside this modal (like AM/PM) if they exist
+         addAppointmentModalFormListeners();
+    }
+
+    // Function to close the appointment modal
+    function closeAppointmentModal() {
+        if (!appointmentModalOverlay) return;
+        appointmentModalOverlay.classList.remove('visible');
+    }
+
+
+    // Function to display the booking form for Accepting/Booking an appointment from a request
+    // Adapted from previous displayAcceptRequestForm or displayEditAppointmentForm
+    function displayBookAppointmentForm(requestId, requestData) { // Uses requestId here
+         if (!appointmentModalBody) return;
+         console.log(`Displaying booking form for request ID: ${requestId}`, requestData);
+
+         // --- Parse Preferred Date and Time from requestData ---
          let preferredDate = '';
          let preferredTimeValue = '09:00';
          let isPM = false;
@@ -124,107 +289,66 @@ document.addEventListener('DOMContentLoaded', () => {
               }
          }
 
-         requestModalBody.innerHTML = `
-              <form id="acceptRequestForm" data-request-id="${requestId}">
-                  <p>Review and confirm appointment details for:</p>
+         appointmentModalBody.innerHTML = `
+              <form id="bookAppointmentFromRequestForm" data-request-id="${requestId}">
+                  <p>Confirm appointment details for:</p>
                    <div class="form-group">
-                      <label for="acceptPatientName">Patient Name:</label>
-                      <input type="text" id="acceptPatientName" class="form-control" value="${requestData.patientName || ''}" disabled>
+                      <label for="bookPatientName">Patient Name:</label>
+                      <!-- In a real app, this would be a SELECT or search input linked to patient records -->
+                      <!-- For now, display from request data -->
+                      <input type="text" id="bookPatientName" class="form-control" value="${requestData.patientName || 'N/A'}" disabled>
+                      <!-- Hidden input for actual Patient ID needed by backend -->
+                       <!-- <input type="hidden" name="patient_id" value="FETCH_PATIENT_ID_FROM_BACKEND"> -->
+                   </div>
+
+                   <div class="form-group">
+                      <label for="bookPurpose">Purpose of Visit:</label>
+                      <textarea id="bookPurpose" name="purpose" class="form-control" rows="2" required>${requestData.purpose || ''}</textarea> <!-- Purpose can often be edited slightly -->
                   </div>
 
-                   <div class="form-group">
-                      <label for="acceptPurpose">Purpose of Visit:</label>
-                      <textarea id="acceptPurpose" class="form-control" rows="2" disabled>${requestData.purpose || ''}</textarea>
-                  </div>
-
-                  <hr class="content-separator">
+                  <hr class="content-separator"> <!-- Small separator -->
 
                    <div class="form-group">
-                      <label for="assignDentist">Assign Dentist:</label>
-                      <select id="assignDentist" name="dentist_id" class="form-control" required>
+                      <label for="bookAssignDentist">Assign Dentist:</label>
+                      <select id="bookAssignDentist" name="dentist_id" class="form-control" required>
                           <option value="">-- Select Dentist --</option>
                           <!-- Populate dynamically from backend -->
                           <option value="dentist1">Dr. Smith</option>
                           <option value="dentist2">Dr. Lee</option>
                           <!-- Add more dentist options -->
                       </select>
+                       <small class="form-help">Select the dentist for this appointment.</small>
                   </div>
 
                   <div class="form-group form-group-date-time">
                       <div class="form-group-half">
-                          <label for="acceptAppointmentDate">Date:</label>
-                          <input type="date" id="acceptAppointmentDate" name="appointment_date" class="form-control" value="${preferredDate}" required>
+                          <label for="bookAppointmentDate">Date:</label>
+                          <input type="date" id="bookAppointmentDate" name="appointment_date" class="form-control" value="${preferredDate}" required>
                       </div>
                       <div class="form-group-half">
-                           <label for="acceptAppointmentTime">Time:</label>
+                           <label for="bookAppointmentTime">Time:</label>
                             <div class="time-input-group">
-                                <input type="text" id="acceptAppointmentTime" name="appointment_time" class="form-control time-input" placeholder="HH:MM" value="${preferredTimeValue}" required pattern="[0-9]{2}:[0-9]{2}">
+                                <input type="text" id="bookAppointmentTime" name="appointment_time" class="form-control time-input" placeholder="HH:MM" value="${preferredTimeValue}" required pattern="[0-9]{2}:[0-9]{2}">
                                 <button type="button" class="ampm-btn ${isAM ? 'active' : ''}">AM</button>
                                 <button type="button" class="ampm-btn ${isPM ? 'active' : ''}">PM</button>
                             </div>
                              <small class="form-help">Enter time as HH:MM (e.g., 09:00, 01:30).</small>
                       </div>
                   </div>
+                   <!-- Hidden input for the original request ID being processed -->
                    <input type="hidden" name="request_id" value="${requestId}">
               </form>
          `;
+         // Re-attach AM/PM button listeners to the newly created buttons
+          addAppointmentModalFormListeners();
     }
 
-     // Function to display the form for Declining a request
-     function displayDeclineRequestForm(requestId, requestData) {
-         if (!requestModalBody) return;
-          console.log(`Displaying decline form for request ID: ${requestId}`, requestData);
 
-          requestModalBody.innerHTML = `
-              <form id="declineRequestForm" data-request-id="${requestId}">
-                   <p>Send a message to ${requestData.patientName || 'the patient'} regarding their request for ${requestData.preferredDateTime || 'the requested date/time'}.</p>
-
-                   <div class="form-group">
-                       <label for="declineReason">Reason for Decline:</label>
-                       <select id="declineReason" name="decline_reason_template" class="form-control">
-                           <option value="">-- Select a reason or write below --</option>
-                           <option value="dentist_unavailable">Dentist unavailable at requested time.</option>
-                           <option value="fully_booked">Practice is fully booked at that time.</option>
-                           <option value="service_not_offered">Requested service not offered.</option>
-                            <option value="patient_details_missing">Missing required patient details.</option>
-                           <option value="other">Other (specify below)</option>
-                       </select>
-                   </div>
-
-                  <div class="form-group">
-                      <label for="declineMessage">Message to Patient:</label>
-                      <textarea id="declineMessage" name="decline_message" class="form-control" rows="6" required placeholder="e.g., Dear [Patient Name], Unfortunately, Dr. [Dentist Name] is not available at your requested time of [Time] on [Date]..."></textarea>
-                       <small class="form-help">Customize the message based on the reason and suggest alternatives if possible.</small>
-                  </div>
-                   <input type="hidden" name="request_id" value="${requestId}">
-              </form>
-          `;
-
-          const declineReasonSelect = requestModalBody.querySelector('#declineReason');
-          const declineMessageTextarea = requestModalBody.querySelector('#declineMessage');
-          if(declineReasonSelect && declineMessageTextarea) {
-              declineReasonSelect.addEventListener('change', (event) => {
-                   const selectedTemplate = event.target.value;
-                   const patientName = requestData.patientName || 'the patient';
-                   const dateTime = requestData.preferredDateTime || 'the requested time';
-                   const purpose = requestData.purpose || 'the requested service';
-                   let messageTemplate = '';
-                   switch(selectedTemplate) {
-                       case 'dentist_unavailable': messageTemplate = `Dear ${patientName},\n\nUnfortunately, the dentist you requested is not available at your requested time of ${dateTime} for your ${purpose}. We apologize for the inconvenience.\n\nPlease contact us to discuss alternative times or other available dentists.\n\nSincerely,\nEscosia Dental Clinic`; break;
-                       case 'fully_booked': messageTemplate = `Dear ${patientName},\n\nThank you for your appointment request for ${dateTime} for your ${purpose}. Unfortunately, we are fully booked at that specific time.\n\nWe could offer you an appointment on [Alternative Date] at [Alternative Time]. Please contact us to reschedule.\n\nSincerely,\nEscosia Dental Clinic`; break;
-                       case 'service_not_offered': messageTemplate = `Dear ${patientName},\n\nThank you for your request regarding ${purpose}. We currently do not offer this specific service at our clinic.\n\nWe recommend you consult with a specialist in [Suggested Field]. You can find more information on common dental services on our website.\n\nSincerely,\nEscosia Dental Clinic`; break;
-                       case 'patient_details_missing': messageTemplate = `Dear ${patientName},\n\nThank you for your appointment request. We need some additional information to process your request for ${dateTime} (${purpose}).\n\nPlease contact us by phone or reply to this message with the required details.\n\nSincerely,\nEscosia Dental Clinic`; break;
-                       case 'other': default: messageTemplate = `Dear ${patientName},\n\nRegarding your appointment request for ${dateTime} (${purpose})...\n\nSincerely,\nEscosia Dental Clinic`; break;
-                   }
-                   declineMessageTextarea.value = messageTemplate;
-              });
-          }
-     }
-
-     // Helper to add listeners to elements inside the request modal body after it's loaded
-     function addRequestModalContentListeners() {
-          if (!requestModalBody) return;
-           const modalAmpmButtons = requestModalBody.querySelectorAll('.time-input-group .ampm-btn');
+     // Helper to add listeners to form elements inside the appointment modal body after it's loaded
+     function addAppointmentModalFormListeners() {
+          if (!appointmentModalBody) return;
+          // Re-attach AM/PM button listeners if present in the form
+           const modalAmpmButtons = appointmentModalBody.querySelectorAll('.time-input-group .ampm-btn');
             modalAmpmButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const parentGroup = button.closest('.time-input-group');
@@ -234,160 +358,180 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             });
+            // Add other form-specific listeners here if needed (e.g., date picker, select changes)
      }
 
 
     // --- Event Listeners for Request Modal ---
-    if (requestModalCloseButton) { requestModalCloseButton.addEventListener('click', closeRequestModal); }
-    if (requestModalOverlay) { requestModalOverlay.addEventListener('click', (event) => { if (event.target === requestModalOverlay) { closeRequestModal(); } }); }
 
+    // Close request modal when clicking the close button
+    if (requestModalCloseButton) {
+         requestModalCloseButton.addEventListener('click', closeRequestModal);
+    }
+
+    // Close request modal when clicking outside the modal content
+    if (requestModalOverlay) {
+        requestModalOverlay.addEventListener('click', (event) => {
+            if (event.target === requestModalOverlay) {
+                closeRequestModal();
+            }
+        });
+    }
+
+     // No footer buttons for the request details modal now, actions are in the body.
+     // Listener for the modal footer is not needed for this specific request modal anymore.
+     /*
      if (requestModalFooter) {
-         requestModalFooter.addEventListener('click', (event) => {
+          requestModalFooter.addEventListener('click', (event) => { ... });
+     }
+     */
+
+
+    // --- Event Listeners for Appointment Booking Modal ---
+    // Close appointment modal when clicking the close button
+     if (appointmentModalCloseButton) {
+         appointmentModalCloseButton.addEventListener('click', closeAppointmentModal);
+     }
+
+     // Close appointment modal when clicking outside the modal content
+    if (appointmentModalOverlay) {
+        appointmentModalOverlay.addEventListener('click', (event) => {
+            if (event.target === appointmentModalOverlay) {
+                closeAppointmentModal();
+            }
+        });
+    }
+
+     // Handle clicks within the appointment modal footer (Booking form buttons)
+     if (appointmentModalFooter) {
+         // Use event delegation for the footer buttons as they are added/removed dynamically
+         appointmentModalFooter.addEventListener('click', (event) => {
               const target = event.target;
-              if (target.id === 'confirmBookingButton') {
-                   console.log("Confirm Booking button clicked.");
-                   const acceptForm = requestModalBody ? requestModalBody.querySelector('#acceptRequestForm') : null;
-                   if (acceptForm) { handleAcceptRequestBooking(acceptForm); } else { console.error("Accept request form not found."); }
-              } else if (target.id === 'sendDeclineButton') {
-                  console.log("Send Decline Message button clicked.");
-                   const declineForm = requestModalBody ? requestModalBody.querySelector('#declineRequestForm') : null;
-                   if (declineForm) { handleDeclineMessage(declineForm); } else { console.error("Decline form not found."); }
-              } else if (target.id === 'cancelDeclineButton') {
-                   console.log("Cancel Decline clicked."); closeRequestModal();
+
+              // Handle Booking form buttons
+              if (target.id === 'confirmBookingButton') { // ID for the confirm button in the booking form
+                   console.log("Confirm Booking button clicked (Appointment Modal).");
+                   const bookingForm = appointmentModalBody ? appointmentModalBody.querySelector('#bookAppointmentFromRequestForm') : null;
+                   if (bookingForm) { handleConfirmBookingSubmit(bookingForm); } else { console.error("Booking form not found in modal body."); }
+              } else if (target.id === 'cancelBookingButton') { // ID for the cancel button in the booking form
+                   console.log("Cancel Booking clicked (Appointment Modal)."); closeAppointmentModal();
               }
          });
      }
 
+     // Function to handle the Booking form submission from the appointment modal
+     function handleConfirmBookingSubmit(form) {
+         const requestId = form.dataset.requestId; // Get the original request ID
+          if (!requestId) { console.error("Request ID not found on booking form."); alert("Error: Cannot confirm booking."); return; }
 
-     // Function to handle the Accept Request Booking Form Submission
-     function handleAcceptRequestBooking(form) {
-         const requestId = form.dataset.requestId;
-          if (!requestId) { console.error("Request ID not found on accept form."); alert("Error: Cannot confirm booking."); return; }
-          if (!form.checkValidity()) { alert('Please fill out all required fields in the booking form.'); return; }
+          // Basic validation for the form inside the modal
+          if (!form.checkValidity()) {
+              alert('Please fill out all required fields in the booking form.');
+              // Optional: Trigger browser's built-in validation messages
+              form.reportValidity();
+              return;
+          }
 
          const formData = new FormData(form);
-         const bookingData = {}; formData.forEach((value, key) => { bookingData[key] = value; });
+         const bookingData = { request_id: requestId }; // Include the original request ID
+         formData.forEach((value, key) => { bookingData[key] = value; });
+
          const selectedAmpmButton = form.querySelector('.ampm-btn.active');
          bookingData['appointment_time_ampm'] = selectedAmpmButton ? selectedAmpmButton.textContent.trim() : 'AM';
 
          console.log("Submitting booking for request ID:", requestId, bookingData);
-         // --- TODO: Add AJAX/Fetch API call here to tell PHP to book the appointment and mark request as accepted ---
 
+         // --- TODO: Add AJAX/Fetch API call here to tell PHP to book the appointment ---
+         // This call should:
+         // 1. Create a new appointment in the database using the form data (patient, dentist, date, time, purpose).
+         // 2. Mark the original request (requestId) as processed (e.g., 'accepted').
+         /*
+         fetch('/api/confirm_booking_from_request.php', { // Replace with your actual endpoint
+             method: 'POST',
+             body: JSON.stringify(bookingData), // Send the collected form data + request_id
+             headers: { 'Content-Type': 'application/json' }
+         })
+         .then(response => {
+              if (!response.ok) throw new Error('Network response was not ok.');
+              return response.json();
+          })
+         .then(data => {
+             console.log('Booking successful:', data);
+             alert('Appointment confirmed and booked!');
+             closeAppointmentModal(); // Close the booking modal
+             // TODO: Remove the original request row from the table on the dashboard page
+             const requestRow = document.querySelector(`#appointment-requests-table tbody tr[data-request-id="${requestId}"]`);
+             if(requestRow) { requestRow.remove(); updateTableVisibility('#appointment-requests-table', '.no-data-row'); }
+             // Optional: Add the newly booked appointment to the Today's Appointments or Upcoming Appointments table dynamically
+         })
+         .catch((error) => {
+             console.error('Error confirming booking:', error);
+             alert('Failed to confirm booking. Please try again.');
+         });
+         */
+
+         // --- Current Simulation (Remove when implementing backend call) ---
          alert(`Booking simulated for request ID ${requestId}.\nAppointment details: ${JSON.stringify(bookingData, null, 2)}\nCheck console for data.`);
-         closeRequestModal();
+         closeAppointmentModal(); // Close the booking modal
+         // Simulate removing the request row from the table
          const requestRow = document.querySelector(`#appointment-requests-table tbody tr[data-request-id="${requestId}"]`);
          if(requestRow) { requestRow.remove(); updateTableVisibility('#appointment-requests-table', '.no-data-row'); }
-     }
-
-     // Function to handle the Decline Message Submission
-     function handleDeclineMessage(form) {
-         const requestId = form.dataset.requestId;
-          if (!requestId) { console.error("Request ID not found on decline form."); alert("Error: Cannot send decline message."); return; }
-           const declineMessageTextarea = form.querySelector('#declineMessage');
-           if (!declineMessageTextarea || declineMessageTextarea.value.trim() === '') {
-               alert('Please enter a message to the patient.');
-               return;
-           }
-
-         const formData = new FormData(form);
-         const declineData = { request_id: requestId };
-         formData.forEach((value, key) => { declineData[key] = value; });
-
-         console.log("Submitting decline for request ID:", requestId, declineData);
-         // --- TODO: Add AJAX/Fetch API call here to tell PHP to decline the request and potentially send message ---
-
-         alert(`Decline simulated for request ID ${requestId}.\nMessage content: "${declineData.decline_message}"\nCheck console for data.`);
-         closeRequestModal();
-         const requestRow = document.querySelector(`#appointment-requests-table tbody tr[data-request-id="${requestId}"]`);
-         if(requestRow) { requestRow.remove(); updateTableVisibility('#appointment-requests-table', '.no-data-row'); }
+         // --- End Simulation ---
      }
 
 
     // --- Action Link Handlers for Tables on Dashboard Page ---
-    // This handles Accept/Decline on the Requests list and potentially View/Edit/Cancel on Today's Appointments
      const requestsTable = document.getElementById('appointment-requests-table');
      const todayAppointmentsTable = document.getElementById('today-appointments-table'); // Get today's appointments table
 
      // Use a single listener on the main content area and check the target's table
-     const dashboardContentArea = document.querySelector('.main-content .content-area'); // Assuming .main-content > .content-area wraps tables
+     const dashboardContentArea = document.querySelector('.main-content .content-area');
 
      if (dashboardContentArea) {
          dashboardContentArea.addEventListener('click', (event) => {
              const target = event.target;
 
              // --- Handle Clicks on #appointment-requests-table ---
-             if (requestsTable && requestsTable.contains(target)) { // Check if click is inside the requests table
-                 if (target.tagName === 'A' && (target.classList.contains('action-accept') || target.classList.contains('action-decline'))) {
+             if (requestsTable && requestsTable.contains(target)) {
+                 // Check if the clicked element is the "See More Details" link
+                 if (target.tagName === 'A' && target.classList.contains('action-view-request')) {
                      const actionLink = target;
-                     const row = actionLink.closest('tr');
+                     const row = actionLink.closest('tr'); // The request row
                      const requestId = row ? row.dataset.requestId : null;
 
                      if (!row || !requestId) { console.warn("Could not find request ID or row for action:", target); alert("Error: Could not identify the request."); return; }
                      event.preventDefault();
+
+                     // Extract data from the row to pass to modal (for simulation)
                      const requestData = {
                          patientName: row.cells[0] ? row.cells[0].textContent.trim() : 'N/A',
                          preferredDateTime: row.cells[1] ? row.cells[1].textContent.trim() : 'N/A',
                          purpose: row.cells[2] ? row.cells[2].textContent.trim() : 'N/A',
+                         // Patient's Message would need to be fetched from backend
+                         // For simulation, add a placeholder patientMessage property here
+                         patientMessage: "Please confirm morning availability." // Example placeholder message
                      };
 
-                     if (actionLink.classList.contains('action-accept')) {
-                         console.log(`Action: ACCEPT request ID ${requestId}`);
-                         openRequestModal('accept', requestId, requestData);
-                     } else if (actionLink.classList.contains('action-decline')) {
-                          console.log(`Action: DECLINE request ID ${requestId}`);
-                          openRequestModal('decline', requestId, requestData);
-                     }
+                     console.log(`Action: VIEW DETAILS for request ID ${requestId}`);
+                     // Open the request details modal
+                     openRequestDetailsModal(requestId, requestData);
+
                  }
              }
 
              // --- Handle Clicks on #today-appointments-table ---
-             if (todayAppointmentsTable && todayAppointmentsTable.contains(target)) { // Check if click is inside today's appointments table
-                  // Add logic here if you want View/Edit/Cancel on Today's Appointments table on the Dashboard
-                  // This would likely use the appointmentModalOverlay and its associated functions
-                  // You'd need to add data-appointment-id to rows in #today-appointments-table
-                  /*
-                   if (target.tagName === 'A' && (target.classList.contains('action-view') || target.classList.contains('action-edit') || target.classList.contains('action-cancel'))) {
-                        const actionLink = target;
-                         const row = actionLink.closest('tr');
-                         const appointmentId = row ? row.dataset.appointmentId : null; // Need data-appointment-id here
-
-                         if (!row || !appointmentId) { console.warn("Could not find today's appointment ID or row:", target); alert("Error: Could not identify the appointment."); return; }
-                         event.preventDefault();
-                         // Extract row data for this table
-                         const rowData = { // Needs correct cell indices
-                              patientName: row.cells[0] ? row.cells[0].textContent.trim() : 'N/A',
-                              dateTime: row.cells[1] ? row.cells[1].textContent.trim() : 'N/A', // Date and Time combined
-                              purpose: row.cells[2] ? row.cells[2].textContent.trim() : 'N/A',
-                              // Dentist/Status likely not here
-                         };
-                         // Parse date/time if needed by openAppointmentModal
-                         let date = 'N/A', time = 'N/A';
-                         if(rowData.dateTime.includes(' / ')) { [date, time] = rowData.dateTime.split(' / '); } else { date = rowData.dateTime; }
-
-                         if (actionLink.classList.contains('action-view')) {
-                             // Call the appointment modal function (if appointmentModalOverlay is on this page)
-                              if (typeof openAppointmentModal === 'function') { // Check if the function exists
-                                 openAppointmentModal('view', appointmentId, { ...rowData, date: date, time: time, dentist: 'N/A', status: 'Confirmed' });
-                              } else { alert(`Viewing details for appointment ID ${appointmentId}.\n(Modal logic not included on this page)`); } // Fallback
-                         } else if (actionLink.classList.contains('action-edit')) {
-                             // Similar call to openAppointmentModal('edit', ...) if edit needed here
-                         } else if (actionLink.classList.contains('action-cancel')) {
-                              // Similar confirm and simulation/backend call for cancellation
-                         }
-                    }
-                  */
-             }
+             // ... (Existing code for Today's Appointments actions if you kept that modal on this page) ...
 
          });
      }
     // --- End Action Link Handlers ---
 
 
-    // --- Book New Appointment Form Submission (Keep if form is on Dashboard too) ---
-    // Note: The original dashboard HTML didn't have the booking form.
-    // If you added it, keep this block. If not, you can remove it.
+    // --- Book New Appointment Form Submission (Keep if on Dashboard) ---
+    // Note: This is for the form if you added it directly to the dashboard page.
+    // It is DIFFERENT from the booking form logic triggered by accepting a request.
     const bookAppointmentForm = document.getElementById('book-appointment-form');
-    if (bookAppointmentForm) {
+    if (bookAppointmentForm) { // Check if this form exists on the page
         bookAppointmentForm.addEventListener('submit', (event) => {
             event.preventDefault();
             if (!bookAppointmentForm.checkValidity()) { alert('Please fill out all required fields.'); return; }
@@ -395,20 +539,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const appointmentData = {}; formData.forEach((value, key) => { appointmentData[key] = value; });
             const selectedAmpmButton = bookAppointmentForm.querySelector('.ampm-btn.active');
             appointmentData['appointment_time_ampm'] = selectedAmpmButton ? selectedAmpmButton.textContent.trim() : 'AM';
-            console.log('Booking new appointment data:', appointmentData);
-            // --- TODO: Add AJAX/Fetch API call here ---
-            alert('Appointment booking simulated.\nCheck console for data.');
+            console.log('Booking new appointment data (from direct form):', appointmentData);
+             // --- TODO: Add AJAX/Fetch API call here ---
+            alert('Appointment booking (from direct form) simulated.\nCheck console for data.');
             bookAppointmentForm.reset();
+             // Optionally, refresh the appointments list or add the new appointment row
         });
     }
 
 
     // --- Initial Table Visibility Checks ---
-    updateTableVisibility('#today-appointments-table', '.no-data-row'); // Dashboard table
-    updateTableVisibility('#appointment-requests-table', '.no-data-row'); // Dashboard table
-    // If you have the #all-appointments-table on the dashboard, also check it:
+    updateTableVisibility('#today-appointments-table', '.no-data-row');
+    updateTableVisibility('#appointment-requests-table', '.no-data-row');
+    // Check other tables if they are on the dashboard page
     // updateTableVisibility('#all-appointments-table', '.no-data-row');
+    // updateTableVisibility('#doctors-table', '.no-data-row');
+    // updateTableVisibility('#patient-records-table', '.no-data-row');
 
 
 });
-

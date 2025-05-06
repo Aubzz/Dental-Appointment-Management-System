@@ -17,14 +17,12 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <!-- This link should have the active class on the Dashboard page -->
-                    <li><a href="receptionist_dashboard.html" class="active"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
-                    <!-- Ensure href is correct for navigation to other pages -->
-                    <li><a href="receptionist_appointment.html"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
-                    <li><a href="receptionist_patient_records.html"><i class="fas fa-chart-bar nav-icon"></i> Patient Records</a></li>
-                    <li><a href="receptionist_reports.html"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li>
-                    <li><a href="receptionist_doctor.html"><i class="fas fa-question-circle nav-icon"></i> Doctors</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
+                    <li><a href="receptionist_dashboard.html" class="active"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li> <!-- Correct icon -->
+                    <li><a href="receptionist_appointment.html"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li> <!-- Correct icon -->
+                    <li><a href="receptionist_patient_records.html"><i class="fas fa-clipboard-list nav-icon"></i> Patient Records</a></li> <!-- Corrected icon -->
+                    <li><a href="receptionist_reports.html"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li> <!-- Correct icon -->
+                    <li><a href="receptionist_doctor.html"><i class="fas fa-user-md nav-icon"></i> Doctors</a></li> <!-- Corrected icon -->
+                    <li><a href="receptionist_signup.html"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li> <!-- Correct icon -->
                 </ul>
             </nav>
         </aside>
@@ -33,10 +31,8 @@
         <div class="main-content">
             <!-- Top Header -->
             <header class="top-header">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <i class="fas fa-search search-icon"></i>
-                </div>
+                 <!-- Add an empty div here to act as a spacer on the left -->
+                <div class="header-spacer"></div>
                 <div class="user-info">
                     <i class="fas fa-bell notification-icon"></i> <!-- Notification Icon -->
                     <img src="../images/jen_hernandez.png" alt="User Avatar" class="user-avatar">
@@ -66,8 +62,6 @@
                                     <th>Patient Name</th>
                                     <th>Date and Time</th>
                                     <th>Purpose</th>
-                                    <!-- Optional: Add Actions column if you want View/Edit/Cancel here -->
-                                    <!-- If adding actions, also add data-appointment-id to tbody rows -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,41 +72,30 @@
                                     <td>Kianna Gragg</td>
                                     <td>11.27.2024 / 12:00 PM</td>
                                     <td>Root Canal</td>
-                                     <!-- Optional Action links (use appointmentModalOverlay) -->
-                                     <!-- <td class="action-links"><a href="#" class="action-view">View</a></td> -->
                                 </tr>
                                 <tr>
                                     <td>Jeanesa Dugang</td>
                                     <td>10.12.2024 / 10:00 AM</td>
                                     <td>Tooth Extraction</td>
-                                     <!-- Optional Action links -->
-                                     <!-- <td class="action-links"><a href="#" class="action-view">View</a></td> -->
                                 </tr>
                                 <tr>
                                     <td>Francis Dayuno</td>
                                     <td>8.21.2024 / 9:00 AM</td>
                                     <td>Cleaning</td>
-                                     <!-- Optional Action links -->
-                                     <!-- <td class="action-links"><a href="#" class="action-view">View</a></td> -->
                                 </tr>
                                  <tr>
                                     <td>Jason Maracha</td>
                                     <td>5.01.2024 / 3:30 PM</td>
                                     <td>Braces Adjustment</td>
-                                     <!-- Optional Action links -->
-                                     <!-- <td class="action-links"><a href="#" class="action-view">View</a></td> -->
                                 </tr>
                                  <tr>
                                     <td>Janine Lapasaran</td>
                                     <td>3.25.2024 / 2:00 PM</td>
                                     <td>Braces Removal</td>
-                                     <!-- Optional Action links -->
-                                     <!-- <td class="action-links"><a href="#" class="action-view">View</a></td> -->
                                 </tr>
                                 <!-- No Data Row (Initially Hidden) -->
                                 <tr class="no-data-row" style="display: none;">
                                     <td colspan="3">No appointments scheduled for today.</td>
-                                    <!-- Adjust colspan if you add an Actions column -->
                                 </tr>
                             </tbody>
                         </table>
@@ -137,8 +120,8 @@
                                     <td>11.27.2024 / 12:00 PM</td>
                                     <td>Tooth Extraction</td>
                                     <td class="action-links">
-                                        <a href="#" class="action-accept">Accept</a>
-                                        <a href="#" class="action-decline">Decline</a>
+                                        <!-- CHANGED: Single link to view details -->
+                                        <a href="#" class="action-view-request">See More Details</a>
                                     </td>
                                 </tr>
                                  <tr data-request-id="req-002">
@@ -146,8 +129,8 @@
                                     <td>11.27.2024 / 12:00 PM</td>
                                     <td>Root Canal</td>
                                     <td class="action-links">
-                                        <a href="#" class="action-accept">Accept</a>
-                                        <a href="#" class="action-decline">Decline</a>
+                                        <!-- CHANGED: Single link to view details -->
+                                        <a href="#" class="action-view-request">See More Details</a>
                                     </td>
                                 </tr>
                                  <tr data-request-id="req-003">
@@ -155,8 +138,8 @@
                                     <td>11.27.2024 / 12:00 PM</td>
                                     <td>Braces</td>
                                     <td class="action-links">
-                                        <a href="#" class="action-accept">Accept</a>
-                                        <a href="#" class="action-decline">Decline</a>
+                                        <!-- CHANGED: Single link to view details -->
+                                        <a href="#" class="action-view-request">See More Details</a>
                                     </td>
                                 </tr>
                                  <tr data-request-id="req-004">
@@ -164,8 +147,8 @@
                                     <td>11.27.2024 / 12:00 PM</td>
                                     <td>Cleaning</td>
                                     <td class="action-links">
-                                        <a href="#" class="action-accept">Accept</a>
-                                        <a href="#" class="action-decline">Decline</a>
+                                        <!-- CHANGED: Single link to view details -->
+                                        <a href="#" class="action-view-request">See More Details</a>
                                     </td>
                                 </tr>
                                  <tr data-request-id="req-005">
@@ -173,8 +156,8 @@
                                     <td>11.27.2024 / 12:00 PM</td>
                                     <td>Adjustment</td>
                                     <td class="action-links">
-                                        <a href="#" class="action-accept">Accept</a>
-                                        <a href="#" class="action-decline">Decline</a>
+                                        <!-- CHANGED: Single link to view details -->
+                                        <a href="#" class="action-view-request">See More Details</a>
                                     </td>
                                 </tr>
                                 <!-- No Data Row (Initially Hidden) -->
@@ -208,7 +191,7 @@
                                 </div>
                                 <div>
                                     <span class="detail-label">Working Hours</span>
-                                    <span class="detail-value">9:00 AM - 3:00 PM</span>
+                                    <span class="detail-value">9:00 AM - 3:00 PM</span
                                 </div>
                             </div>
                         </div>
@@ -252,51 +235,52 @@
         </div> <!-- End Main Content Area -->
     </div> <!-- End Dashboard Container -->
 
-    <!-- --- Modal Structure for Request Actions (Accept/Decline) - Should be here on Dashboard --- -->
+    <!-- --- Modal Structure for Request Details (Reuse this for details) --- -->
     <div id="requestModalOverlay" class="modal-overlay">
         <div id="requestModalContent" class="modal-content">
             <div class="modal-header">
-                <h3 id="requestModalTitle">Appointment Request</h3>
-                <button id="requestModalCloseButton" class="modal-close">×</button>
+                <h3 id="requestModalTitle">Appointment Request Details</h3> <!-- Updated Title ID -->
+                <button id="requestModalCloseButton" class="modal-close">×</button> <!-- Updated Close Button ID -->
             </div>
             <div id="requestModalBody" class="modal-body">
-                <!-- Content will be loaded here by JavaScript (Accept form or Decline message) -->
+                <!-- Content will be loaded here by JavaScript (Details + Accept Button) -->
                 <p>Loading request details...</p> <!-- Placeholder -->
             </div>
-             <div id="requestModalFooter" class="modal-footer" style="display: none;">
-                 <!-- Buttons loaded by JS based on action (Accept or Decline) -->
-            </div>
+             <!-- Optional Footer for buttons -->
+             <!-- We will add buttons directly in the body content now -->
+             <div id="requestModalFooter" class="modal-footer" style="display: none;"></div> <!-- Keep structure, hide footer -->
+
         </div>
     </div>
     <!-- --- End Modal Structure --- -->
 
-     <!-- --- Modal Structure for Viewing/Editing Appointments (Optional on Dashboard) --- -->
-     <!-- Include this block ONLY if you want View/Edit/Cancel actions on the Today's Appointments table -->
-     <!-- If you only need View/Edit on the Appointments page, remove this block from THIS file -->
+     <!-- --- Modal Structure for Appointment Booking (Need this one) --- -->
+     <!-- This modal structure is needed on the Dashboard to book requests -->
      <div id="appointmentModalOverlay" class="modal-overlay">
         <div id="appointmentModalContent" class="modal-content">
             <div class="modal-header">
-                <h3 id="appointmentModalTitle">Appointment Details</h3>
-                <button id="appointmentModalCloseButton" class="modal-close">×</button>
+                <h3 id="appointmentModalTitle">Book Appointment</h3> <!-- Updated Title ID -->
+                <button id="appointmentModalCloseButton" class="modal-close">×</button> <!-- Updated Close Button ID -->
             </div>
             <div id="appointmentModalBody" class="modal-body">
-                <!-- Content loaded by JS -->
-                <p>Loading details...</p>
+                <!-- Booking form will be loaded here by JS -->
+                <p>Loading form...</p>
             </div>
-             <!-- Footer for Edit mode -->
-            <div id="appointmentModalFooter" class="modal-footer" style="display: none;">
-                 <button class="btn btn-primary" id="appointmentSaveChangesButton">Save Changes</button>
-                 <button class="btn btn-secondary" id="appointmentCancelEditButton">Cancel</button>
+             <!-- Footer for Booking form -->
+            <div id="appointmentModalFooter" class="modal-footer" style="display: none;"> <!-- Updated Footer ID -->
+                 <!-- Buttons added by JS -->
             </div>
         </div>
     </div>
-    <!-- --- End Appointment Modal Structure --- -->
+    <!-- --- End Appointment Booking Modal Structure --- -->
 
 
-    <!-- Include common script first, then dashboard-specific script -->
+    <!-- Include common calendar script first -->
     <!-- Make sure paths match your file structure -->
-    <script src="calendar.js"></script>
-    <script src="receptionist_dashboard.js"></script>
+    <script src="calendar.js"></script> <!-- Corrected path -->
+    <!-- Include dashboard specific script second -->
+    <!-- Make sure paths match your file structure -->
+    <script src="receptionist_dashboard.js"></script> <!-- Corrected file name -->
 
 </body>
 </html>

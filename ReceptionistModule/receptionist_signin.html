@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Escosia Dental Clinic</title>
+    <!-- Link to the authentication styles -->
+    <link rel="stylesheet" href="receptionist_signup.css">
+    <!-- Optional: If using Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-logo-area">
+                 <!-- Using your existing tooth image, ensure path is correct -->
+                <div class="logo-circle">
+                     <img src="../images/tooth.png" alt="Escosia Dental Clinic Logo">
+                     <!-- Or Font Awesome icon: <i class="fas fa-tooth"></i> -->
+                </div>
+                <h1>Escosia Dental Clinic</h1>
+                <p>"Where Your Smile, Comes First"</p>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-card">
+                <h2>Sign In</h2>
+
+                <!-- The sign-in form structure -->
+                 <form id="signinForm">
+
+                     <!-- Email Field -->
+                      <div class="form-group">
+                         <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                      </div>
+
+                     <!-- Password Field -->
+                      <div class="form-group">
+                         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                      </div>
+
+                     <!-- Role Selection Field (For clarity/frontend filtering, backend verifies) -->
+                     <!-- The backend should *confirm* the actual role, but asking here can guide login flow -->
+                     <div class="form-group">
+                       <label for="roleSelect" class="select-label">Signing in as</label>
+                       <select id="roleSelect" name="role" class="form-control" required>
+                            <option value="">-- Select Role --</option>
+                            <option value="client">Client</option>
+                            <option value="receptionist">Receptionist</option>
+                            <option value="dentist">Dentist</option>
+                            <!-- Optional: Add Admin/Other roles if needed -->
+                       </select>
+                    </div>
+
+
+                     <button type="submit" id="signinButton" class="btn btn-primary">Sign In</button>
+
+                 </form>
+
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="receptionist_signup.html">Sign Up</a></p> <!-- Link to sign-up page -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to the authentication sign-in script -->
+    <!-- Make sure paths match your file structure -->
+    <script src="receptionist_signin.js"></script>
+
+</body>
+</html>

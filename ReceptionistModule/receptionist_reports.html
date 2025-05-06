@@ -21,9 +21,9 @@
                 <ul>
                     <li><a href="receptionist_dashboard.html"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
                     <li><a href="receptionist_appointment.html"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
-                    <li><a href="receptionist_patient_records.html"><i class="fas fa-chart-bar nav-icon"></i> Patient Records</a></li>
-                    <li class="active"><a href="receptionist_reports.html"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li>
-                    <li><a href="receptionist_doctor.html"><i class="fas fa-question-circle nav-icon"></i> Doctors</a></li>
+                    <li><a href="receptionist_patient_records.html"><i class="fas fa-clipboard-list nav-icon"></i> Patient Records</a></li> <!-- Corrected icon -->
+                    <li><a href="receptionist_reports.html" class="active"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li> <!-- Active on this page & Correct icon -->
+                    <li><a href="receptionist_doctor.html"><i class="fas fa-user-md nav-icon"></i> Doctors</a></li> <!-- Corrected icon -->
                     <li><a href="#"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
                 </ul>
             </nav>
@@ -33,12 +33,10 @@
         <div class="main-content">
             <!-- Top Header -->
             <header class="top-header">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search reports...">
-                    <i class="fas fa-search search-icon"></i>
-                </div>
+                <!-- Add an empty div here to act as a spacer on the left -->
+                <div class="header-spacer"></div>
                 <div class="user-info">
-                    <i class="fas fa-bell notification-icon"></i>
+                    <i class="fas fa-bell notification-icon"></i> <!-- Notification Icon -->
                     <img src="../images/jen_hernandez.png" alt="User Avatar" class="user-avatar">
                     <div class="user-details">
                         <span class="user-name">Jenny Ortega</span>
@@ -52,7 +50,9 @@
 
                 <!-- Page Content - REPORTS & ANALYTICS SPECIFIC CONTENT -->
                 <main class="content-area">
-                    <h2>Reports & Analytics</h2>
+                    <div class="content-area-header-block">
+                        <h2>Reports & Analytics</h2>
+                     </div>
 
                     <!-- Section: Monthly Engagement Rate Chart -->
                     <section class="chart-section card">

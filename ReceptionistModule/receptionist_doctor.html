@@ -18,15 +18,11 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <!-- Ensure href is correct, no active class here -->
                     <li><a href="receptionist_dashboard.html"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
-                    <!-- Ensure href is correct, no active class here -->
                     <li><a href="receptionist_appointment.html"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
-                    <!-- Ensure href is correct, no active class here -->
-                    <li><a href="receptionist_patient_records.html"><i class="fas fa-chart-bar nav-icon"></i> Patient Records</a></li>
-                    <li><a href="receptionist_reports.html"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li>
-                     <!-- This link is active on this page -->
-                    <li><a href="receptionist_doctor.html" class="active"><i class="fas fa-question-circle nav-icon"></i> Doctors</a></li>
+                    <li><a href="receptionist_patient_records.html"><i class="fas fa-clipboard-list nav-icon"></i> Patient Records</a></li> <!-- Corrected icon -->
+                    <li><a href="receptionist_reports.html"><i class="fas fa-chart-bar nav-icon"></i> Reports & Analytics</a></li> <!-- Correct icon -->
+                    <li><a href="receptionist_doctor.html" class="active"><i class="fas fa-user-md nav-icon"></i> Doctors</a></li> <!-- Active on this page & Corrected icon -->
                     <li><a href="#"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
                 </ul>
             </nav>
@@ -36,10 +32,8 @@
         <div class="main-content">
             <!-- Top Header - Remains the same -->
             <header class="top-header">
-                <div class="search-bar">
-                    <input type="text" id="doctor-search-input" placeholder="Search doctors by name or specialization..."> <!-- Add ID for search -->
-                    <i class="fas fa-search search-icon"></i>
-                </div>
+                <!-- Add an empty div here to act as a spacer on the left -->
+                <div class="header-spacer"></div>
                 <div class="user-info">
                     <i class="fas fa-bell notification-icon"></i> <!-- Notification Icon -->
                     <img src="../images/jen_hernandez.png" alt="User Avatar" class="user-avatar">

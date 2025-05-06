@@ -183,8 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><strong>Assigned Dentist:</strong> ${data.assignedDentist || 'N/A'}</p>
             <!-- Add placeholder for other details not in table -->
              <p><strong>Date of Birth:</strong> (Fetch from backend)</p>
-             <p><strong>Address:</strong> (Fetch from backend)</p>
-             <p><strong>Medical History:</strong> (Fetch from backend)</p>
          `;
          // --- End Simulation ---
      }
@@ -238,14 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                  <option value="Other">Other</option>
                             </select> <!-- Needs backend fetch -->
                        </div>
-                       <div class="form-group">
-                           <label for="editAddress">Address:</label>
-                           <textarea id="editAddress" name="address" class="form-control" rows="3"></textarea> <!-- Needs backend fetch -->
-                       </div>
-                        <div class="form-group">
-                           <label for="editMedicalHistory">Medical History Summary:</label>
-                           <textarea id="editMedicalHistory" name="medical_history" class="form-control" rows="4"></textarea> <!-- Needs backend fetch -->
-                       </div>
+                    
 
                      <input type="hidden" name="patient_id" value="${patientId}">
                </form>

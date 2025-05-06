@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Escosia Dental Clinic</title>
+    <!-- Link to the authentication styles -->
+    <link rel="stylesheet" href="receptionist_signup.css">
+    <!-- Optional: If using Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-logo-area">
+                 <!-- Using your existing tooth image, ensure path is correct -->
+                <div class="logo-circle">
+                     <img src="../images/tooth.png" alt="Escosia Dental Clinic Logo">
+                     <!-- Or Font Awesome icon: <i class="fas fa-tooth"></i> -->
+                </div>
+                <h1>Escosia Dental Clinic</h1>
+                <p>"Where Your Smile, Comes First"</p>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-card">
+                <h2>Sign Up</h2>
+
+                <!-- The main form structure -->
+                 <form id="signupForm">
+
+                     <!-- Basic Fields visible for all roles -->
+                      <div class="form-group">
+                         <input type="text" id="firstName" name="first_name" class="form-control" placeholder="First name" required>
+                      </div>
+                      <div class="form-group">
+                         <input type="text" id="lastName" name="last_name" class="form-control" placeholder="Last name" required>
+                      </div>
+                      <div class="form-group">
+                         <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                      </div>
+                      <div class="form-group">
+                         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                         <input type="password" id="confirmPassword" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+                      </div>
+
+                     <!-- Role Selection Field (Always visible) -->
+                     <div class="form-group">
+                       <label for="roleSelect" class="select-label">Select Role</label>
+                       <select id="roleSelect" name="role" class="form-control" required>
+                            <option value="">-- Select --</option>
+                            <option value="client">Client</option>
+                            <option value="receptionist">Receptionist</option>
+                            <option value="dentist">Dentist</option>
+                       </select>
+                    </div>
+
+                     <!-- Container for Role-Specific Fields (initially hidden) -->
+                     <!-- This div helps manage the transition and spacing -->
+                     <div id="roleSpecificFieldsContainer" class="role-specific-fields-container">
+
+                         <!-- Receptionist Specific Fields -->
+                         <!-- Note: The 'hidden' class is added/removed by JS -->
+                         <div id="receptionistFields" class="form-fields-section hidden">
+                             <hr> <!-- Visual separator -->
+                             <p class="section-title">Receptionist Details</p> <!-- Added section title -->
+
+                             <div class="form-group">
+                                <input type="text" id="phoneNumber" name="phone_number" class="form-control" placeholder="Phone Number" required disabled>
+                                <small class="form-help">For contact & account verification.</small>
+                             </div>
+                              <div class="form-group">
+                                <input type="text" id="employeeId" name="employee_id" class="form-control" placeholder="Employee ID" required disabled>
+                                <small class="form-help">Your clinic-provided employee ID.</small>
+                             </div>
+                             <!-- Admin Verification Status is removed -->
+                         </div>
+
+                         <!-- Dentist Specific Fields -->
+                         <!-- Note: The 'hidden' class is added/removed by JS -->
+                         <div id="dentistFields" class="form-fields-section hidden">
+                              <hr> <!-- Visual separator -->
+                             <p class="section-title">Dentist Details</p> <!-- Added section title -->
+
+                             <div class="form-group">
+                                <input type="text" id="dentistPhoneNumber" name="phone_number" class="form-control" placeholder="Phone Number" required disabled>
+                                <small class="form-help">For contact.</small>
+                             </div>
+                              <div class="form-group">
+                                <input type="text" id="dentistEmployeeId" name="employee_id" class="form-control" placeholder="Employee ID" required disabled>
+                                <small class="form-help">Your clinic-provided employee ID.</small>
+                             </div>
+                              <div class="form-group">
+                                <input type="text" id="dentistSpecialization" name="specialization" class="form-control" placeholder="Specialization (e.g. Orthodontics)" required disabled>
+                                <small class="form-help">Your dental specialization.</small>
+                             </div>
+                             <!-- Note: Verification docs are usually handled AFTER initial sign-up -->
+                         </div>
+
+                     </div> <!-- End role-specific-fields-container -->
+
+
+                     <button type="submit" id="signupButton" class="btn btn-primary">Sign Up</button>
+
+                 </form>
+
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="receptionist_signin.html">Sign In</a></p> <!-- Link to sign-in page -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to the authentication script -->
+    <script src="receptionist_signup.js"></script>
+
+</body>
+</html>
