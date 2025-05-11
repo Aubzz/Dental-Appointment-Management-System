@@ -1,131 +1,131 @@
-// auth_script.js (This file contains logic for auth_signin.html)
-
+// receptionist_signin.js
 document.addEventListener('DOMContentLoaded', () => {
-
     const signinForm = document.getElementById('signinForm');
-    const emailInput = document.getElementById('email');
+    const receptionistIdInput = document.getElementById('receptionistId'); // CHANGED ID
     const passwordInput = document.getElementById('password');
-    const roleSelect = document.getElementById('roleSelect');
-    const signinButton = document.getElementById('signinButton'); // Get the sign-in button
+    const signinButton = document.getElementById('signinButton');
+    const serverMessagesDiv = document.getElementById('serverMessagesSignin');
 
-    // Check if the form exists on this page before adding listener
+    function displayClientMessage(message, type = 'error') {
+        if (serverMessagesDiv) {
+            serverMessagesDiv.innerHTML = `<p class="${type}-message" style="padding:10px; border-radius:4px;">${message}</p>`;
+            serverMessagesDiv.style.display = 'block';
+            const msgElement = serverMessagesDiv.firstElementChild;
+            if (type === 'error') {
+                msgElement.style.backgroundColor = '#FFD2D2';
+                msgElement.style.color = '#D8000C';
+                msgElement.style.border = '1px solid #D8000C';
+            } else {
+                msgElement.style.backgroundColor = '#DFF2BF';
+                msgElement.style.color = '#4F8A10';
+                msgElement.style.border = '1px solid #4F8A10';
+            }
+        } else {
+            alert(message);
+        }
+    }
+
     if (signinForm) {
         signinForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
-            // Basic frontend validation
-            if (!signinForm.checkValidity()) {
-                 alert('Please fill out all required fields.');
-                 // The browser will typically show validation messages automatically
-                 return; // Stop if form is not valid
+            if (serverMessagesDiv) {
+                serverMessagesDiv.innerHTML = '';
+                serverMessagesDiv.style.display = 'none';
+            }
+            receptionistIdInput.classList.remove('input-error'); // CHANGED
+            passwordInput.classList.remove('input-error');
+
+            let formIsValid = true;
+            if (!receptionistIdInput.value.trim()) { // CHANGED
+                displayClientMessage('Receptionist ID is required.', 'error'); // CHANGED
+                receptionistIdInput.classList.add('input-error'); // CHANGED
+                formIsValid = false;
+            }
+            if (!passwordInput.value) {
+                if(formIsValid) displayClientMessage('Password is required.', 'error');
+                passwordInput.classList.add('input-error');
+                formIsValid = false;
             }
 
-            const email = emailInput.value.trim();
-            const password = passwordInput.value; // Get password value
-            const selectedRole = roleSelect.value; // Get selected role
-
-            // Perform basic checks
-            if (!email || !password || !selectedRole) {
-                alert("Please enter your email, password, and select your role.");
-                return; // Stop if any field is empty (redundant with 'required' but good practice)
+            if (!formIsValid) {
+                const firstErrorField = signinForm.querySelector('.input-error');
+                if (firstErrorField) {
+                    firstErrorField.focus();
+                }
+                return;
             }
 
-            console.log(`Attempting Sign In as ${selectedRole}`);
-            console.log('Email:', email);
-            console.log('Password:', password); // Note: Avoid logging passwords in real applications
-            console.log('Selected Role:', selectedRole);
+            const receptionistId = receptionistIdInput.value.trim(); // CHANGED
+            const password = passwordInput.value;
 
+            signinButton.disabled = true;
+            signinButton.textContent = 'Signing In...';
 
-            // --- TODO: Add AJAX/Fetch API call here to send credentials to PHP backend ---
-            // The backend should:
-            // 1. Verify email and password against the database.
-            // 2. Verify that the user's actual role matches the selectedRole (important!).
-            //    Or, the backend could just return the user's actual role after verification.
-            // 3. Return success status and the user's role/dashboard path.
+            const formData = new FormData();
+            formData.append('receptionist_id', receptionistId); // CHANGED POST key
+            formData.append('password', password);
 
-            /*
-            fetch('/api/signin.php', { // Replace with your actual signin endpoint
+            fetch('receptionist_signin_process.php', {
                 method: 'POST',
-                body: JSON.stringify({ email: email, password: password, role: selectedRole }), // Send credentials
-                headers: { 'Content-Type': 'application/json' }
+                body: formData
             })
-            .then(response => {
-                 if (!response.ok) {
-                      // Handle HTTP errors
-                     return response.json().then(err => { throw new Error(err.error || `HTTP error! status: ${response.status}`); });
-                 }
-                 return response.json(); // Assuming backend returns { success: true, user_role: '...', redirect_url: '...' }
-             })
+            .then(response => response.json())
             .then(data => {
                 console.log('Signin Response:', data);
                 if (data.success) {
-                    alert('Sign In successful!');
-                    // Redirect based on the URL provided by the backend
-                     if (data.redirect_url) {
-                         window.location.href = data.redirect_url; // Backend tells frontend where to go
-                     } else {
-                          // Fallback redirect if backend doesn't provide URL, based on selected role
-                          console.warn("Backend did not provide redirect_url, using frontend redirect fallback.");
-                          switch (selectedRole) {
-                              case 'receptionist':
-                                  window.location.href = 'receptionist_dashboard.html';
-                                  break;
-                              case 'dentist':
-                                   window.location.href = 'dentist_dashboard.html'; // Replace with actual dentist dashboard page
-                                   break;
-                              case 'client':
-                                   window.location.href = 'client_dashboard.html'; // Replace with actual client dashboard page
-                                   break;
-                              default:
-                                  alert("Unknown role, cannot redirect."); // Handle unexpected roles
-                                   // Maybe redirect to a generic logged-in page or back to signin
-                                   window.location.href = 'index.html'; // Example: redirect to homepage
-                          }
-                     }
-
-                } else { // Assuming backend sends { success: false, error: '...' }
-                    alert('Sign In failed: ' + data.error);
-                    // Clear password field for security on failed attempt
+                    displayClientMessage('Sign In successful! Redirecting...', 'success');
+                    if (data.redirect_url) {
+                        setTimeout(() => {
+                            window.location.href = data.redirect_url;
+                        }, 1000);
+                    } else {
+                        console.warn("Backend did not provide redirect_url. Redirecting to index.");
+                        window.location.href = '../index.html';
+                    }
+                } else {
+                    displayClientMessage(data.error || 'Sign In failed. Please check your credentials.', 'error');
                     passwordInput.value = '';
                 }
             })
             .catch((error) => {
                 console.error('Error during signin fetch:', error);
-                alert('An error occurred during sign in. Please try again. Details: ' + error.message);
-                 passwordInput.value = ''; // Clear password on fetch error
+                displayClientMessage('An error occurred during sign in. Please try again.', 'error');
+                passwordInput.value = '';
+            })
+            .finally(() => {
+                signinButton.disabled = false;
+                signinButton.textContent = 'Sign In';
             });
-            */
-
-            // --- Current Simulation (Remove when implementing backend call) ---
-            console.log("Sign In simulated.");
-
-            // Simulate successful login based on selected role for frontend demo
-            alert(`Sign In simulated for ${selectedRole}.\nRedirecting to dashboard (simulated).`);
-
-            // Simulate redirection based on the selected role
-            switch (selectedRole) {
-                case 'receptionist':
-                    console.log("Simulation: Redirecting to receptionist dashboard.");
-                    window.location.href = 'receptionist_dashboard.html'; // Redirect to Receptionist Dashboard HTML
-                    break;
-                case 'dentist':
-                    console.log("Simulation: Redirecting to dentist dashboard.");
-                    window.location.href = 'dentist_dashboard.html'; // Replace with actual Dentist Dashboard page
-                    break;
-                case 'client':
-                    console.log("Simulation: Redirecting to client dashboard.");
-                    window.location.href = 'client_dashboard.html'; // Replace with actual Client Dashboard page
-                    break;
-                default:
-                    alert("Please select a valid role.");
-                    // Stay on the sign-in page or redirect to a generic error page
-                    // window.location.href = 'index.html'; // Example: redirect to homepage
-            }
-
-            // --- End Simulation ---
         });
     } else {
         console.error("Sign In form element not found!");
     }
 
+    const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+    togglePasswordButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const targetPasswordInput = this.previousElementSibling;
+            const icon = this.querySelector('i');
+            if (targetPasswordInput.type === 'password') {
+                targetPasswordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                this.setAttribute('aria-label', 'Hide password');
+            } else {
+                targetPasswordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+                this.setAttribute('aria-label', 'Show password');
+            }
+        });
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'pending_verification') {
+        displayClientMessage('Account created. Please wait for admin verification before signing in.', 'success');
+    } else if (status === 'verified') {
+        displayClientMessage('Your account has been verified! You can now sign in.', 'success');
+    }
 });

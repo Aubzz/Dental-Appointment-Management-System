@@ -1,17 +1,19 @@
+/* receptionist_signup.css */
+
 /* --- Base Styles & Variables (Specific to Auth) --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --auth-dark-green: #004d40; /* Darker green from your image */
-    --auth-mid-green: #006a4e;  /* Mid-range green for gradient/elements */
-    --auth-primary-green: #16a085; /* Your existing primary green */
-    --auth-light-green-input: #e0f2f1; /* Light green for input backgrounds */
+    --auth-dark-green: #004d40;
+    --auth-mid-green: #006a4e;
+    --auth-primary-green: #16a085;
+    --auth-light-green-input: #e0f2f1;
     --auth-white: #ffffff;
-    --auth-dark-text: #2c3e50; /* Dark text color */
-    --auth-grey-text: #7f8c8d; /* Grey text */
-    --auth-border-color: #bdc3c7; /* Light grey border */
+    --auth-dark-text: #2c3e50;
+    --auth-grey-text: #7f8c8d;
+    --auth-border-color: #bdc3c7;
     --auth-card-bg: #ffffff;
-    --auth-shadow: rgba(0, 0, 0, 0.15); /* Slightly larger shadow */
+    --auth-shadow: rgba(0, 0, 0, 0.15);
 }
 
 * {
@@ -23,200 +25,87 @@
 html, body {
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background-color: var(--auth-dark-green); /* Dark green fallback */
+    background-color: var(--auth-dark-green);
     color: var(--auth-dark-text);
     font-size: 15px;
-    line-height: 1.5; /* Improved readability */
-}
-
-/* --- Layout --- */
-.auth-container {
-    display: flex;
-    min-height: 100vh;
-    overflow: hidden;
-}
-
-.auth-left {
-    flex: 1;
-    /* Add gradient background */
-    background-image: linear-gradient(to bottom right, var(--auth-mid-green), var(--auth-dark-green));
-    color: var(--auth-white);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px; /* Increased padding */
-    text-align: center;
-    flex-direction: column;
-}
-
-.auth-logo-area {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     /* Added space below the logo area itself */
-     margin-bottom: 40px;
-}
-
-/* Increased size for logo area elements */
-.auth-logo-area h1 {
-    font-size: 2.8em; /* Made bigger */
-    margin-bottom: 15px; /* More space below title */
-    font-weight: 700;
-}
-
-.auth-logo-area p {
-    font-size: 1.2em; /* Made bigger */
-    font-weight: 300;
-    opacity: 0.95; /* Slightly less transparent */
-    margin-bottom: 30px; /* More space below tagline */
-}
-
-.logo-circle {
-    width: 150px; /* Made bigger */
-    height: 150px; /* Made bigger */
-    background-color: var(--auth-white);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px; /* More space below circle */
-    /* Added shadow for depth */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.logo-circle img {
-    width: 90px; /* Adjusted size of the tooth image */
-    height: auto;
-}
-/* If using Font Awesome icon */
-/* .logo-circle i {
-    font-size: 90px;
-    color: var(--auth-dark-green);
-} */
-
-
-.auth-right {
-    flex-shrink: 0;
-    width: 450px; /* Keep fixed width */
-    background-color: var(--auth-white);
+    line-height: 1.5;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
-.auth-card {
-    background-color: var(--auth-card-bg);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px var(--auth-shadow); /* Larger shadow */
+/* --- Layout --- */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: 400px;
+}
+
+.auth-right {
+    width: 100%;
+    max-width: 750px;
+    background-color: var(--auth-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 100%;
 }
 
 .auth-card h2 {
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: 600;
     color: var(--auth-primary-green);
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 /* --- Form Styling --- */
-
-/* Container for role-specific fields to control transition */
-.role-specific-fields-container {
-    /* Initially collapsed and hidden */
-    max-height: 0; /* Collapse height */
-    overflow: hidden; /* Hide content */
-    opacity: 0; /* Start invisible */
-    transition: max-height 0.5s ease-out, opacity 0.3s ease-out, margin-bottom 0.5s ease-out; /* Add transitions */
-    margin-bottom: 0; /* No margin when collapsed */
-
-    /* Ensure children don't contribute to layout when collapsed */
-    display: block; /* Or flex, but max-height works best with block */
-}
-
-/* State when role-specific fields are active */
-.role-specific-fields-container.active {
-    /* Estimate max height needed for the tallest section + spacing */
-    /* This needs tuning based on actual content */
-    max-height: 400px; /* Needs to be > height of tallest section */
-    opacity: 1; /* Fully visible */
-    margin-bottom: 30px; /* Add space below the expanded container */
-    /* Transition from display:none to block is not smooth, JS will manage display */
-}
-
-
 .form-fields-section {
-     /* Contains the fields for a specific role (Receptionist or Dentist) */
-     /* Initially hidden by JS adding the 'hidden' class */
-     /* When active, this is inside the active .role-specific-fields-container */
-     /* No direct padding/margin/border top here anymore, managed by container */
-     opacity: 1; /* Should be fully visible when not hidden by JS */
+     opacity: 1;
 }
-
-.form-fields-section.hidden {
-    display: none; /* Still use display none when completely inactive */
-    opacity: 0; /* Ensure opacity is 0 when hidden */
-}
-
 .section-title {
      font-size: 1.1em;
      font-weight: 600;
      color: var(--auth-dark-text);
-     margin-bottom: 20px;
+     margin-bottom: 15px;
      text-align: center;
-     padding-top: 20px; /* Space above the title */
+     padding-top: 0px;
 }
-
-/* Add a border/separator above the role-specific section content */
-/* Use a pseudo-element or style the first form-group?
-   Let's style the container itself when active */
-.role-specific-fields-container.active {
-     border-top: 1px solid var(--auth-border-color);
-     /* The section-title padding-top adds space below this border */
-}
-
-
-.form-group {
+.form-fields-section hr {
+    border: none;
+    border-top: 1px solid var(--auth-border-color);
+    margin-top: 0;
     margin-bottom: 20px;
 }
 
-/* Adjust margin for the last form group before the button block */
-/* Select the last form group that is NOT within a hidden section or the role container */
-#signupForm > .form-group:last-of-type:not(.role-specific-fields-container) {
-     margin-bottom: 30px;
+.form-group {
+    margin-bottom: 18px;
+    position: relative;
 }
-/* Adjust margin for the last form group INSIDE a role-specific section */
-/* Select the last form group that is the last child within its form-fields-section */
-.form-fields-section > .form-group:last-child {
-    margin-bottom: 0; /* Remove bottom margin from the very last field in the section */
-}
-
 
 .form-group label {
      display: block;
      font-size: 0.9em;
      font-weight: 500;
      color: var(--auth-dark-text);
-     margin-bottom: 8px;
-}
-
-/* Style for labels that are part of a static value display */
-.form-group .static-label {
-     color: var(--auth-grey-text);
-     font-weight: 400;
-     font-size: 0.85em;
-     margin-bottom: 4px;
+     margin-bottom: 6px;
 }
 
 .form-control {
     width: 100%;
-    padding: 12px 15px;
+    padding: 14px 18px;
     border: 1px solid var(--auth-border-color);
     border-radius: 25px;
-    font-size: 1em;
+    font-size: 1.05em;
     color: var(--auth-dark-text);
     background-color: var(--auth-light-green-input);
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
@@ -237,42 +126,106 @@ html, body {
 
 .form-control[disabled] {
     background-color: #f8f8f8;
-    opacity: 0.9; /* Keep some opacity */
+    opacity: 0.9;
     cursor: not-allowed;
-     box-shadow: none;
-     color: var(--auth-grey-text);
+    box-shadow: none;
+    color: var(--auth-grey-text);
 }
 
-/* Style for static value inputs */
-.form-control.static-value {
-     font-weight: 500;
-     color: var(--auth-dark-text);
-     padding-left: 15px; /* Match input padding */
-     /* No placeholder needed */
-     line-height: normal; /* Ensure text aligns */
-     height: calc(1em + 12px * 2 + 1px * 2); /* Match input height */
-     display: flex; /* Align text vertically */
-     align-items: center;
+/* --- Password Toggle Styles --- */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
+.password-wrapper .form-control {
+    padding-right: 45px;
+}
 
-.form-group small {
+.toggle-password {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    width: 40px;
+    background-color: transparent;
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--auth-grey-text);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    outline: none;
+}
+
+.toggle-password:hover i,
+.toggle-password:focus i {
+    color: var(--auth-primary-green);
+}
+
+.toggle-password i {
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+}
+/* --- End Password Toggle Styles --- */
+
+
+.form-group small.form-help { /* General help text */
     display: block;
     font-size: 0.75em;
     color: var(--auth-grey-text);
     margin-top: 5px;
 }
 
-.select-label {
-     margin-bottom: 8px !important;
+/* --- Password Requirements List --- */
+.password-requirements-list {
+    font-size: 0.75em;
+    color: var(--auth-grey-text);
+    margin-top: 5px;
+    padding-left: 5px;
+}
+.password-requirements-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.password-requirements-list li {
+    margin-bottom: 3px;
+    transition: color 0.3s ease;
+}
+.password-requirements-list li.valid {
+    color: var(--auth-primary-green);
+}
+.password-requirements-list li.valid::before {
+    content: '✓ ';
+    margin-right: 3px;
+}
+.password-requirements-list li.invalid {
+    color: #D8000C;
+}
+.password-requirements-list li.invalid::before {
+    content: '✗ ';
+    margin-right: 3px;
+}
+
+/* --- Individual Field Error Messages (small tags with .error-message) --- */
+.form-help.error-message {
+    color: #D8000C;
+    font-size: 0.75em;
+    margin-top: 3px;
+    display: block; /* Ensure it shows if JS populates it */
 }
 
 
 .btn-primary {
     display: block;
     width: 100%;
-    padding: 12px 20px;
-    font-size: 1.1em;
+    padding: 14px 20px;
+    font-size: 1.15em;
     font-weight: 600;
     text-align: center;
     text-decoration: none;
@@ -283,7 +236,7 @@ html, body {
     background-color: var(--auth-primary-green);
     color: var(--auth-white);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    margin-top: 30px; /* Space above button */
+    margin-top: 30px;
 }
 
 .btn-primary:hover {
@@ -291,7 +244,6 @@ html, body {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Footer Styling --- */
 .auth-footer {
     text-align: center;
     margin-top: 25px;
@@ -310,57 +262,96 @@ html, body {
     text-decoration: underline;
 }
 
+/* Server messages div */
+.server-messages {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: left;
+}
+.server-messages ul { list-style-type: none; padding: 0; margin: 0; }
+.server-messages li { padding: 3px 0; } /* Style for li if PHP generates list */
+
+/* Style for p tag if JS generates single message inside serverMessages */
+.server-messages p.error-message, /* Match general error message style */
+.auth-card .error-messages ul { /* Keep for PHP generated error list in old structure */
+    color: #D8000C;
+    background-color: #FFD2D2;
+    border: 1px solid #D8000C;
+    padding: 10px;
+    border-radius: 4px;
+    margin:0; /* Reset margin if it's a p tag */
+}
+.server-messages p.success-message { /* Match general success message style */
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    border: 1px solid #4F8A10;
+    padding: 10px;
+    border-radius: 4px;
+    margin:0; /* Reset margin if it's a p tag */
+}
+.input-error { /* Class added by JS to inputs */
+    border-color: #D8000C !important;
+    box-shadow: 0 0 5px rgba(216, 0, 12, 0.3) !important;
+}
+
+.auth-card select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--auth-border-color);
+    border-radius: 25px;
+    font-size: 0.95em;
+    background-color: var(--auth-light-green-input);
+    color: var(--auth-dark-text);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230A744F%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.6-3.6%205.4-7.8%205.4-12.8%200-5-1.8-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right .9em top 50%;
+    background-size: .6em auto;
+    cursor: pointer;
+}
+.auth-card select:focus {
+    outline: none;
+    border-color: var(--auth-primary-green);
+    box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.25);
+}
+.auth-card select option[disabled] {
+    color: #999;
+}
+
 /* --- Responsiveness --- */
-@media (max-width: 768px) {
-    .auth-container {
-        flex-direction: column;
+@media (max-width: 800px) {
+    html, body {
+        padding: 10px;
     }
-    .auth-left {
-        flex: none;
-        padding: 40px 20px 20px 20px;
-         min-height: auto;
-         background-image: linear-gradient(to bottom, var(--auth-mid-green), var(--auth-dark-green));
-    }
-    .auth-left .auth-logo-area h1 { font-size: 2em; margin-bottom: 10px;}
-     .auth-left .auth-logo-area p { font-size: 1em; margin-bottom: 20px;}
-     .auth-left .logo-circle { width: 120px; height: 120px; margin-bottom: 15px; } /* Slightly smaller on mobile */
-      .auth-left .logo-circle img { width: 70px; } /* Adjusted tooth size */
-
     .auth-right {
-        flex-shrink: 0;
-        width: 100%;
-         padding: 20px;
+        max-width: 95%;
+        padding: 40px 25px;
     }
-     .auth-card {
-         padding: 30px 20px;
-         border-radius: 8px;
-         max-width: 380px; /* Constrain max width */
-     }
+    .auth-card h2 {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-right {
+        padding: 30px 20px;
+    }
      .auth-card h2 {
-         font-size: 1.5em;
-         margin-bottom: 20px;
-     }
-      .form-group { margin-bottom: 15px; }
-       /* Re-adjust last form group margin on mobile */
-       #signupForm > .form-group:last-of-type:not(.role-specific-fields-container) {
-            margin-bottom: 20px;
-       }
-       .form-fields-section > .form-group:last-child {
-            margin-bottom: 0;
-       }
-
-
-        .form-control { padding: 10px 15px; }
-         .btn-primary { padding: 10px 15px; font-size: 1em; margin-top: 20px; } /* Adjust button margin top */
-          .auth-footer { margin-top: 20px; font-size: 0.85em; }
-
-     /* Adjust spacing for role-specific sections on mobile */
-     .role-specific-fields-container.active {
-          margin-bottom: 20px; /* Adjust margin below expanded container */
-     }
-     .section-title {
-          font-size: 1em;
-          margin-bottom: 15px;
-          padding-top: 15px;
-     }
+        font-size: 1.6em;
+    }
+    .form-control {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+    .password-wrapper .form-control {
+        padding-right: 45px;
+    }
+    .btn-primary {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
 }

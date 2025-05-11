@@ -1,0 +1,161 @@
+/* AdminModule/admin_user_management.css */
+
+.user-verification-section {
+    /* Inherits .card styling from admin_style.css or ../style.css */
+}
+
+.user-verification-section h3 {
+    font-size: 1.35em; /* Specific size for these sub-headings */
+    color: var(--admin-primary-green, #16a085); /* Ensure it uses a theme color */
+    margin-bottom: 15px; /* Space below title before table wrapper */
+}
+
+.table-responsive-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 15px;
+    border: 1px solid var(--admin-light-border-color, #e0e0e0);
+    border-radius: 6px;
+    background-color: var(--admin-white, #fff); /* Add a background if table doesn't fill */
+}
+
+.data-table.verification-table {
+    font-size: 0.9em;
+    min-width: 700px; /* Encourage horizontal scroll before extreme squishing */
+    border-collapse: separate; /* Allows for border-spacing if needed, or use collapse */
+    border-spacing: 0; /* No space between cells if using separate */
+    width: 100%; /* Make table fill its responsive wrapper */
+}
+
+.data-table.verification-table thead th {
+    background-color: var(--admin-very-light-green-bg, #f0f7f6); /* From admin_style.css variables */
+    color: var(--admin-dark-green, #004d40); /* From admin_style.css variables */
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--admin-primary-green, #16a085);
+}
+.data-table.verification-table thead th:first-child {
+    border-top-left-radius: 5px; /* Match wrapper's radius slightly */
+}
+.data-table.verification-table thead th:last-child {
+    border-top-right-radius: 5px;
+}
+
+
+.data-table.verification-table tbody td {
+    padding: 9px 12px;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--admin-light-border-color, #e0e0e0);
+    color: var(--admin-text-muted, #555); /* Default cell text color */
+}
+.data-table.verification-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.data-table.verification-table tbody tr:hover td { /* Hover for entire row */
+    background-color: var(--admin-card-hover-bg, #e9f5f3); /* Consistent hover */
+}
+
+
+.data-table.verification-table th.actions-column,
+.data-table.verification-table td.action-buttons-cell {
+    text-align: right;
+    white-space: nowrap;
+}
+.data-table.verification-table th.actions-column{
+     width: 1%; /* Try to keep action column to minimum width */
+}
+
+
+.data-table.verification-table .btn-action {
+    padding: 6px 10px; /* Adjusted padding */
+    font-size: 0.85em;
+    margin-left: 6px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 85px; /* Slightly smaller min-width */
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.data-table.verification-table .btn-action:first-child {
+    margin-left: 0;
+}
+
+.data-table.verification-table .btn-action.btn-approve {
+    background-color: var(--admin-status-completed-bg, #e8f5e9);
+    color: var(--admin-status-completed-text, #4caf50);
+    border-color: var(--admin-status-completed-text, #4caf50);
+}
+.data-table.verification-table .btn-action.btn-approve:hover {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #155724;
+}
+
+.data-table.verification-table .btn-action.btn-reject {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #721c24;
+}
+.data-table.verification-table .btn-action.btn-reject:hover {
+    background-color: #f5c6cb;
+    color: #5a121b;
+    border-color: #5a121b;
+}
+
+.data-table.verification-table .btn-action i {
+    margin-right: 5px;
+}
+
+.status-cell.status-pending {
+    color: #ffa000;
+    font-weight: 500;
+}
+.status-cell.status-active {
+    color: var(--admin-status-completed-text, #4caf50);
+    font-weight: 500;
+}
+
+.no-data-message {
+    padding: 20px;
+    text-align: center;
+    font-style: italic;
+    color: var(--admin-text-muted, #555);
+}
+
+/* Responsive adjustments for user management tables */
+@media (max-width: 768px) {
+    .data-table.verification-table {
+        font-size: 0.88em;
+        min-width: 0;
+    }
+    .data-table.verification-table th,
+    .data-table.verification-table td {
+        padding: 8px 6px; /* Even tighter padding for mobile */
+        font-size: 0.95em;
+        white-space: normal; /* Allow text to wrap in cells */
+    }
+    .data-table.verification-table td.action-buttons-cell .btn-action {
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 5px;
+        text-align: center; /* Center button text */
+    }
+    .data-table.verification-table td.action-buttons-cell .btn-action:last-child {
+        margin-bottom: 0;
+    }
+    .data-table.verification-table td.action-buttons-cell form {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .data-table.verification-table td.action-buttons-cell form:last-child {
+        margin-bottom: 0;
+    }
+}

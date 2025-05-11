@@ -1,0 +1,224 @@
+/* Keep all your existing styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0A744F, #043C28);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.page-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.landing-content,
+.role-selection-container,
+.signin-prompt-container {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.active-content {
+    display: flex !important;
+}
+
+/* Styles for the landing page content */
+.landing-content .header { /* Added .header for specificity */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Ensures children like h1 are centered */
+}
+
+.landing-content .header h1 {
+    font-family: 'Nunito', sans-serif;
+    color: #fff;
+    margin-bottom: 20px; /* Reduced margin a bit */
+    margin-top: 1px;
+    font-size: 3.5em;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* NEW: Wrapper for icons and tagline */
+.landing-content .teeth-icons-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This will center the .teeth-icons and .tagline within this group */
+    margin-bottom: 20px; /* Spacing below the group */
+}
+
+.landing-content .teeth-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    /* margin-bottom: 20px; /* Moved to .teeth-icons-group or .tagline */
+    transform: translateY(-20px); /* This can stay if you like the upward pull */
+}
+
+.landing-content .tooth-icon-container {
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    color: #0A744F;
+}
+
+.landing-content .tooth-icon-container:hover {
+    transform: scale(1.05);
+}
+
+.landing-content .tooth-icon-container {
+    width: 120px;
+    height: 120px;
+    font-size: 50px;
+}
+.landing-content .tooth-icon-container.large {
+    width: 180px;
+    height: 180px;
+    font-size: 80px;
+}
+.landing-content .teeth-icons .tooth-icon-container:not(.large) {
+    margin-top: 30px;
+}
+
+.landing-content .tagline {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    font-size: 1.3em;
+    margin-top: 10px; /* Adjust spacing between icons and tagline */
+    font-weight: 300;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Explicitly center, though inherited should work */
+}
+
+
+/* Auth buttons in the top right - fixed position */
+.auth-buttons-fixed {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+.auth-buttons-fixed a {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #fff;
+    color: #0A744F;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.auth-buttons-fixed a:hover {
+    background-color: #f0f0f0;
+    color: #043C28;
+    transform: translateY(-2px);
+}
+
+
+/* Styles for the "Sign up as" role selection card */
+.role-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px 40px 40px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: #333;
+}
+
+.role-logo-container {
+    background-color: #0A744F;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: -70px auto 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.role-logo-icon {
+    font-size: 45px;
+    color: #ffffff;
+}
+
+.role-card h2 {
+    color: #043C28;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+.role-btn {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    background-color: #E8F5E9;
+    color: #043C28;
+    border: 1px solid #C8E6C9;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+.role-btn:hover {
+    background-color: #D0E9D2;
+    transform: translateY(-2px);
+}
+
+.role-card p {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.role-card p a {
+    color: #0A744F;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.role-card p a:hover {
+    text-decoration: underline;
+}
+
+.back-link a {
+    color: #777;
+    font-size: 0.85em;
+}
+
+.signin-prompt-container {
+    /* Uses .role-card styles */
+}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentist Appointments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #0A744F;
+            color: white;
+            padding: 20px;
+            padding-top: 0px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+        }
+
+        .sidebar h1 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 400;
+        }
+
+        .sidebar ul li:hover,
+        .sidebar ul li.active {
+            background-color: #043C28;
+            font-weight: 600;
+        }
+
+        .dashboard-header {
+            background-color: #D3F2E0;
+            padding: 15px 350px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: calc(100% - 0px);
+            box-sizing: border-box;
+            position: fixed;
+            top: 0px;
+            left: 290px;
+            z-index: 100;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-details strong {
+            font-size: 16px;
+        }
+
+        .user-details span {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-icon i {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            background-color: #f44336;
+            border-radius: 50%;
+            font-size: 0;
+            padding: 0;
+        }
+
+        /* Notification Container Styles */
+        .notification-container {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 10px;
+            z-index: 101;
+            display: none;
+        }
+
+        .notification-container.show {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            width: calc(100% - 250px);
+            margin-left: 300px;
+            margin-top: 70px; /* Adjusted to account for the header */
+            margin-right: 20px;
+        }
+
+        .main-content h2 {
+            color: #0A744F;
+        }
+
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .appointments-table th,
+        .appointments-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd; /* Lighter border */
+            
+        }
+
+        .appointments-table th {
+            background-color: #0A744F; /* Light green header */
+            color: white; /* Dark green text */
+            font-weight: 600;
+            
+        }
+
+        .appointments-table tbody tr:nth-child(even) {
+            background-color: #F2FAF6; /* Very light green for even rows */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-header">
+        <h2 class="dashboard-title"></h2>
+        <div class="user-info">
+            <div class="notification-icon" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge"></span>
+                <div class="notification-container">
+                    <div class="notification-item">
+                        <p>New appointment with John Doe at 10:00 AM</p>
+                    </div>
+                    <div class="notification-item">
+                        <p>Reminder: Jane Smith's cleaning at 2:00 PM</p>
+                    </div>
+                    <div class="notification-item">
+                        <p>Robert Jones consultation scheduled for tomorrow</p>
+                    </div>
+                </div>
+            </div>
+            <img src="images/doctor-ashford.png" alt="User Avatar">
+            <div class="user-details">
+                <strong>Heart Ashford</strong>
+                <span>Dentist</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h1></h1>
+        <ul>
+            <li class="dashboard-link" onclick="goToDashboard()">Dashboard</li>
+            <li class="appointments-link active" onclick="goToAppointments()">Appointments</li>
+            <li class="patient-link" onclick="goToPatient()">Patient Management</li>
+            <li class="logout">Logout</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <h2>My Appointments</h2>
+         <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Patient</th>
+                    <th>Appointment Date</th>
+                    <th>Appointment Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Sarha Santos</td>
+                    <td>2025-07-29</td>
+                    <td>7:00 AM</td>
+                    <td>Scheduled</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Andrue Acusin</td>
+                    <td>2025-07-29</td>
+                    <td>9:00 AM</td>
+                    <td>Scheduled</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Rohann Dranto</td>
+                    <td>2025-07-29</td>
+                    <td>5:00 PM</td>
+                    <td>Scheduled</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Heart Dela Cruz</td>
+                    <td>2025-07-29</td>
+                    <td>3:00 PM</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Aubrey Ragandan</td>
+                    <td>2025-07-29</td>
+                    <td>10:00 AM</td>
+                    <td>Cancelled</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Francis Dayuno</td>
+                    <td>2025-07-29</td>
+                    <td>11:00 AM</td>
+                    <td>Cancelled</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Hannah Ropeta</td>
+                    <td>2025-07-29</td>
+                    <td>2:00 PM</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Arvin Ibarra</td>
+                    <td>2025-07-29</td>
+                    <td>4:00 PM</td>
+                    <td>Cancelled</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Kai Fucanan</td>
+                    <td>2025-07-29</td>
+                    <td>5:00 PM</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Kianna Gragg</td>
+                    <td>2025-07-29</td>
+                    <td>3:00 PM</td>
+                    <td>Completed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+
+    <script>
+
+         function goToDashboard() {
+            window.location.href = "/DoctorsModule/dashboard_dentist.html";
+        }
+
+        function goToAppointments() {
+            window.location.href = "/DoctorsModule/appointments_dentist.html";
+        }
+        function goToPatient() {
+            window.location.href = "/DoctorsModule/patient_dentist.html";
+        }
+
+         function toggleNotifications() {
+            const container = document.querySelector('.notification-container');
+            container.classList.toggle('show');
+        }
+
+        // Close the notification container when clicking outside
+        document.addEventListener('click', function(event) {
+            const container = document.querySelector('.notification-container');
+            const icon = document.querySelector('.notification-icon');
+
+            if (!container.contains(event.target) && !icon.contains(event.target)) {
+                container.classList.remove('show');
+            }
+        });
+
+    </script>
+</body>
+</html>

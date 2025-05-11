@@ -1081,3 +1081,253 @@ body {
     color: #3498db; /* Blue */
 }
 /* Ensure your general .action-links a styles are present for margin etc. */
+
+.form-feedback-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 0.95em;
+    text-align: center;
+}
+.form-feedback-message.success {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb;
+}
+.form-feedback-message.error {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb;
+}
+
+/* Styles for Patient List Section */
+.patient-list-section {
+    /* .card styles should apply if section has class="card" */
+}
+
+.patient-list-section h3 {
+    /* Use existing card header styles or define here */
+    font-size: 1.35em;
+    color: var(--primary-green); /* Assuming --primary-green is defined */
+    margin-bottom: 15px;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 15px; /* Space between filter elements */
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--very-light-green-bg, #f8f9fa); /* Light background for filter area */
+    border-radius: 6px;
+    align-items: flex-end; /* Align items to bottom if they wrap and have different heights */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column; /* Stack label and input/select */
+    flex: 1 1 200px; /* Allow filter groups to grow and shrink, base width 200px */
+}
+
+.filter-container label {
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--text-muted, #555);
+}
+
+.form-control.search-input,
+.form-control.filter-select {
+    /* Basic .form-control styles should come from main CSS */
+    /* Specifics for filters: */
+    padding: 8px 12px;
+    font-size: 0.9em;
+    border-radius: 4px;
+}
+
+#add-new-patient-btn {
+    /* .btn and .btn-primary styles should come from main CSS */
+    padding: 8px 15px;
+    font-size: 0.9em;
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+#add-new-patient-btn i {
+    margin-right: 6px;
+}
+
+/* Styles for the table action buttons (if not covered by general admin_style.css) */
+#patient-records-table .action-buttons-cell .btn-action {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    margin-right: 5px; /* Space between buttons */
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+#patient-records-table .action-buttons-cell .btn-action:last-child {
+    margin-right: 0;
+}
+#patient-records-table .action-buttons-cell .btn-action i {
+    margin-right: 4px;
+}
+#patient-records-table .btn-view-patient {
+    /* Example specific color */
+    background-color: var(--primary-green, #16a085);
+    color: var(--white, #fff);
+    border: 1px solid var(--primary-green, #16a085);
+}
+#patient-records-table .btn-view-patient:hover {
+    background-color: var(--dark-green, #00796b);
+}
+#patient-records-table .btn-edit-patient {
+    background-color: #ffc107; /* Example warning color */
+    color: #333;
+    border: 1px solid #ffc107;
+}
+#patient-records-table .btn-edit-patient:hover {
+    background-color: #e0a800;
+}
+
+/* Modal styling should be covered by general modal styles from receptionist_dashboard.css or admin_style.css */
+/* Ensure form elements within the modal also use .form-group and .form-control for consistency */
+
+/* Patient Details Grid in Modal */
+.patient-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 10px 20px; /* Row and column gap */
+}
+.patient-details-grid p {
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+.patient-details-grid p strong {
+    display: block; /* Make label take full width above value */
+    color: var(--primary-green, #16a085);
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.notification-wrapper {
+    position: relative;
+    margin-right: 20px; /* Space between bell and avatar */
+}
+
+.notification-icon {
+    font-size: 22px; /* Slightly larger bell */
+    color: var(--grey-text);
+    cursor: pointer;
+    position: relative; /* For badge positioning */
+    padding: 5px; /* Add some padding to make it easier to click */
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px; /* Adjust padding for size */
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    display: inline-block; /* Default to inline-block, JS will hide if 0 */
+    border: 1px solid white; /* Optional border */
+}
+
+.notifications-dropdown {
+    position: absolute;
+    top: 100%; /* Position below the bell */
+    right: 0;
+    width: 320px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1050; /* Ensure it's above other content */
+    display: none; /* Hidden by default */
+    margin-top: 10px; /* Space from bell */
+}
+
+.notifications-dropdown.show {
+    display: block;
+}
+
+.notification-header {
+    padding: 12px 15px;
+    font-weight: 600;
+    font-size: 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--dark-text);
+}
+
+.notification-list {
+    max-height: 300px; /* Limit height and enable scroll */
+    overflow-y: auto;
+}
+
+.notification-item {
+    /* border-bottom: 1px solid var(--border-color); */ /* Optional separator, or use padding */
+}
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-item .notification-link {
+    display: block;
+    padding: 12px 15px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+}
+.notification-item .notification-link:hover {
+    background-color: var(--hover-bg);
+}
+
+
+.notification-item-title {
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--primary-green);
+    margin-bottom: 3px;
+}
+
+.notification-item-message {
+    font-size: 13px;
+    color: var(--dark-text);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    /* For potentially long messages: */
+    white-space: normal; /* Allow wrapping */
+    word-break: break-word;
+}
+
+.notification-item-time {
+    font-size: 11px;
+    color: var(--grey-text);
+}
+
+.no-notifications {
+    padding: 20px 15px;
+    text-align: center;
+    color: var(--grey-text);
+    font-style: italic;
+}
+
+.notification-footer {
+    padding: 10px 15px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.notification-footer a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+}
+.notification-footer a:hover {
+    text-decoration: underline;
+}
