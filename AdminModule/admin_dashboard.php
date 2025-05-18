@@ -98,4 +98,5 @@ $current_page = basename($_SERVER['PHP_SELF']); // This will be 'admin_dashboard
         </div>
     </div>
 </body>
+    <script src="admin_dashboard.js"></script>
 </html>

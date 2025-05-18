@@ -1,5 +1,6 @@
 <?php
 // AdminModule/admin_login.php
+// session_start(); // <-- Add this line
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

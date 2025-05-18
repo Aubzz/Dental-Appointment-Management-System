@@ -177,11 +177,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         appointmentModalBody.innerHTML = `
             <form id="assignDentistFormModal" action="process_assign_dentist.php" method="POST">
-                <input type="hidden" name="appointment_id" value="${appointmentId}">
+                <input type="hidden" name="patient_id" value="${data.patientId || ''}">
+                <input type="hidden" name="doctor_id" value="">
+                <input type="hidden" name="appointment_date" value="${data.appointmentDate || ''}">
+                <input type="hidden" name="appointment_time" value="${data.appointmentTime || ''}">
+                <input type="hidden" name="service_type" value="${data.serviceType || ''}">
                 <p>Assign a dentist to the appointment for <strong>${patientName}</strong> (Service: ${data.serviceType || 'N/A'}).</p>
                 <div class="form-group">
                     <label for="assignDentistSelectModal">Select Dentist:</label>
-                    <select id="assignDentistSelectModal" name="attending_dentist_id" class="form-control" required>
+                    <select id="assignDentistSelectModal" name="doctor_id" class="form-control" required>
                         ${dentistsOptionsHtml}
                     </select>
                 </div>

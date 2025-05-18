@@ -103,6 +103,21 @@ if ($stmt_doctors = $conn->prepare($sql_pending_doctors)) {
                     }
                     ?>
 
+                    <div class="notification-wrapper">
+                        <i class="fas fa-bell notification-icon" id="notificationBell">
+                            <span class="notification-badge" id="notificationBadge"></span>
+                        </i>
+                        <div class="notifications-dropdown" id="notificationsDropdown">
+                            <div class="notification-header">Notifications</div>
+                            <div class="notification-list" id="notificationList">
+                                <p class="no-notifications">No new notifications.</p>
+                            </div>
+                            <div class="notification-footer">
+                                <a href="admin_user_management.php">View All</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <section class="user-verification-section card">
                         <h3>Pending Receptionist Accounts</h3>
                         <div class="table-responsive-wrapper">
@@ -207,4 +222,5 @@ if ($stmt_doctors = $conn->prepare($sql_pending_doctors)) {
         </div>
     </div>
 </body>
+<script src="admin_dashboard.js"></script>
 </html>

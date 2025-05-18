@@ -28,9 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($account_type === 'receptionist') {
         $table_name = "receptionists";
         $status_column = "is_verified";
-    } elseif ($account_type === 'doctor') {
-        $table_name = "doctors";
-        $status_column = "is_active"; // Doctors use is_active
+    } elseif ($action === 'approve') {
+        if ($account_type === 'doctor') {
+            $sql = "UPDATE doctors SET is_active = 1, is_verified = 1 WHERE id = ? AND is_active = 0";
+        } else {
+            $sql = "UPDATE $table_name SET $status_column = ? WHERE id = ? AND $status_column = ?";
+        }
+        $success_message = ucfirst($account_type) . " account (ID: $account_id) has been approved/activated.";
+        $error_message_action = "approving/activating";
     } else {
         $_SESSION['admin_message'] = ['type' => 'error', 'text' => 'Invalid account type specified.'];
         header('Location: admin_user_management.php');
@@ -42,9 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error_message_action = "";
 
     if ($action === 'approve') {
-        $sql = "UPDATE $table_name SET $status_column = ? WHERE id = ? AND $status_column = ?";
-        $success_message = ucfirst($account_type) . " account (ID: $account_id) has been approved/activated.";
-        $error_message_action = "approving/activating";
+        if ($account_type === 'doctor') {
+            $sql = "UPDATE doctors SET is_active = 1, is_verified = 1 WHERE id = ? AND is_active = 0";
+        } else {
+            $sql = "UPDATE $table_name SET $status_column = ? WHERE id = ? AND $status_column = ?";
+        }
     } elseif ($action === 'reject') {
         // For simplicity, we'll delete rejected pending accounts.
         // You could also mark them (e.g., set is_verified = 2 or is_active = 2).
@@ -60,8 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($sql)) {
         if ($stmt = $conn->prepare($sql)) {
             if ($action === 'approve') {
-                $stmt->bind_param("iii", $approved_status_value, $account_id, $pending_status_value);
-            } elseif ($action === 'reject') { // For DELETE
+                if ($account_type === 'doctor') {
+                    $stmt->bind_param("i", $account_id);
+                } else {
+                    $stmt->bind_param("iii", $approved_status_value, $account_id, $pending_status_value);
+                }
+            } elseif ($action === 'reject') {
                 $stmt->bind_param("ii", $account_id, $pending_status_value);
             }
             

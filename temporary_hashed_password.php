@@ -31,4 +31,14 @@ echo "<li>Make sure the 'username' column for this row is exactly 'admin' (all l
 echo "<li>Save the changes in phpMyAdmin.</li>";
 echo "<li>Attempt to log in using 'admin' and 'adminpassword123' on your admin login page.</li>";
 echo "</ol>";
+
+if ($result->num_rows == 1) {
+    $admin_user = $result->fetch_assoc();
+    echo "<pre>";
+    echo "Input password: " . htmlspecialchars($admin_password_input) . "\n";
+    echo "Hash from DB: " . htmlspecialchars($admin_user['password_hash']) . "\n";
+    echo "password_verify: " . (password_verify($admin_password_input, $admin_user['password_hash']) ? "true" : "false") . "\n";
+    echo "</pre>";
+    exit; // Uncomment to stop here and see the output
+}
 ?>

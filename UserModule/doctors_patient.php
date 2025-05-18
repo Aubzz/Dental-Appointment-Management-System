@@ -79,7 +79,7 @@ if ($is_logged_in && isset($_SESSION['user_id'])) {
                      <div class="doctors-grid">
                          <div class="doctor-card">
                              <div class="doctor-image-placeholder">
-                                 <img src="../images/doctor1.jpeg" alt="Photo of Dr. Ashford">
+                                 <img src="../images/doctor-ashford.png" alt="Photo of Dr. Ashford">
                              </div>
                              <h3>Dr. Ashford</h3>
                              <div class="doctor-details">
@@ -90,7 +90,7 @@ if ($is_logged_in && isset($_SESSION['user_id'])) {
                          </div>
                          <div class="doctor-card">
                              <div class="doctor-image-placeholder">
-                                 <img src="../images/doctor2.jpeg" alt="Photo of Dr. Monte">
+                                 <img src="../images/doctor-monte.png" alt="Photo of Dr. Monte">
                              </div>
                              <h3>Dr. Monte</h3>
                              <div class="doctor-details">
@@ -101,7 +101,7 @@ if ($is_logged_in && isset($_SESSION['user_id'])) {
                          </div>
                          <div class="doctor-card">
                              <div class="doctor-image-placeholder">
-                                 <img src="../images/doctor3.jpeg" alt="Photo of Dr. Khan">
+                                 <img src="../images/doctor-khan.png" alt="Photo of Dr. Khan">
                              </div>
                              <h3>Dr. Khan</h3>
                              <div class="doctor-details">

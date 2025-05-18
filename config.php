@@ -10,12 +10,14 @@ if (session_status() == PHP_SESSION_NONE) {
 // --- Database Configuration ---
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'mysecretpassword'); // Your DB password, likely empty for default XAMPP
+define('DB_PASSWORD', ''); // Your DB password, likely empty for default XAMPP
+// define('DB_PASSWORD', 'mysecretpassword'); // Your DB password, likely empty for default XAMPP
 define('DB_NAME', 'dams_db'); // Your database name
 
 // --- Database Connection ---
 // Create connection object
-$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+// $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$conn = new mysqli(DB_SERVER, DB_USERNAME, '', DB_NAME);
 
 // Check connection status (without using die())
 if ($conn->connect_error) {
