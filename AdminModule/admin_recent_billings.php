@@ -25,19 +25,106 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="admin_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        .billings-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-        .billings-table th, .billings-table td { padding: 12px 16px; border-bottom: 1px solid #e0e0e0; text-align: left; }
-        .billings-table th { background: #16a085; color: #fff; }
-        .billings-table tr:nth-child(even) { background: #f8f9fa; }
-        .billings-table tr:hover { background: #e0f7fa; }
-        .status.PAID { color: #16a085; font-weight: 600; }
-        .status.PENDING { color: #b8860b; font-weight: 600; }
+        .table-responsive-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-top: 15px;
+            border: 1px solid var(--admin-light-border-color, #e0e0e0);
+            border-radius: 6px;
+            background-color: var(--admin-white, #fff);
+        }
 
-        .panel-page-title{
+        .data-table.verification-table {
+            font-size: 0.9em;
+            min-width: 700px;
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+        }
+
+        .data-table.verification-table thead th {
+            background-color: var(--admin-very-light-green-bg, #f0f7f6);
+            color: var(--admin-dark-green, #004d40);
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--admin-primary-green, #16a085);
+        }
+
+        .data-table.verification-table thead th:first-child {
+            border-top-left-radius: 5px;
+        }
+
+        .data-table.verification-table thead th:last-child {
+            border-top-right-radius: 5px;
+        }
+
+        .data-table.verification-table tbody td {
+            padding: 9px 12px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--admin-light-border-color, #e0e0e0);
+            color: var(--admin-text-muted, #555);
+        }
+
+        .data-table.verification-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table.verification-table tbody tr:hover td {
+            background-color: var(--admin-card-hover-bg, #e9f5f3);
+        }
+
+        .status.PAID {
+            color: var(--admin-status-completed-text, #4caf50);
+            font-weight: 500;
+            background-color: var(--admin-status-completed-bg, #e8f5e9);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+
+        .status.PENDING {
+            color: #b8860b;
+            font-weight: 500;
+            background-color: #fff3e0;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+
+        .panel-page-title {
             font-size: 1.7rem;
             font-weight: 600;
             color: #16a085;
             margin-bottom: 20px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Scrollbar styling */
+        .table-responsive-wrapper::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .table-responsive-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .table-responsive-wrapper::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .table-responsive-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
     </style>
 </head>
@@ -74,32 +161,34 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <main class="admin-main-panel">
                 <div class="main-panel-content-wrapper">
                     <h1 class="panel-page-title">Recent Billings</h1>
-                    <table class="billings-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Patient ID</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($billings)): ?>
-                                <?php foreach ($billings as $bill): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($bill['id']); ?></td>
-                                        <td><?php echo isset($bill['patient_name']) ? htmlspecialchars($bill['patient_name']) : htmlspecialchars($bill['patient_id']); ?></td>
-                                        <td><?php echo htmlspecialchars($bill['amount']); ?></td>
-                                        <td class="status <?php echo htmlspecialchars($bill['status']); ?>"><?php echo htmlspecialchars($bill['status']); ?></td>
-                                        <td><?php echo htmlspecialchars($bill['billing_date']); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr><td colspan="5" style="text-align:center; color:#8a6d3b; font-style:italic;">No billing records found.</td></tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive-wrapper">
+                        <table class="data-table verification-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patient</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($billings)): ?>
+                                    <?php foreach ($billings as $bill): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($bill['id']); ?></td>
+                                            <td><?php echo isset($bill['patient_name']) ? htmlspecialchars($bill['patient_name']) : htmlspecialchars($bill['patient_id']); ?></td>
+                                            <td><?php echo htmlspecialchars($bill['amount']); ?></td>
+                                            <td class="status <?php echo htmlspecialchars($bill['status']); ?>"><?php echo htmlspecialchars($bill['status']); ?></td>
+                                            <td><?php echo htmlspecialchars($bill['billing_date']); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr><td colspan="5" style="text-align:center; color:#8a6d3b; font-style:italic;">No billing records found.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </main>
         </div>

@@ -82,7 +82,7 @@ if ($result && $result->num_rows > 0) {
                     </div>
 
                     <div class="appointments-table-container">
-                        <table class="appointments-table">
+                        <table class="data-table verification-table">
                             <thead>
                                 <tr>
                                     <th>Patient</th>
@@ -92,7 +92,7 @@ if ($result && $result->num_rows > 0) {
                                     <th>Service</th>
                                     <th>Status</th>
                                     <th>Notes</th>
-                                    <th>Actions</th>
+                                    <th class="actions-column">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="appointmentsTableBody">
@@ -156,65 +156,100 @@ if ($result && $result->num_rows > 0) {
                             overflow-x: auto;
                             max-height: 70vh;
                             overflow-y: auto;
+                            border: 1px solid var(--admin-light-border-color, #e0e0e0);
                         }
 
-                        .appointments-table {
-                            width: 100%;
-                            border-collapse: collapse;
+                        .data-table.verification-table {
+                            font-size: 0.9em;
                             min-width: 1000px;
+                            border-collapse: separate;
+                            border-spacing: 0;
+                            width: 100%;
                         }
 
-                        .appointments-table th {
-                            position: sticky;
-                            top: 0;
-                            background-color: #f8f9fa;
-                            z-index: 1;
-                        }
-
-                        .appointments-table th,
-                        .appointments-table td {
-                            padding: 12px 15px;
-                            text-align: left;
-                            border-bottom: 1px solid #eee;
-                            color: #006a4e !important;
-                        }
-
-                        .patient-info {
-                            padding: 5px 0;
-                        }
-
-                        .patient-name {
+                        .data-table.verification-table thead th {
+                            background-color: var(--admin-very-light-green-bg, #f0f7f6);
+                            color: var(--admin-dark-green, #004d40);
                             font-weight: 600;
-                            color: #2c3e50;
-                            margin-bottom: 4px;
+                            white-space: nowrap;
+                            padding: 10px 12px;
+                            text-align: left;
+                            border-bottom: 2px solid var(--admin-primary-green, #16a085);
                         }
 
-                        .patient-details {
-                            font-size: 0.9em;
-                            color: #666;
-                            display: flex;
-                            gap: 15px;
-                            margin-bottom: 3px;
+                        .data-table.verification-table thead th:first-child {
+                            border-top-left-radius: 5px;
                         }
 
-                        .patient-sub-details {
+                        .data-table.verification-table thead th:last-child {
+                            border-top-right-radius: 5px;
+                        }
+
+                        .data-table.verification-table tbody td {
+                            padding: 9px 12px;
+                            vertical-align: middle;
+                            border-bottom: 1px solid var(--admin-light-border-color, #e0e0e0);
+                            color: var(--admin-text-muted, #555);
+                        }
+
+                        .data-table.verification-table tbody tr:last-child td {
+                            border-bottom: none;
+                        }
+
+                        .data-table.verification-table tbody tr:hover td {
+                            background-color: var(--admin-card-hover-bg, #e9f5f3);
+                        }
+
+                        .data-table.verification-table th.actions-column,
+                        .data-table.verification-table td.action-buttons-cell {
+                            text-align: right;
+                            white-space: nowrap;
+                        }
+
+                        .data-table.verification-table th.actions-column {
+                            width: 1%;
+                        }
+
+                        .action-btn {
+                            padding: 6px 10px;
                             font-size: 0.85em;
-                            color: #888;
-                            display: flex;
-                            gap: 15px;
-                        }
-
-                        .patient-details span,
-                        .patient-sub-details span {
-                            display: flex;
+                            margin-left: 6px;
+                            border-radius: 4px;
+                            text-decoration: none;
+                            display: inline-flex;
                             align-items: center;
-                            gap: 5px;
+                            justify-content: center;
+                            min-width: 85px;
+                            border-width: 1px;
+                            border-style: solid;
+                            cursor: pointer;
+                            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
                         }
 
-                        .patient-details i,
-                        .patient-sub-details i {
-                            font-size: 0.9em;
-                            color: #16a085;
+                        .action-btn:first-child {
+                            margin-left: 0;
+                        }
+
+                        .action-btn.view {
+                            background-color: var(--admin-status-completed-bg, #e8f5e9);
+                            color: var(--admin-status-completed-text, #4caf50);
+                            border-color: var(--admin-status-completed-text, #4caf50);
+                        }
+
+                        .action-btn.edit {
+                            background-color: #fff3e0;
+                            color: #f57c00;
+                            border-color: #f57c00;
+                        }
+
+                        .action-btn.delete {
+                            background-color: #ffebee;
+                            color: #c62828;
+                            border-color: #c62828;
+                        }
+
+                        .action-btn:hover {
+                            opacity: 0.8;
                         }
 
                         .status-badge {
@@ -239,42 +274,11 @@ if ($result && $result->num_rows > 0) {
                             color: #c62828;
                         }
 
-                        .action-buttons {
-                            display: flex;
-                            gap: 8px;
-                        }
-
-                        .action-btn {
-                            padding: 6px;
-                            border: none;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            transition: background-color 0.2s;
-                        }
-
-                        .action-btn.view {
-                            background-color: #e3f2fd;
-                            color: #1976d2;
-                        }
-
-                        .action-btn.edit {
-                            background-color: #fff3e0;
-                            color: #f57c00;
-                        }
-
-                        .action-btn.delete {
-                            background-color: #ffebee;
-                            color: #c62828;
-                        }
-
-                        .action-btn:hover {
-                            opacity: 0.8;
-                        }
-
                         .no-data {
                             text-align: center;
                             color: #666;
                             padding: 20px;
+                            font-style: italic;
                         }
 
                         /* Scrollbar styling */

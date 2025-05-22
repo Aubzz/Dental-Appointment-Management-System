@@ -23,9 +23,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="admin_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        .appointments-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-        .appointments-table th, .appointments-table td { padding: 12px 16px; border-bottom: 1px solid #e0e0e0; text-align: left; }
-        .appointments-table th { background: #16a085; color: #fff; }
+        .appointments-table { width: 100%; border-collapse: collapse; margin-top: 30px; border: 1px solid #e0e0e0; }
+        
+        .appointments-table th, .appointments-table td { 
+            padding: 12px 16px; 
+            border-bottom: 1px solid #e0e0e0; 
+            text-align: left; 
+        }
+        .appointments-table th { 
+            color: #004d40;
+            background-color: #f0f7f6; 
+            border-bottom: 2px solid #16a085;
+            white-space: nowrap;
+        }
+        .appointments-table th:last-child {
+            border-top-right-radius: 10px;
+        }
         .appointments-table tr:nth-child(even) { background: #f8f9fa; }
         .appointments-table tr:hover { background: #e0f7fa; }
         .status { font-weight: 600; padding: 4px 10px; border-radius: 6px; }
