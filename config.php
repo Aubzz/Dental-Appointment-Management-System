@@ -143,4 +143,27 @@ function decrypt_data($data) {
     return $original_plaintext;
 }
 
+function get_security_setting($key, $default = null) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT setting_value FROM security_settings WHERE setting_key = ?");
+    $stmt->bind_param("s", $key);
+    $stmt->execute();
+    $stmt->bind_result($value);
+    if ($stmt->fetch()) {
+        $stmt->close();
+        return $value;
+    }
+    $stmt->close();
+    return $default;
+}
+
+function set_security_setting($key, $value) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO security_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)");
+    $stmt->bind_param("ss", $key, $value);
+    $stmt->execute();
+    $stmt->close();
+}
+
 ?>
+

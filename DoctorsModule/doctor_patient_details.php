@@ -63,6 +63,28 @@ if ($stmt = $conn->prepare($sql_notifications)) {
 // --- Fetch Patient Details ---
 $patient_id = isset($_GET['patient_id']) ? intval($_GET['patient_id']) : 0;
 $patient = null;
+
+// Handle patient update POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['patient_id'])) {
+    $update_sql = "UPDATE patients SET firstName=?, lastName=?, phoneNumber=?, email=?, gender=?, dob=? WHERE id=?";
+    if ($stmt = $conn->prepare($update_sql)) {
+        $stmt->bind_param(
+            "ssssssi",
+            $_POST['firstName'],
+            $_POST['lastName'],
+            $_POST['phoneNumber'],
+            $_POST['email'],
+            $_POST['gender'],
+            $_POST['dob'],
+            $_POST['patient_id']
+        );
+        $stmt->execute();
+        $stmt->close();
+        // Refresh patient data after update
+        header("Location: doctor_patient_details.php?patient_id=" . intval($_POST['patient_id']));
+        exit;
+    }
+}
 if ($patient_id) {
     $sql_patient = "SELECT id, firstName, lastName, email, phoneNumber, gender, dob FROM patients WHERE id = ?";
     if ($stmt = $conn->prepare($sql_patient)) {
@@ -75,6 +97,25 @@ if ($patient_id) {
         }
         $stmt->close();
     }
+}
+
+// Fetch encrypted medical info
+$decryptedMedicalInfo = 'None';
+$sql = "SELECT medicalInfo FROM patients WHERE id = ?";
+if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $patient_id);
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            if (!empty($row['medicalInfo'])) {
+                $decryptedMedicalInfo = decrypt_data($row['medicalInfo']);
+                if ($decryptedMedicalInfo === false || $decryptedMedicalInfo === null || trim($decryptedMedicalInfo) === '' || $decryptedMedicalInfo === '[Encrypted data - retrieval issue or no data]') {
+                    $decryptedMedicalInfo = 'None';
+                }
+            }
+        }
+    }
+    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
@@ -90,9 +131,9 @@ if ($patient_id) {
             background: #fff;
             border-radius: 12px;
             padding: 30px 40px;
-            margin: 30px 20px;
+            margin: 30px 35px;
             box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
-            max-width: 1400px;
+            max-width: 1500px;
             width: 100%;
         }
         .patient-details-header {
@@ -205,7 +246,7 @@ if ($patient_id) {
                     <div class="patient-details-header">
                         <img src="../images/patient-avatar.png" alt="Patient Avatar">
                         <div class="patient-name"><?php echo htmlspecialchars($patient['firstName'] . ' ' . $patient['lastName']); ?></div>
-                        <button id="editPatientBtn" style="margin-left:auto; background:none; border:none; cursor:pointer; font-size:20px; color:#1976d2;" title="Edit Patient">
+                        <button id="editPatientBtn" style="margin-left:auto; background:none; border:none; cursor:pointer; font-size:20px; color:#0A744F; position:relative; top:-6px;" title="Edit Patient">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
                     </div>
@@ -230,8 +271,8 @@ if ($patient_id) {
                         <p><strong>Contact Number:</strong> <?php echo htmlspecialchars($patient['phoneNumber']); ?></p>
                     </div>
                     <div class="patient-details-options">
-                        <a href="#"><i class="fas fa-notes-medical"></i> Medical History</a>
-                        <a href="#"><i class="fas fa-sticky-note"></i> Dental Notes</a>
+                        <a href="doctor_patient_medical_history.php?patient_id=<?php echo $patient_id; ?>"><i class="fas fa-notes-medical"></i> Medical History</a>
+                        <a href="doctor_patient_dental_notes.php?patient_id=<?php echo $patient_id; ?>"><i class="fas fa-sticky-note"></i> Dental Notes</a>
                     </div>
                 <?php else: ?>
                     <p>Patient not found.</p>
@@ -258,16 +299,22 @@ if ($patient_id) {
         const editBtn = document.getElementById('editPatientBtn');
         const editForm = document.getElementById('editPatientForm');
         const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const detailsInfo = document.querySelector('.patient-details-info');
+        const detailsOptions = document.querySelector('.patient-details-options');
         if (editBtn && editForm) {
             editBtn.addEventListener('click', function() {
                 editForm.style.display = 'block';
                 editBtn.style.display = 'none';
+                if(detailsInfo) detailsInfo.style.display = 'none';
+                if(detailsOptions) detailsOptions.style.display = 'none';
             });
         }
         if (cancelEditBtn && editBtn && editForm) {
             cancelEditBtn.addEventListener('click', function() {
                 editForm.style.display = 'none';
                 editBtn.style.display = 'inline-block';
+                if(detailsInfo) detailsInfo.style.display = '';
+                if(detailsOptions) detailsOptions.style.display = '';
             });
         }
     });

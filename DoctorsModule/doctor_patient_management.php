@@ -69,7 +69,8 @@ $sql_patients = "
         p.id,
         p.firstName,
         p.lastName,
-        p.phoneNumber
+        p.phoneNumber,
+        p.gender
     FROM patients p
     JOIN appointments a ON a.patient_id = p.id
     WHERE a.attending_dentist = ?
@@ -142,6 +143,48 @@ if ($stmt = $conn->prepare($sql_patients)) {
             color: #777;
             margin: 0;
         }
+
+        .search-input {
+            width: 100%;
+            max-width: 1490px;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 1.5px solid #16a085;
+            background: #d4f9e5;
+            font-size: 1em;
+            color: #2c3e50;
+            transition: border-color 0.2s, background 0.2s;
+            box-sizing: border-box;
+            outline: none;
+            font-family: inherit;
+            height: 60px;
+        }
+
+        .search-input:focus {
+            border-color: #1abc9c;
+            background: #c0f2d6;
+        }
+
+        .search-input::placeholder {
+            color: #388e5c;
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+        .patient-search-bar {
+            width: 100%;
+            max-width: 1490px;
+            margin-left: 40px;
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+   
+
+        #patientList {
+            margin-top: 20px;
+            margin-left: 40px;
+            margin-right: 40px;
+        }
     </style>
 </head>
 <body class="doctor-layout-page">
@@ -156,7 +199,7 @@ if ($stmt = $conn->prepare($sql_patients)) {
                     <li><a href="doctor_dashboard.php" class="nav-link"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
                     <li><a href="doctor_appointment.php" class="nav-link"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
                     <li><a href="doctor_patient_management.php" class="nav-link active  "><i class="fas fa-clipboard-list nav-icon"></i> Patient Management</a></li>
-                    <li><a href="../logout.php" class="nav-link"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
+                    <li><a href="../UserModule/logout.php" class="nav-link"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
                 </ul>
             </nav>
         </aside>
@@ -209,9 +252,9 @@ if ($stmt = $conn->prepare($sql_patients)) {
         <div class="patient-search-bar">
             <input type="text" class="search-input" id="searchInput" placeholder="Search by name">
         </div>
-        <!-- <div class="patient-count">
+        <div class="patient-count" style="margin-left: 40px; color: #444; font-size: 0.98em; margin-bottom: 10px;">
             <?php echo count($patients); ?> assigned patient record(s)
-        </div> -->
+        </div>
         <div id="patientList">
             <?php if (!empty($patients)): ?>
                 <?php foreach ($patients as $patient): ?>
@@ -219,7 +262,7 @@ if ($stmt = $conn->prepare($sql_patients)) {
                         <img src="../images/patient-avatar.png" alt="Patient Avatar" class="user-avatar">
                         <div class="patient-record-details">
                             <h3><?php echo htmlspecialchars($patient['firstName'] . ' ' . $patient['lastName']); ?></h3>
-                            <p>Phone: <?php echo htmlspecialchars($patient['phoneNumber']); ?></p>
+                            <p>Phone: <?php echo htmlspecialchars($patient['phoneNumber']); ?> | Gender: <?php echo htmlspecialchars($patient['gender'] ?? 'N/A'); ?></p>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -245,22 +288,50 @@ if ($stmt = $conn->prepare($sql_patients)) {
             });
         }
 
-        // Search functionality
+        // Enhanced search functionality
         const searchInput = document.getElementById('searchInput');
         const patientList = document.getElementById('patientList');
+        
         if (searchInput && patientList) {
             searchInput.addEventListener('input', function() {
-                const filter = searchInput.value.toLowerCase();
+                const searchTerm = searchInput.value.toLowerCase().trim();
                 const records = patientList.querySelectorAll('.patient-record');
+                let hasResults = false;
+
                 records.forEach(function(record) {
                     const name = record.querySelector('h3').textContent.toLowerCase();
                     const phone = record.querySelector('p').textContent.toLowerCase();
-                    if (name.includes(filter) || phone.includes(filter)) {
-                        record.style.display = '';
-                    } else {
-                        record.style.display = 'none';
-                    }
+                    
+                    // Check if either name or phone contains the search term
+                    const matches = name.includes(searchTerm) || phone.includes(searchTerm);
+                    
+                    // Show/hide the record based on the match
+                    record.style.display = matches ? '' : 'none';
+                    
+                    // Update hasResults flag
+                    if (matches) hasResults = true;
                 });
+
+                // Show/hide "No results" message
+                const noResultsMsg = patientList.querySelector('.no-patients-found');
+                if (!hasResults && !noResultsMsg) {
+                    const message = document.createElement('p');
+                    message.className = 'no-patients-found';
+                    message.textContent = 'No patients found matching your search.';
+                    patientList.appendChild(message);
+                } else if (hasResults && noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            });
+
+            // Clear search when input is cleared
+            searchInput.addEventListener('change', function() {
+                if (this.value === '') {
+                    const records = patientList.querySelectorAll('.patient-record');
+                    records.forEach(record => record.style.display = '');
+                    const noResultsMsg = patientList.querySelector('.no-patients-found');
+                    if (noResultsMsg) noResultsMsg.remove();
+                }
             });
         }
     });

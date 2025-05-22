@@ -43,6 +43,15 @@ if ($stmt_doctors = $conn->prepare($sql_pending_doctors)) {
     <link rel="stylesheet" href="admin_style.css">
     <link rel="stylesheet" href="admin_user_management.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .panel-page-title{
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #16a085;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body class="admin-layout-page">
 
@@ -75,12 +84,12 @@ if ($stmt_doctors = $conn->prepare($sql_pending_doctors)) {
                                 <i class="fas fa-user-check"></i> User Management
                             </a>
                         </li>
-                        <li><a href="#" class="<?php echo ($current_page === 'admin_appointments.php') ? 'active' : ''; ?>"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
-                        <li><a href="#" class="<?php echo ($current_page === 'admin_settings.php') ? 'active' : ''; ?>"><i class="fas fa-cog"></i> System Settings</a></li>
-                        <li><a href="#" class="<?php echo ($current_page === 'admin_reports.php') ? 'active' : ''; ?>"><i class="fas fa-chart-line"></i> Reports & Analytics</a></li>
-                        <li><a href="#" class="<?php echo ($current_page === 'admin_data.php') ? 'active' : ''; ?>"><i class="fas fa-database"></i> Data Management</a></li>
-                        <li><a href="#" class="<?php echo ($current_page === 'admin_security.php') ? 'active' : ''; ?>"><i class="fas fa-shield-alt"></i> Security Controls</a></li>
-                        <li><a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <li><a href="appointments.php" class="<?php echo ($current_page === 'appointments.php') ? 'active' : ''; ?>"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                        <li><a href="system_settings.php" class="<?php echo ($current_page === 'security_settings.php') ? 'active' : ''; ?>"><i class="fas fa-cog"></i> System Settings</a></li>
+                        <li><a href="reports_analysis.php" class="<?php echo ($current_page === 'reports_analysis.php') ? 'active' : ''; ?>"><i class="fas fa-chart-line"></i> Reports & Analytics</a></li>
+                        <li><a href="data_management.php" class="<?php echo ($current_page === 'data_management.php') ? 'active' : ''; ?>"><i class="fas fa-database"></i> Data Management</a></li>
+                        <li><a href="security_controls.php" class="<?php echo ($current_page === 'security_controls.php') ? 'active' : ''; ?>"><i class="fas fa-shield-alt"></i> Security Controls</a></li>
+                        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     </ul>
                 </nav>
             </aside>

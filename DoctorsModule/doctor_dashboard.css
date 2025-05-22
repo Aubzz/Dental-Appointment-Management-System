@@ -989,8 +989,8 @@ body {
 
 .search-input {
     width: 100%;
-    max-width: 500px; /* Increased max-width */
-    padding: 16px 20px; /*Kept padding the same*/
+    max-width: 1400px;
+    padding: 16px 20px;
     border-radius: 20px;
     border: 1.5px solid #16a085;
     background: #d4f9e5;
@@ -1000,6 +1000,7 @@ body {
     box-sizing: border-box;
     outline: none;
     font-family: inherit;
+    height: 80px;
 }
 
 .search-input:focus {
@@ -1018,6 +1019,7 @@ body {
     color: #444;
     font-size: 0.98em;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 #patientList {

@@ -58,91 +58,142 @@ if ($stmt = $conn->prepare($sql_notifications)) {
     $stmt->close();
 }
 
-// --- Fetch Patient Info ---
+// --- Fetch Patient Info and Medical Info ---
 $patient = null;
-$sql_patient = "SELECT * FROM patients WHERE id = ?";
+$decryptedMedicalInfo = 'None';
+if ($patient_id) {
+    $sql_patient = "SELECT id, firstName, lastName, email, phoneNumber, gender, dob, medicalInfo FROM patients WHERE id = ?";
 if ($stmt = $conn->prepare($sql_patient)) {
     $stmt->bind_param("i", $patient_id);
     if ($stmt->execute()) {
         $result = $stmt->get_result();
         if ($result->num_rows == 1) {
             $patient = $result->fetch_assoc();
+                if (!empty($patient['medicalInfo'])) {
+                    $decryptedMedicalInfo = decrypt_data($patient['medicalInfo']);
+                    if ($decryptedMedicalInfo === false || $decryptedMedicalInfo === null || trim($decryptedMedicalInfo) === '' || $decryptedMedicalInfo === '[Encrypted data - retrieval issue or no data]') {
+                        $decryptedMedicalInfo = 'None';
+                    }
+                }
         }
     }
     $stmt->close();
+    }
 }
 
-// --- Handle Edit/Add Medical History ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_medical_history'])) {
-    $history_id = isset($_POST['history_id']) ? intval($_POST['history_id']) : 0;
-    $date = $_POST['date'] ?? date('Y-m-d');
-    $description = trim($_POST['description'] ?? '');
-
-    if ($history_id > 0) {
-        // Update existing
-        $sql_update = "UPDATE medical_history SET date=?, description=? WHERE id=? AND patient_id=?";
+// --- Handle Edit Medical Info (main medicalInfo field) ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_main_medical_info'])) {
+    $newMedicalInfo = trim($_POST['main_medical_info'] ?? '');
+    $encryptedMedicalInfo = !empty($newMedicalInfo) ? encrypt_data($newMedicalInfo) : null;
+    $sql_update = "UPDATE patients SET medicalInfo=? WHERE id=?";
         if ($stmt = $conn->prepare($sql_update)) {
-            $stmt->bind_param("ssii", $date, $description, $history_id, $patient_id);
+        $stmt->bind_param("si", $encryptedMedicalInfo, $patient_id);
             $stmt->execute();
             $stmt->close();
-        }
-    } else {
-        // Insert new
-        $sql_insert = "INSERT INTO medical_history (patient_id, date, description) VALUES (?, ?, ?)";
-        if ($stmt = $conn->prepare($sql_insert)) {
-            $stmt->bind_param("iss", $patient_id, $date, $description);
-            $stmt->execute();
-            $stmt->close();
-        }
     }
     header("Location: doctor_patient_medical_history.php?patient_id=$patient_id");
     exit;
-}
-
-// --- Fetch Medical History ---
-$medical_history = [];
-$sql_medical = "SELECT * FROM medical_history WHERE patient_id = ? ORDER BY date DESC";
-if ($stmt = $conn->prepare($sql_medical)) {
-    $stmt->bind_param("i", $patient_id);
-    if ($stmt->execute()) {
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $medical_history[] = $row;
-        }
-    }
-    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Patient Medical History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical History</title>
     <link rel="stylesheet" href="doctor_dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .medical-history-container {
-            background: #D3F2E0;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px auto;
-            max-width: 700px;
+        .notes-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 40px;
+            margin: 30px 35px;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+            max-width: 1500px;
+            width: 100%;
         }
-        .patient-details-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .notes-header {
+            font-size: 22px;
+            font-weight: 600;
+            color: #0A744F;
             margin-bottom: 20px;
         }
-        .patient-details-header img {
+        .note-content {
+            font-size: 16px;
+            color: #333;
+        }
+        .medical-history-container {
+            background: #D3F2E0;
+            border-radius: 12px;
+            padding: 30px 40px;
+            margin: 30px 35px;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+            max-width: 1500px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0;
+            min-height: 220px;
+        }
+        .medical-history-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            margin-bottom: 0;
+            padding: 0;
+        }
+        .medical-history-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 160px;
+            color: #555;
+            font-style: italic;
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .patient-details {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            min-width: 220px;
+            max-width: 100%;
+            margin-right: 0;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .patient-details img {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             object-fit: cover;
+            margin-bottom: 0;
         }
-        .patient-details-header h2 {
-            margin: 0;
+        .patient-details-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .patient-details-info h3 {
             color: #0A744F;
+            margin: 0 0 5px;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: left;
+        }
+        .patient-details-info p {
+            margin: 0;
+            font-size: 14px;
+            text-align: left;
         }
         .edit-btn {
             background: #16a085;
@@ -169,78 +220,63 @@ if ($stmt = $conn->prepare($sql_medical)) {
             margin-bottom: 10px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.07);
         }
+        @media (max-width: 900px) {
+            .medical-history-container {
+                padding: 20px 10px;
+            }
+            .medical-history-header {
+                padding: 0 10px;
+            }
+            .patient-details {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .patient-details-info h3, .patient-details-info p {
+                text-align: center;
+            }
+        }
     </style>
 </head>
-<body>
-    <!-- Header with notifications and profile -->
-    <div class="dashboard-header" style="background: #d3f2e0; display: flex; align-items: center; padding: 12px 24px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="notification-wrapper" style="position: relative;">
-                <i class="fas fa-bell notification-icon" id="notificationBell" style="font-size: 22px; cursor: pointer; position: relative;">
-                    <?php if (count($notifications) > 0): ?>
-                        <span class="notification-badge" id="notificationBadge" style="position: absolute; top: -6px; right: -6px; background: #f44336; color: #fff; border-radius: 50%; font-size: 12px; padding: 2px 6px;">
-                            <?php echo count($notifications); ?>
-                        </span>
-                    <?php endif; ?>
-                </i>
-                <div class="notifications-dropdown" id="notificationsDropdown" style="display:none; position: absolute; left: 0; top: 30px; background: #fff; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); width: 320px; z-index: 100;">
-                    <div class="notification-header" style="font-weight: bold; padding: 10px; border-bottom: 1px solid #eee;">Notifications</div>
-                    <div class="notification-list" id="notificationList">
-                        <?php if (count($notifications) === 0): ?>
-                            <p class="no-notifications" style="padding: 15px; color: #888; text-align: center;">No new notifications.</p>
-                        <?php else: ?>
-                            <?php foreach ($notifications as $n): ?>
-                                <div class="notification-item" style="padding: 10px; border-bottom: 1px solid #f0f0f0;">
-                                    <p>
-                                        <strong>New Appointment:</strong>
-                                        <?php echo htmlspecialchars($n['patient_firstName'] . ' ' . $n['patient_lastName']); ?>
-                                        on <?php echo htmlspecialchars($n['appointment_date']); ?> at <?php echo htmlspecialchars($n['appointment_time']); ?>
-                                    </p>
-                                    <small>Status: <?php echo htmlspecialchars($n['status']); ?></small>
+<body class="doctor-layout-page">
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="../images/tooth.png" alt="Escosia Dental Clinic Logo" class="logo-image">
+                <h1>Escosia Dental Clinic</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="doctor_dashboard.php" class="nav-link"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
+                    <li><a href="doctor_appointment.php" class="nav-link"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
+                    <li><a href="doctor_patient_management.php" class="nav-link active"><i class="fas fa-clipboard-list nav-icon"></i> Patient Management</a></li>
+                    <li><a href="../logout.php" class="nav-link"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="main-content">
+            <div class="medical-history-container">
+                <div class="medical-history-header">
+                    <h2>Medical History</h2>
+                    <button class="edit-btn" style="background-color: #A2D9BC; color: #0A744F; border: none; border-radius: 10px; padding: 8px 15px; font-size: 14px; cursor: pointer;" onclick="showMainMedicalInfoEditForm()"><i class="fas fa-pencil-alt"></i> Edit</button>
                                 </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                <div class="patient-details">
+                    <img src="../images/patient-avatar.png" alt="Patient Avatar">
+                    <div class="patient-details-info">
+                        <h3><?php echo htmlspecialchars($patient['firstName'] . ' ' . $patient['lastName']); ?></h3>
+                        <p><?php echo htmlspecialchars($patient['phoneNumber']); ?></p>
                     </div>
                 </div>
+                <div class="medical-history-content">
+                    <span id="mainMedicalInfoDisplay" style="font-style:italic;"><?php echo nl2br(htmlspecialchars($decryptedMedicalInfo)); ?></span>
+                    <form id="mainMedicalInfoEditForm" method="POST" style="display:none; margin-top:15px; width:100%;">
+                        <input type="hidden" name="edit_main_medical_info" value="1">
+                        <textarea name="main_medical_info" rows="4" style="width:100%;"><?php echo htmlspecialchars($decryptedMedicalInfo); ?></textarea><br>
+                        <button type="submit" class="edit-btn" style="background:#1976d2; color:#fff;">Save</button>
+                        <button type="button" class="edit-btn" style="background:#aaa; color:#fff; margin-left:10px;" onclick="cancelMainMedicalInfoEdit()">Cancel</button>
+                    </form>
             </div>
-            <img src="<?php echo htmlspecialchars($doctor_profile_picture); ?>" alt="User" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
-            <div style="display: flex; flex-direction: column;">
-                <span style="font-weight: bold; font-size: 1.1em;"><?php echo $doctor_name; ?></span>
-                <span style="color: #888; font-size: 0.95em;"><?php echo $doctor_specialty; ?></span>
             </div>
         </div>
-    </div>
-    <div class="medical-history-container">
-        <?php if ($patient): ?>
-            <div class="patient-details-header">
-                <img src="<?php echo htmlspecialchars($patient['profile_picture_path'] ?? 'https://via.placeholder.com/80x80?text=User'); ?>" alt="Profile">
-                <div>
-                    <h2><?php echo htmlspecialchars($patient['firstName'] . ' ' . $patient['lastName']); ?></h2>
-                    <p><?php echo htmlspecialchars($patient['phoneNumber']); ?></p>
-                </div>
-            </div>
-            <button class="edit-btn" onclick="showEditForm(0, '', '<?php echo date('Y-m-d'); ?>')"><i class="fas fa-plus"></i> Add Medical History</button>
-            <div id="medicalHistoryList">
-                <?php if (!empty($medical_history)): ?>
-                    <?php foreach ($medical_history as $mh): ?>
-                        <div class="record-card">
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <div>
-                                    <p><strong>Date:</strong> <?php echo htmlspecialchars($mh['date']); ?></p>
-                                    <p><?php echo htmlspecialchars($mh['description']); ?></p>
-                                </div>
-                                <button class="edit-btn" style="background:#e0c341; color:#333; padding:4px 12px; font-size:0.95em;" onclick="showEditForm(<?php echo $mh['id']; ?>, '<?php echo htmlspecialchars(addslashes($mh['description'])); ?>', '<?php echo $mh['date']; ?>'); event.stopPropagation();"><i class="fas fa-pencil-alt"></i> Edit</button>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No medical history found.</p>
-                <?php endif; ?>
-            </div>
-            <div id="editMedicalHistoryFormContainer" style="display:none;"></div>
-        <?php else: ?>
-            <p>Patient not found.</p>
-        <?php endif; ?>
     </div>
     <script>
     // Notification dropdown toggle
@@ -277,6 +313,15 @@ if ($stmt = $conn->prepare($sql_medical)) {
         document.getElementById('editMedicalHistoryFormContainer').innerHTML = formHtml;
         document.getElementById('editMedicalHistoryFormContainer').style.display = 'block';
         window.scrollTo({ top: document.getElementById('editMedicalHistoryFormContainer').offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function showMainMedicalInfoEditForm() {
+        document.getElementById('mainMedicalInfoDisplay').style.display = 'none';
+        document.getElementById('mainMedicalInfoEditForm').style.display = 'block';
+    }
+    function cancelMainMedicalInfoEdit() {
+        document.getElementById('mainMedicalInfoEditForm').style.display = 'none';
+        document.getElementById('mainMedicalInfoDisplay').style.display = 'inline';
     }
     </script>
 </body>

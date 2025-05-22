@@ -8,24 +8,36 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['role'] !== 'doctor') {
 }
 $doctor_id = $_SESSION['user_id'] ?? null;
 
-// --- Fetch Notification Count ---
+// --- Fetch Notification Count and Details ---
 $notification_count = 0;
+$notifications = [];
 $sql_notifications = "
-    SELECT COUNT(*) as count 
-    FROM appointments 
-    WHERE attending_dentist = ? 
-    AND status = 'PENDING'
-    AND appointment_date >= CURDATE()
+    SELECT 
+        a.id,
+        a.appointment_date,
+        a.appointment_time,
+        a.status,
+        a.created_at,
+        p.firstName AS patient_firstName,
+        p.lastName AS patient_lastName
+    FROM appointments a
+    JOIN patients p ON a.patient_id = p.id
+    WHERE a.attending_dentist = ?
+      AND a.created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+      AND (a.status = 'SCHEDULED' OR a.status = 'CONFIRMED' OR a.status = 'PENDING')
+    ORDER BY a.created_at DESC
+    LIMIT 10
 ";
-if ($stmt_notifications = $conn->prepare($sql_notifications)) {
-    $stmt_notifications->bind_param("i", $doctor_id);
-    if ($stmt_notifications->execute()) {
-        $result_notifications = $stmt_notifications->get_result();
-        if ($row = $result_notifications->fetch_assoc()) {
-            $notification_count = $row['count'];
+if ($stmt = $conn->prepare($sql_notifications)) {
+    $stmt->bind_param("i", $doctor_id);
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $notifications[] = $row;
         }
+        $notification_count = count($notifications);
     }
-    $stmt_notifications->close();
+    $stmt->close();
 }
 
 // --- Fetch Doctor Profile Data ---
@@ -177,7 +189,7 @@ endif;
                     <li><a href="doctor_dashboard.php" class="nav-link active"><i class="fas fa-tachometer-alt nav-icon"></i> Dashboard</a></li>
                     <li><a href="doctor_appointment.php" class="nav-link"><i class="fas fa-calendar-alt nav-icon"></i> Appointments</a></li>
                     <li><a href="doctor_patient_management.php" class="nav-link"><i class="fas fa-clipboard-list nav-icon"></i> Patient Management</a></li>
-                    <li><a href="../logout.php" class="nav-link"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
+                    <li><a href="../UserModule/logout.php" class="nav-link"><i class="fas fa-sign-out-alt nav-icon"></i> Logout</a></li>
                 </ul>
             </nav>
         </aside>
@@ -186,14 +198,30 @@ endif;
                 <div class="header-spacer"></div>
                 <div class="user-info">
                     <div class="notification-wrapper">
-                        <i class="fas fa-bell notification-icon" id="notificationBell">
+                        <i class="fas fa-bell notification-icon" id="notificationBell" style="font-size: 22px; cursor: pointer; position: relative;">
                             <?php if ($notification_count > 0): ?>
-                                <span class="notification-badge" id="notificationBadge"><?php echo $notification_count; ?></span>
-                            <?php endif; ?>                        </i>
+                                <span class="notification-badge" id="notificationBadge" style="position: absolute; top: -6px; right: -6px; background: #f44336; color: #fff; border-radius: 50%; font-size: 12px; padding: 2px 6px;">
+                                    <?php echo $notification_count; ?>
+                                </span>
+                            <?php endif; ?>
+                        </i>
                         <div class="notifications-dropdown" id="notificationsDropdown">
                             <div class="notification-header">Notifications</div>
                             <div class="notification-list" id="notificationList">
-                                <p class="no-notifications">No new notifications.</p>
+                                <?php if (count($notifications) === 0): ?>
+                                    <p class="no-notifications">No new notifications.</p>
+                                <?php else: ?>
+                                    <?php foreach ($notifications as $n): ?>
+                                        <div class="notification-item">
+                                            <span class="notification-item-message">
+                                                <strong>Appointment:</strong>
+                                                <?php echo htmlspecialchars($n['patient_firstName'] . ' ' . $n['patient_lastName']); ?>
+                                                on <?php echo htmlspecialchars($n['appointment_date']); ?> at <?php echo htmlspecialchars($n['appointment_time']); ?>
+                                            </span><br>
+                                            <span class="notification-item-time">Status: <?php echo htmlspecialchars($n['status']); ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </div>
                             <div class="notification-footer">
                                 <a href="doctor_appointment.php?filter=pending">View All Request</a>

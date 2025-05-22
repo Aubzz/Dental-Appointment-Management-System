@@ -27,6 +27,7 @@
     width: 100%; /* Make table fill its responsive wrapper */
 }
 
+
 .data-table.verification-table thead th {
     background-color: var(--admin-very-light-green-bg, #f0f7f6); /* From admin_style.css variables */
     color: var(--admin-dark-green, #004d40); /* From admin_style.css variables */

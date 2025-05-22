@@ -7,6 +7,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once '../config.php'; 
+require_once 'security_functions.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $error_message = '';
 
@@ -36,22 +41,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     error_log("Password from DB (hash): " . $admin_user['password_hash']); // DEBUG
                     error_log("Password typed by user: " . $admin_password_input); // DEBUG
 
-                    if (password_verify($admin_password_input, $admin_user['password_hash'])) { // Using password_hash
-                        session_regenerate_id(true); 
-
-                        $_SESSION['loggedin'] = true;
-                        $_SESSION['user_id'] = $admin_user['id'];
-                        $_SESSION['username'] = $admin_user['username'];
-                        $_SESSION['user_email'] = $admin_user['email']; 
-                        $_SESSION['role'] = 'admin';
-                        $_SESSION['user_display_name'] = $admin_user['username'];
-
-                        error_log("Admin login SUCCESS for: " . $admin_username_input); // DEBUG
-                        header('Location: admin_dashboard.php');
-                        exit;
+                    if (isUserLockedOut($admin_user['id'])) {
+                        $error_message = 'Account is temporarily locked. Please try again later.';
+                        recordLoginAttempt($admin_user['id'], 'failed');
                     } else {
-                        $error_message = "Invalid username or password.";
-                        error_log("Admin login failed (password_verify returned false) for username: " . $admin_username_input);
+                        if (password_verify($admin_password_input, $admin_user['password_hash'])) { // Using password_hash
+                            session_regenerate_id(true); 
+
+                            $_SESSION['loggedin'] = true;
+                            $_SESSION['user_id'] = $admin_user['id'];
+                            $_SESSION['username'] = $admin_user['username'];
+                            $_SESSION['user_email'] = $admin_user['email']; 
+                            $_SESSION['role'] = 'admin';
+                            $_SESSION['user_display_name'] = $admin_user['username'];
+                            $_SESSION['last_activity'] = date('Y-m-d H:i:s');
+
+                            error_log("Admin login SUCCESS for: " . $admin_username_input); // DEBUG
+                            recordLoginAttempt($admin_user['id'], 'success');
+                            header('Location: admin_dashboard.php');
+                            exit;
+                        } else {
+                            $error_message = "Invalid username or password.";
+                            error_log("Admin login failed (password_verify returned false) for username: " . $admin_username_input);
+                            recordLoginAttempt($admin_user['id'], 'failed');
+                        }
                     }
                 } else {
                     $error_message = "Invalid username or password.";
